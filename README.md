@@ -93,9 +93,9 @@ codex plugin add indiana-jones@indiana-jones-lab
 | --- | --- |
 | “This circular mark appears in a field. What archaeological, geological, agricultural, or modern processes could explain it?” | “What could this harbour and the people working on its quays have looked like around 120 CE? Mark what is documented, inferred, comparative, or illustrative.” |
 
-| Trace finds | Test treasure history |
+| Trace finds | Investigate a reported hoard |
 | --- | --- |
-| “Which swords have been documented near this town, where are they now, and how reliable are their find records?” | “Is there evidence for gold objects, gold-working, trade, or hoards in this county—and which lawful evidence would most change the conclusion?” |
+| “Which swords have been documented near this town, where are they now, and how reliable are their find records?” | “A local story says gold objects were once found in this county. Which records support it, what is missing, and what could be checked next without disturbing the site?” |
 
 Other useful starting points include a photograph, an object, a building, an
 old route, a town plan, a place-name, a museum record, or a disputed local
@@ -172,11 +172,12 @@ location.
 
 ## Project status
 
-Indiana Jones is an **experimental version 0.1.0**. It includes a bounded,
-resumable and auditable research runtime for public or explicitly authorized
-source work, with permission-gated exact treasure prospectivity. The repository also contains
-transparent terrain and multi-date optical baselines; these are research
-prototypes, not general-purpose “lost site detectors.”
+Indiana Jones is an **experimental version 0.1.0**. Today it can investigate a
+place across public or explicitly authorized sources, preserve an auditable
+evidence trail, and prepare public-safe reports. Exact prospectivity work
+remains permission-gated. The repository also contains transparent terrain and
+multi-date optical baselines; these are research prototypes, not general-purpose
+“lost site detectors.”
 
 | Public development test | Result | Interpretation |
 | --- | --- | --- |
