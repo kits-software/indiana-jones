@@ -37,11 +37,6 @@
   <a href="#citation">Cite</a>
 </p>
 
-<p align="center">
-  Created, maintained, and published by
-  <a href="https://github.com/kliymkoffsky"><strong>Paweł Klimkowski</strong></a>.
-</p>
-
 ---
 
 Indiana Jones is a Codex plugin for investigating the archaeology and history
@@ -229,8 +224,8 @@ studies with DOI or institutional links.
 
 ## Citation
 
-Indiana Jones is created and published by **Paweł Klimkowski**. If it
-contributes to research, teaching, software, or a publication, cite:
+If Indiana Jones contributes to research, teaching, software, or a
+publication, cite:
 
 > Klimkowski, Paweł. (2026). *Indiana Jones: Evidence-Led Archaeological
 > Discovery for Codex* (Version 0.1.0) [Computer software]. Paweł Klimkowski.
