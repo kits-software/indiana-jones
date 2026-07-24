@@ -1,5 +1,3 @@
-import {deflateSync} from 'node:zlib';
-
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 let crcTable;
 
@@ -38,6 +36,38 @@ function pngChunk(type, data) {
 function encodeMapboxHeight(heightM) {
   const encoded = Math.max(0, Math.min(0xffffff, Math.round((heightM + 10_000) * 10)));
   return [(encoded >>> 16) & 0xff, (encoded >>> 8) & 0xff, encoded & 0xff];
+}
+
+function adler32(buffer) {
+  let first = 1;
+  let second = 0;
+  for (const byte of buffer) {
+    first = (first + byte) % 65521;
+    second = (second + first) % 65521;
+  }
+  return ((second << 16) | first) >>> 0;
+}
+
+function deterministicDeflate(buffer) {
+  /*
+   * Encode stored DEFLATE blocks instead of delegating to the host zlib.
+   * Compression heuristics change between Node/zlib releases, which made
+   * byte-addressed render proofs drift even though every DEM pixel was equal.
+   */
+
+  const parts = [Buffer.from([0x78, 0x01])];
+  for (let offset = 0; offset < buffer.length; offset += 0xffff) {
+    const length = Math.min(0xffff, buffer.length - offset);
+    const header = Buffer.alloc(5);
+    header[0] = offset + length === buffer.length ? 0x01 : 0x00;
+    header.writeUInt16LE(length, 1);
+    header.writeUInt16LE((~length) & 0xffff, 3);
+    parts.push(header, buffer.subarray(offset, offset + length));
+  }
+  const checksum = Buffer.alloc(4);
+  checksum.writeUInt32BE(adler32(buffer));
+  parts.push(checksum);
+  return Buffer.concat(parts);
 }
 
 export function syntheticDemPng(configuration = {}) {
@@ -85,7 +115,7 @@ export function syntheticDemPng(configuration = {}) {
   return Buffer.concat([
     PNG_SIGNATURE,
     pngChunk('IHDR', header),
-    pngChunk('IDAT', deflateSync(rows, {level: 9})),
+    pngChunk('IDAT', deterministicDeflate(rows)),
     pngChunk('IEND', Buffer.alloc(0)),
   ]);
 }

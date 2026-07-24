@@ -289,7 +289,8 @@
     "gridMethod": "wgs84-reconnaissance-only",
     "metricPlanning": false,
     "namedPlace": "Example River Town",
-    "publicDescription": "a generalized river-town study area",
+    "publicDescription": "exact public river-town study bbox in EPSG:4326",
+    "geometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": [10.0, 50.0, 10.2, 50.2]},
     "restrictedGeometry": {
       "bbox": [
         10.0,
@@ -311,9 +312,10 @@
     },
     "candidatesFrozen": false,
     "caseId": "case_example_river_town",
-    "disclosure": "restricted",
+    "disclosure": "public",
     "intendedDecision": "Select non-invasive research and survey tasks",
     "question": "Which historical processes best explain the town's spatial development, and which cells merit non-invasive testing?",
+    "researchMode": "landscape-research",
     "studyKind": "prospective-survey",
     "targetLabelsState": "unknown"
   },
@@ -355,6 +357,7 @@
         ],
         "parentId": null,
         "publicLabel": "northwestern study sector",
+        "geometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": [10.0, 50.1, 10.1, 50.2]},
         "restrictedGeometry": {
           "bbox": [
             10.0,
@@ -365,7 +368,7 @@
           "crs": "EPSG:4326",
           "type": "bbox"
         },
-        "sensitivity": "restricted"
+        "sensitivity": "public"
       },
       {
         "cellId": "cell_L0_R01C02",
@@ -380,6 +383,7 @@
         ],
         "parentId": null,
         "publicLabel": "northeastern study sector",
+        "geometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": [10.1, 50.1, 10.2, 50.2]},
         "restrictedGeometry": {
           "bbox": [
             10.1,
@@ -390,7 +394,7 @@
           "crs": "EPSG:4326",
           "type": "bbox"
         },
-        "sensitivity": "restricted"
+        "sensitivity": "public"
       },
       {
         "cellId": "cell_L0_R02C01",
@@ -405,6 +409,7 @@
         ],
         "parentId": null,
         "publicLabel": "southwestern study sector",
+        "geometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": [10.0, 50.0, 10.1, 50.1]},
         "restrictedGeometry": {
           "bbox": [
             10.0,
@@ -415,7 +420,7 @@
           "crs": "EPSG:4326",
           "type": "bbox"
         },
-        "sensitivity": "restricted"
+        "sensitivity": "public"
       },
       {
         "cellId": "cell_L0_R02C02",
@@ -430,6 +435,7 @@
         ],
         "parentId": null,
         "publicLabel": "southeastern study sector",
+        "geometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": [10.1, 50.0, 10.2, 50.1]},
         "restrictedGeometry": {
           "bbox": [
             10.1,
@@ -440,7 +446,7 @@
           "crs": "EPSG:4326",
           "type": "bbox"
         },
-        "sensitivity": "restricted"
+        "sensitivity": "public"
       }
     ]
   },
@@ -476,7 +482,7 @@
       "kind": "hypothesis",
       "label": "Route-focused settlement growth",
       "nodeId": "hyp_route_growth",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceIds": [
         "src_map_series"
       ]
@@ -490,7 +496,7 @@
       "kind": "hypothesis",
       "label": "Hydrological relocation or preservation bias",
       "nodeId": "hyp_flood_relocation",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceIds": [
         "src_dem"
       ]
@@ -502,7 +508,7 @@
       "kind": "hypothesis",
       "label": "Modern drainage or cadastral pattern",
       "nodeId": "hyp_modern_drainage",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceIds": [
         "src_modern_context"
       ]
@@ -514,7 +520,7 @@
       "kind": "hypothesis",
       "label": "Raster seam, resampling, or visualization artefact",
       "nodeId": "hyp_processing",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceIds": [
         "src_dem"
       ]
@@ -526,7 +532,7 @@
       "kind": "hypothesis",
       "label": "No archaeological proxy is visible under the available conditions",
       "nodeId": "hyp_null",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceIds": []
     }
   ],
@@ -545,7 +551,7 @@
     ],
     "scoreVersion": "ordinal-v1",
     "stoppingRules": [
-      "safety-or-access-gate",
+      "explicit-conduct-or-source-access-gate",
       "unresolved-place-ambiguity",
       "method-inadequacy",
       "stronger-alternative",
@@ -562,7 +568,7 @@
       "independence": 0.15
     }
   },
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "sources": [
     {
       "accessStage": "pre-detection",
@@ -595,7 +601,7 @@
       "license": "verify product-specific terms",
       "originFamilyId": "example-dem-product",
       "recordType": "measurement",
-      "sensitivity": "restricted",
+      "sensitivity": "public",
       "sourceId": "src_dem",
       "targetLabelState": "none",
       "title": "Example licensed terrain product",

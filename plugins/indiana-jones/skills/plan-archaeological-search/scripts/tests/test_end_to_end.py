@@ -29,6 +29,9 @@ from ij_runtime import (
     run_status,
     start_action,
 )
+from ij_journal import file_sha256
+from ij_source_contract import acquisition_contract
+from permission_fixture import calibration_fixture, complete_permission_fields
 
 
 def _source(
@@ -66,7 +69,7 @@ def _scores(*, coverage: float = 0.5, discrimination: float = 0.7) -> dict:
 
 
 def _execution(executor: str, inputs: dict) -> dict:
-    return {
+    execution = {
         "executor": executor,
         "inputs": inputs,
         "outputs": ["hash-bound evidence artifact"],
@@ -77,6 +80,17 @@ def _execution(executor: str, inputs: dict) -> dict:
         "timeoutSeconds": 300,
         "maxAttempts": 2,
     }
+    if executor == "ingest-source":
+        execution["acceptanceChecks"] = [
+            {"kind": "ingest-lineage"},
+            {"kind": "ingest-bounds"},
+        ]
+    elif executor == "reconcile-records":
+        execution["acceptanceChecks"] = [
+            {"kind": "reconciliation-lineage"},
+            {"kind": "reconciliation-conflicts"},
+        ]
+    return execution
 
 
 def _action(
@@ -152,14 +166,28 @@ def _fresh_v2_plan(museum_path: Path, register_path: Path) -> dict:
             origin_family_id="origin_register",
         ),
     ]
-    plan["sources"][1]["acquisition"] = {
-        "locator": str(museum_path),
-        "format": "csv",
-    }
-    plan["sources"][2]["acquisition"] = {
-        "locator": str(register_path),
-        "format": "json",
-    }
+    museum_locator = f"fixtures/{museum_path.name}"
+    register_locator = f"fixtures/{register_path.name}"
+    museum_query = {"terms": ["sword", "gold"], "scope": "fixture"}
+    register_query = {"terms": ["sword"], "scope": "fixture"}
+    plan["sources"][1]["acquisition"] = acquisition_contract(
+        plan["sources"][1],
+        locator=museum_locator,
+        format_name="csv",
+        query=museum_query,
+        snapshot_sha256=file_sha256(museum_path),
+        retrieved_at="2026-07-24T10:00:00Z",
+    )
+    plan["sources"][1]["spatialRestriction"] = "authority-only"
+    plan["sources"][2]["acquisition"] = acquisition_contract(
+        plan["sources"][2],
+        locator=register_locator,
+        format_name="json",
+        query=register_query,
+        snapshot_sha256=file_sha256(register_path),
+        retrieved_at="2026-07-24T10:00:00Z",
+    )
+    plan["sources"][2]["spatialRestriction"] = "authority-only"
     plan["nodes"] = [
         {
             "nodeId": "hyp_documented_finds",
@@ -256,11 +284,11 @@ def _fresh_v2_plan(museum_path: Path, register_path: Path) -> dict:
                 "ingest-source",
                 {
                     "sourceId": "src_museum",
-                    "locator": str(museum_path),
+                    "locator": museum_locator,
                     "format": "csv",
                     "maxBytes": 10_000,
                     "maxRecords": 10,
-                    "query": {"terms": ["sword", "gold"], "scope": "fixture"},
+                    "query": museum_query,
                 },
             ),
             sensitive_subjects=["weapon", "precious-metal"],
@@ -275,11 +303,11 @@ def _fresh_v2_plan(museum_path: Path, register_path: Path) -> dict:
                 "ingest-source",
                 {
                     "sourceId": "src_register",
-                    "locator": str(register_path),
+                    "locator": register_locator,
                     "format": "json",
                     "maxBytes": 10_000,
                     "maxRecords": 10,
-                    "query": {"terms": ["sword"], "scope": "fixture"},
+                    "query": register_query,
                 },
             ),
             sensitive_subjects=["weapon"],
@@ -322,7 +350,7 @@ def _fresh_v2_plan(museum_path: Path, register_path: Path) -> dict:
         ),
         _action(
             "act_public_report",
-            label="Prepare a safely generalized public sword and gold finds report",
+            label="Prepare an explicitly restricted sword and gold finds report",
             lane="coverage",
             method="source-coverage",
             source_ids=["src_museum", "src_register"],
@@ -336,31 +364,6 @@ def _fresh_v2_plan(museum_path: Path, register_path: Path) -> dict:
         ),
     ]
     return plan
-
-
-def _calibration_fixture() -> dict:
-    return {
-        "eventDefinition": "A documented high-value find in a declared survey unit",
-        "denominator": "100 independently surveyed fixture units",
-        "detectionProcess": "Frozen systematic fixture survey protocol",
-        "reportingProcess": "Mandatory fixture reporting with audited follow-up",
-        "biasTreatment": "Inverse reporting weights and missingness sensitivity",
-        "validityDomain": "Comparable authorized survey units in the fixture region",
-        "sample": {"positive": 20, "negative": 80, "heldOut": 20},
-        "geographicallySeparated": True,
-        "modelFrozen": True,
-        "featuresFrozen": True,
-        "heldOutMetrics": {
-            "brierScore": 0.14,
-            "reliabilityBins": [
-                {"predicted": 0.1, "observed": 0.08},
-                {"predicted": 0.3, "observed": 0.25},
-                {"predicted": 0.6, "observed": 0.55},
-            ],
-        },
-        "estimatedProbability": 0.31,
-        "uncertaintyInterval": [0.2, 0.44],
-    }
 
 
 class AutonomousResearchEndToEndTests(unittest.TestCase):
@@ -405,6 +408,11 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             candidate_path = root / "candidates.json"
             candidates = {
                 "schemaVersion": "candidate-set-1.0",
+                "lineage": {
+                    "sourceIds": ["src_names"],
+                    "generationActionIds": [],
+                    "groundTruthState": "withheld",
+                },
                 "candidates": [
                     {
                         "candidateId": "candidate_1",
@@ -415,10 +423,7 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             }
             candidate_path.write_text(json.dumps(candidates), encoding="utf-8")
 
-            draft = _fresh_v2_plan(
-                Path("fixtures/museum.csv"),
-                Path("fixtures/register.json"),
-            )
+            draft = _fresh_v2_plan(museum_path, register_path)
             self.assertEqual("2.0", draft["schemaVersion"])
             self.assertTrue(validate_plan(draft).valid, validate_plan(draft).errors)
             blocked = {
@@ -497,7 +502,13 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             similar_swords = [
                 entity
                 for entity in reconciliation["entities"]
-                if "sword" in entity["canonicalRecord"]["title"].casefold()
+                if any(
+                    "sword" in title.casefold()
+                    for title in (
+                        [entity["canonicalRecord"].get("title", "")]
+                        + entity["fieldConflicts"].get("title", [])
+                    )
+                )
             ]
             self.assertEqual(2, len(similar_swords))
 
@@ -507,7 +518,9 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
                 {item["actionId"] for item in before_review["recommendedBatch"]},
             )
             first_attempt = start_action(run_dir, "act_material_review")
-            resumed = resume_run(run_dir)
+            resumed = resume_run(
+                run_dir, now=first_attempt["leaseExpiresAt"] + 1
+            )
             material_state = resumed["actions"]["act_material_review"]
             self.assertEqual("planned", material_state["status"])
             self.assertEqual("interrupted", material_state["attempts"][0]["status"])
@@ -520,7 +533,8 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             agent_result_path.write_text(
                 json.dumps(
                     {
-                        "schemaVersion": "research-result-1.0",
+                        "schemaVersion": "research-result-2.0",
+                        "actionId": "act_material_review",
                         "judgment": "material-presence-only",
                         "observations": [
                             {
@@ -529,10 +543,26 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
                                     "object, not production debris."
                                 ),
                                 "sourceIds": ["src_museum"],
+                                "originFamilyIds": ["origin_museum"],
                             }
                         ],
                         "negativeResults": [
                             "No secure workshop, crucible, mould, or slag record was ingested."
+                        ],
+                        "warnings": [],
+                        "errors": [],
+                        "sourceSnapshotIds": [
+                            "snapshot:src_museum:"
+                            + museum_artifact["queryArtifact"]["rawArtifactSha256"]
+                        ],
+                        "normalizedRecordIds": ["src_museum:G-9"],
+                        "methodVersion": "historical-synthesis-1.0",
+                        "adapterVersion": "codex-research-1.0",
+                        "resultSensitivity": "restricted",
+                        "disclosureDecision": "public",
+                        "acceptanceEvidence": [
+                            "The sealed result preserves declared source lineage.",
+                            "The sealed result records the missing production evidence.",
                         ],
                     }
                 ),
@@ -587,38 +617,24 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             serialized_public = json.dumps(public_report, sort_keys=True)
             self.assertEqual("public", public_report["disclosure"])
             self.assertEqual(3, len(public_report["finds"]))
-            for sensitive_text in (
-                "Exact east field",
-                "Exact orchard",
-                "Exact western plot",
-                '"findspot"',
-            ):
+            for sensitive_text in ("Exact east field", "Exact orchard", "Exact western plot"):
                 self.assertNotIn(sensitive_text, serialized_public)
+            for item in public_report["finds"]:
+                self.assertNotIn("findspot", item["record"])
+                self.assertEqual(
+                    "withheld-by-explicit-restriction",
+                    item["record"].get("spatialEvidenceStatus"),
+                )
             lint_public_report(public_report)
 
-    def test_restricted_exact_probability_and_public_leakage_rejection(self) -> None:
-        permission_bundle = {
-            key: {
-                "state": "confirmed",
-                "basis": f"fixture authority approval for {key}",
-                "scope": "Declared fixture case, area, dates, and analytical method",
-            }
-            for key in (
-                "jurisdiction",
-                "landAccess",
-                "detecting",
-                "excavation",
-                "heritage",
-                "findsReporting",
-                "communityAuthority",
-            )
-        }
+    def test_restricted_exact_probability_and_public_spatial_evidence(self) -> None:
+        permission_fields = complete_permission_fields()
         result = calibrated_probability_report(
-            _calibration_fixture(),
+            calibration_fixture(),
             case={
                 "researchMode": "treasure-research-restricted",
                 "disclosure": "restricted",
-                "permissionBundle": permission_bundle,
+                **permission_fields,
             },
             exact_high_risk_target=True,
         )
@@ -626,20 +642,20 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
         self.assertEqual(0.31, result["estimatedProbability"])
         self.assertIn("not permission for physical recovery", result["warning"])
 
-        leakage_cases = [
+        spatial_cases = [
             {"attachment": {"coordinates": [19.12345, 54.12345]}},
             {"caption": "Exact candidate is at 19.12345, 54.12345"},
             {"finds": [{"findspot": {"description": "Exact east field"}}]},
         ]
-        for leakage in leakage_cases:
-            with self.subTest(leakage=leakage):
-                with self.assertRaises(ValueError):
-                    lint_public_report(leakage)
+        for spatial_evidence in spatial_cases:
+            with self.subTest(spatial_evidence=spatial_evidence):
+                lint_public_report(spatial_evidence)
 
     def test_legacy_completion_is_quarantined_and_freeze_rejects_ground_truth(
         self,
     ) -> None:
         legacy = json.loads(LEGACY_TEMPLATE.read_text(encoding="utf-8"))
+        legacy["schemaVersion"] = "1.0"
         legacy["actions"][0]["status"] = "completed"
         legacy["actions"][0]["resultRefs"] = [
             {"path": "legacy-result.json", "sha256": "a" * 64}
@@ -652,9 +668,7 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
             "completed-unverified", migrated["actions"][0]["status"]
         )
         self.assertNotIn("resultRefs", migrated["actions"][0])
-        self.assertTrue(
-            any("legacy completion quarantined" in warning for warning in manifest["warnings"])
-        )
+        self.assertTrue(any("legacy completion quarantined" in warning for warning in manifest["warnings"]))
         blocked = {
             item["actionId"]: item["reasons"]
             for item in build_frontier(migrated, 20)["blockedActions"]
@@ -676,9 +690,7 @@ class AutonomousResearchEndToEndTests(unittest.TestCase):
                     }
                 ]
             }
-            candidate_path.write_text(
-                json.dumps(unsafe_candidates), encoding="utf-8"
-            )
+            candidate_path.write_text(json.dumps(unsafe_candidates), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "ground-truth-like"):
                 freeze_candidates(migrated, unsafe_candidates, candidate_path)
 

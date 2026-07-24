@@ -53,8 +53,21 @@ def read_events(path: Path) -> list[dict[str, Any]]:
             raise ValueError(f"journal line {line_number} has a broken sequence")
         if event.get("previousHash") != previous_hash:
             raise ValueError(f"journal line {line_number} has a broken hash chain")
+        if event.get("previousEventHash") != previous_hash:
+            raise ValueError(f"journal line {line_number} has a broken event-hash link")
         if not isinstance(event_hash, str) or event_hash != value_sha256(payload):
             raise ValueError(f"journal line {line_number} has an invalid event hash")
+        if event.get("payloadHash") != value_sha256(event.get("payload")):
+            raise ValueError(f"journal line {line_number} has an invalid payload hash")
+        if not isinstance(event.get("eventId"), str) or not event["eventId"].startswith(
+            "evt_"
+        ):
+            raise ValueError(f"journal line {line_number} has an invalid event id")
+        if (
+            not isinstance(event.get("commandId"), str)
+            or event.get("idempotencyKey") != event.get("commandId")
+        ):
+            raise ValueError(f"journal line {line_number} has an invalid command identity")
         events.append(event)
         previous_hash = event_hash
     if not events:
@@ -72,13 +85,32 @@ def append_event(
 ) -> dict[str, Any]:
     events = read_events(path) if path.exists() else []
     previous_hash = events[-1]["eventHash"] if events else ZERO_HASH
+    sequence = len(events) + 1
+    occurred = occurred_at if occurred_at is not None else time.time()
+    command_id = payload.get("idempotencyKey") or value_sha256(
+        {
+            "runId": run_id,
+            "eventType": event_type,
+            "sequence": sequence,
+            "payload": payload,
+        }
+    )
     event = {
         "schemaVersion": "1.0",
-        "sequence": len(events) + 1,
+        "eventId": "evt_"
+        + hashlib.sha256(
+            f"{run_id}:{sequence}:{occurred}:{previous_hash}".encode("utf-8")
+        ).hexdigest()[:24],
+        "sequence": sequence,
         "previousHash": previous_hash,
+        "previousEventHash": previous_hash,
         "runId": run_id,
         "eventType": event_type,
-        "occurredAt": occurred_at if occurred_at is not None else time.time(),
+        "occurredAt": occurred,
+        "actor": {"kind": "agent", "id": "codex-runtime"},
+        "commandId": command_id,
+        "idempotencyKey": command_id,
+        "payloadHash": value_sha256(payload),
         "payload": payload,
     }
     event["eventHash"] = value_sha256(event)
@@ -106,6 +138,18 @@ def _read_lock(path: Path) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
+def _pid_is_alive(value: Any) -> bool:
+    if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+        return False
+    try:
+        os.kill(value, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
 @contextmanager
 def run_lock(run_dir: Path, lease_seconds: int = 120) -> Iterator[str]:
     if lease_seconds < 1 or lease_seconds > 3600:
@@ -113,7 +157,11 @@ def run_lock(run_dir: Path, lease_seconds: int = 120) -> Iterator[str]:
     lock_path = run_dir / ".run.lock"
     now = time.time()
     existing = _read_lock(lock_path)
-    if existing and float(existing.get("expiresAt", now + 1)) <= now:
+    if (
+        existing
+        and float(existing.get("expiresAt", now + 1)) <= now
+        and not _pid_is_alive(existing.get("pid"))
+    ):
         try:
             lock_path.unlink()
         except FileNotFoundError:

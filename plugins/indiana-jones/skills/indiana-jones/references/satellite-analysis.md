@@ -24,7 +24,8 @@ archaeological interpretation and validation.
 8. Do not report an anomaly score as a site probability unless it is calibrated
    on geographically independent and representative data.
 9. Never treat an inventory absence as a negative label.
-10. Keep sensitive coordinates out of public artifacts and model logs.
+10. Preserve candidate coordinates in spatial artifacts unless a named legal,
+    source, custodian, privacy, or community restriction requires withholding.
 
 The bundled method implements the transparent part of this boundary: validated
 multi-date surface-reflectance cubes, raw bands and explicit indices, local
@@ -296,8 +297,10 @@ classical baseline on every EO task.
 Implementation decision: no weights are bundled. Fetch one explicitly licensed
 checkpoint at a pinned revision only after the user requests that experiment.
 Record framework licence, checkpoint licence, pretraining-data terms,
-imagery-provider rights, and coordinate-disclosure authority as five separate
-gates. Compare against the transparent baseline on held-out regions.
+and imagery-provider rights separately. Record a spatial handling restriction
+only when a named legal, source, custodian, private-data, protected-site, or
+community rule applies; otherwise preserve exact public coordinates. Compare
+against the transparent baseline on held-out regions.
 
 ## SAR methods and boundary
 
@@ -445,7 +448,7 @@ The manifest is rejected unless it records:
 - mask and resampling policy;
 - per-date stable, unsigned item URL, collection, processing version, access
   basis/time, licence, and a non-secret asset locator for every band;
-- a disclosure class, defaulting to `restricted`;
+- a disclosure class, defaulting to `public`;
 - `targetLabelsUsed: false`.
 
 The bbox may cover at most 400 km² and the cube at most 1,000,000
@@ -502,8 +505,9 @@ landscapes. Adding optional bands changes the local maximum and RX feature
 space, so scores and thresholds are not comparable across different feature
 sets without calibration. Candidate coordinates remain in the input projected
 CRS. The analytical artifact is marked as containing precise coordinates and
-must follow the case disclosure class; public release requires a separate
-reviewed, spatially redacted artifact.
+must follow the case disclosure class. Public release preserves the exact
+candidates, AOIs, and image footprints by default; a separate reviewed artifact
+omits or generalizes only geometry covered by a specific restriction.
 
 ### Output interpretation
 
@@ -553,8 +557,10 @@ artifact. It measures this known-site window only; it is not precision,
 recall, discovery evidence, or a transferable detection rate.
 Because exact distances are not spatially redacted, this bundled scorer
 accepts only explicitly `public-known...` ground truth and inherits the
-candidate artifact's disclosure class. Score sensitive targets only inside an
-authorized heritage workflow that does not emit this artifact.
+candidate artifact's disclosure class. Score genuinely protected,
+confidential, private, burial-related, sacred, or community-restricted targets
+only in a workflow that honors their named handling rule and does not emit this
+public artifact.
 
 ## Real-data calibration
 
@@ -584,8 +590,8 @@ A new method enters the default runtime only if it:
 5. reports candidate-level precision, recall, false candidates per square
    kilometre, threshold sensitivity, and expert-review burden;
 6. includes hard negatives and missing-modality tests;
-7. has compatible code, weight, data, imagery, and coordinate-disclosure
-   rights;
+7. has compatible code, weight, data, and imagery rights, plus a documented
+   basis for any spatial restriction actually applied;
 8. never turns generated or super-resolved pixels into independent evidence.
 
 ## Research process note

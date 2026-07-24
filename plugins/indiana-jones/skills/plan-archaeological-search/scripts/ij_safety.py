@@ -4,6 +4,12 @@ import re
 from typing import Any
 from urllib.parse import parse_qsl, unquote, urlparse
 
+from ij_permissions import permission_instrument_ids, restricted_permission_errors
+from ij_targeting import (
+    PROHIBITED_DIRECTIVE,
+    SENSITIVE_SUBJECTS,
+    object_risk_errors,
+)
 
 SOURCE_ROLES = {
     "analysis",
@@ -78,6 +84,7 @@ METHOD_CLASSES = {
     "historical-synthesis": {"public-desk", "authenticated-read"},
     "excavation-assemblage-synthesis": {"public-desk", "authenticated-read"},
     "sensitive-findspot-assessment": {
+        "public-desk",
         "licensed-computation",
         "specialist-handoff",
     },
@@ -110,6 +117,7 @@ ACTION_FIELDS = {
     "researchIntent",
     "outputPrecision",
     "sensitiveSubjects",
+    "objectRiskClassification",
     "execution",
 }
 INBOUND_PROVENANCE_RELATIONS = {
@@ -137,36 +145,8 @@ SECRET_KEYS = {
     "sig",
     "token",
 }
-PROHIBITED_DIRECTIVE = re.compile(
-    r"\b(trespass|loot(?:ing)?|metal[- ]?detect(?:ing)?|"
-    r"collect\s+(?:artefacts?|artifacts?|finds)|"
-    r"excavate|dig\s+(?:up|into)|probe\s+(?:a|the|burial|grave)|"
-    r"disturb\s+(?:a|the)?\s*(?:burial|grave|human remains)|"
-    r"(?:recover|retrieve|remove)\s+(?:(?:a|an|the)\s+)?(?:gold|silver|weapons?|swords?|"
-    r"hoards?|artefacts?|artifacts?|finds))\b",
-    re.IGNORECASE,
-)
-SENSITIVE_SUBJECTS = {
-    "weapon",
-    "precious-metal",
-    "hoard",
-    "burial",
-    "sacred",
-    "vulnerable-portable-find",
-}
-RESTRICTED_RESEARCH_MODES = {
-    "treasure-research-restricted",
-    "authority-casework",
-}
-EXACT_PERMISSION_KEYS = {
-    "jurisdiction",
-    "landAccess",
-    "detecting",
-    "excavation",
-    "heritage",
-    "findsReporting",
-    "communityAuthority",
-}
+MAX_NESTING_DEPTH = 64
+MAX_INSPECTED_VALUES = 100_000
 RESEARCH_INTENTS = {
     "known-record-research",
     "prospective-landscape-research",
@@ -180,21 +160,6 @@ OUTPUT_PRECISIONS = {
     "restricted-exact",
     "public-exact",
 }
-SENSITIVE_SUBJECT_TEXT = re.compile(
-    r"\b(swords?|weapons?|gold|silver|precious[- ]metals?|hoards?|burials?|"
-    r"graves?|human remains|sacred (?:objects?|sites?)|portable antiquities|"
-    r"vulnerable (?:objects?|finds?))\b",
-    re.IGNORECASE,
-)
-EXACT_TARGETING_TEXT = re.compile(
-    r"\b(?:exact|precise)\s+(?:cells?|locations?|sites?|coordinates?|"
-    r"findspots?|hotspots?)\b|\bpublic\s+findspots?\b|"
-    r"\b(?:map|rank|score|prioriti[sz]e)\s+(?:the\s+)?(?:exact\s+)?"
-    r"(?:cells?|locations?|sites?|findspots?|hotspots?)\b|"
-    r"\bhotspots?\b|\bcoordinates?\s+(?:for|of)\b|"
-    r"\bwhere\s+(?:to|can\s+(?:i|we))\s+(?:find|recover|retrieve)\b",
-    re.IGNORECASE,
-)
 
 
 def _choice(value: Any, choices: set[str]) -> bool:
@@ -252,21 +217,40 @@ def safe_locator_problem(locator: Any) -> str | None:
 
 def locator_errors(value: Any, path: str = "plan") -> list[str]:
     errors: list[str] = []
-    if isinstance(value, dict):
-        for key, child in value.items():
-            child_path = f"{path}.{key}"
-            lowered_key = str(key).lower()
-            if isinstance(child, str) and (
-                lowered_key.endswith("url") or "locator" in lowered_key
-            ):
-                problem = safe_locator_problem(child)
-                if problem:
-                    errors.append(f"{child_path} {problem}")
-            else:
-                errors.extend(locator_errors(child, child_path))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
-            errors.extend(locator_errors(child, f"{path}[{index}]"))
+    stack: list[tuple[Any, str, int]] = [(value, path, 0)]
+    inspected = 0
+    while stack:
+        current, current_path, depth = stack.pop()
+        inspected += 1
+        if inspected > MAX_INSPECTED_VALUES:
+            errors.append(
+                f"{path} exceeds the maximum inspected value count "
+                f"{MAX_INSPECTED_VALUES}"
+            )
+            break
+        if depth > MAX_NESTING_DEPTH:
+            errors.append(
+                f"{current_path} exceeds maximum nesting depth "
+                f"{MAX_NESTING_DEPTH}"
+            )
+            continue
+        if isinstance(current, dict):
+            for key, child in reversed(list(current.items())):
+                child_path = f"{current_path}.{key}"
+                lowered_key = str(key).lower()
+                if isinstance(child, str) and (
+                    lowered_key.endswith("url") or "locator" in lowered_key
+                ):
+                    problem = safe_locator_problem(child)
+                    if problem:
+                        errors.append(f"{child_path} {problem}")
+                else:
+                    stack.append((child, child_path, depth + 1))
+        elif isinstance(current, list):
+            for index in range(len(current) - 1, -1, -1):
+                stack.append(
+                    (current[index], f"{current_path}[{index}]", depth + 1)
+                )
     return errors
 
 
@@ -355,45 +339,40 @@ def _provenance_sources(plan: dict[str, Any], action: dict[str, Any]) -> set[str
 
 
 def _action_text(action: dict[str, Any]) -> str:
-    values: list[str] = []
-    for field in ("label", "instructions", "rationale", "possibleOutcomes", "predictions"):
-        value = action.get(field)
-        if isinstance(value, str):
-            values.append(value)
-        elif isinstance(value, list):
-            values.extend(item for item in value if isinstance(item, str))
-    return " ".join(values)
+    def strings(value: Any) -> list[str]:
+        result: list[str] = []
+        stack: list[tuple[Any, int]] = [(value, 0)]
+        inspected = 0
+        while stack and inspected < MAX_INSPECTED_VALUES:
+            current, depth = stack.pop()
+            inspected += 1
+            if depth > MAX_NESTING_DEPTH:
+                continue
+            if isinstance(current, str):
+                result.append(current)
+            elif isinstance(current, list):
+                stack.extend((item, depth + 1) for item in reversed(current))
+            elif isinstance(current, dict):
+                stack.extend(
+                    (item, depth + 1) for item in reversed(list(current.values()))
+                )
+        return result
+
+    return " ".join(
+        text
+        for field in (
+            "label",
+            "instructions",
+            "rationale",
+            "possibleOutcomes",
+            "predictions",
+            "execution",
+        )
+        for text in strings(action.get(field))
+    )
 
 
-def _exact_permission_errors(case: dict[str, Any]) -> list[str]:
-    errors: list[str] = []
-    if case.get("researchMode") not in RESTRICTED_RESEARCH_MODES:
-        errors.append("case.researchMode must authorize restricted treasure or authority work")
-    bundle = case.get("permissionBundle")
-    if not isinstance(bundle, dict):
-        return errors + ["case.permissionBundle is required for exact sensitive work"]
-    for key in sorted(EXACT_PERMISSION_KEYS):
-        permission = bundle.get(key)
-        if (
-            not isinstance(permission, dict)
-            or permission.get("state") not in {"confirmed", "not-required"}
-            or not isinstance(permission.get("basis"), str)
-            or not permission["basis"].strip()
-            or not isinstance(permission.get("scope"), str)
-            or not permission["scope"].strip()
-        ):
-            errors.append(
-                f"case.permissionBundle.{key} requires resolved state, basis, and scope"
-            )
-    return errors
-
-
-def _sensitive_targeting_errors(
-    plan: dict[str, Any],
-    action: dict[str, Any],
-    authorization: dict[str, Any],
-    approval_refs: list[str],
-) -> list[str]:
+def _targeting_metadata_errors(action: dict[str, Any]) -> list[str]:
     action_id = action.get("actionId", "<unknown>")
     errors: list[str] = []
     intent = action.get("researchIntent")
@@ -409,45 +388,9 @@ def _sensitive_targeting_errors(
     ):
         errors.append(f"{action_id}: sensitiveSubjects contains an invalid value")
         subjects = []
-
-    case = plan.get("case")
-    case = case if isinstance(case, dict) else {}
-    question = case.get("question")
-    combined_text = " ".join(
-        part for part in (question if isinstance(question, str) else "", _action_text(action)) if part
+    errors.extend(
+        f"{action_id}: {error}" for error in object_risk_errors(action)
     )
-    sensitive_method = action.get("method") == "sensitive-findspot-assessment"
-    sensitive = (
-        bool(subjects)
-        or sensitive_method
-        or bool(SENSITIVE_SUBJECT_TEXT.search(combined_text))
-    )
-    exact = precision in ("public-exact", "restricted-exact") or bool(
-        EXACT_TARGETING_TEXT.search(combined_text)
-    )
-    exact = exact or sensitive_method
-    if not (sensitive and exact):
-        return errors
-
-    disclosure = case.get("disclosure")
-    permission_errors = _exact_permission_errors(case)
-    required = authorization.get("required")
-    authorized = (
-        disclosure in ("restricted", "heritage-authority-only")
-        and precision != "public-exact"
-        and action.get("actionClass") in ("licensed-computation", "specialist-handoff")
-        and required == "external-approval"
-        and authorization.get("state") == "confirmed"
-        and bool(approval_refs)
-        and not permission_errors
-    )
-    if not authorized:
-        errors.append(
-            f"{action_id}: exact sensitive findspot or hotspot work requires "
-            "restricted disclosure, confirmed heritage authorization, and a complete "
-            "permission bundle"
-        )
-        errors.extend(f"{action_id}: {error}" for error in permission_errors)
     return errors
 
 
@@ -524,21 +467,56 @@ def validate_action_safety(
             case_auth.get("fieldActions") is not True or not approval_refs
         ):
             errors.append(f"{action_id}: field action lacks case and external approval")
+        elif state == "confirmed":
+            area = plan.get("area")
+            permission_case = case if isinstance(case, dict) else {}
+            area_id = (
+                area.get("selectedGazetteerId")
+                if isinstance(area, dict)
+                else None
+            )
+            field_errors = restricted_permission_errors(
+                permission_case,
+                method=method,
+                area_id=area_id,
+                require_restricted_handling=False,
+            )
+            errors.extend(f"{action_id}: {error}" for error in field_errors)
+            missing_refs = permission_instrument_ids(permission_case) - set(approval_refs)
+            if missing_refs:
+                errors.append(
+                    f"{action_id}: approvalReferences omit confirmed instruments: "
+                    + ", ".join(sorted(missing_refs))
+                )
     elif action_class == "specialist-handoff":
         if required not in ("external-approval", "community-governance"):
             errors.append(f"{action_id}: specialist handoff requires authority")
         elif state == "confirmed" and not approval_refs:
             errors.append(f"{action_id}: confirmed specialist handoff lacks approval reference")
 
-    errors.extend(
-        _sensitive_targeting_errors(plan, action, authorization, approval_refs)
-    )
+    errors.extend(_targeting_metadata_errors(action))
 
     used_sources = [
         source_map[source_id]
         for source_id in _provenance_sources(plan, action)
         if source_id in source_map
     ]
+    stage = action.get("stage")
+    post_freeze_stage = isinstance(stage, str) and (
+        stage.startswith("post-freeze") or stage.startswith("post-unblinding")
+    )
+    deferred_or_visible_source = any(
+        source.get("accessStage") in {"post-freeze", "post-unblinding"}
+        or source.get("targetLabelState") == "visible"
+        for source in used_sources
+    )
+    if (
+        post_freeze_stage or deferred_or_visible_source
+    ) and action.get("requiresCandidatesFrozen") is not True:
+        errors.append(
+            f"{action_id}: post-freeze, post-unblinding, or visible-label work "
+            "requires requiresCandidatesFrozen true"
+        )
     if any(source.get("accessBasis") == "authenticated" for source in used_sources):
         if action_class != "authenticated-read":
             errors.append(f"{action_id}: authenticated source requires authenticated-read")

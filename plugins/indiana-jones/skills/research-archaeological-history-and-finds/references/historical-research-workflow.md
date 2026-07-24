@@ -176,9 +176,10 @@ Return one of:
   explicit coverage;
 - **not assessable** — sources, permissions, language, cataloguing, or
   identifiers are inadequate;
-- **permission-gated** — exact actionable output requires confirmed
-  jurisdictional, land, method, heritage, and community permissions plus
-  restricted handling; continue with a generalized prospective assessment.
+- **protected or private-source gated** — a genuinely protected/confidential
+  location or unauthorised private source prevents exact disclosure; continue
+  with the greatest lawful precision. Field permissions gate field action, not
+  desk candidates, coordinates, rankings, plates, or estimates.
 
 Never replace `not located` with `did not exist`.
 
@@ -192,8 +193,8 @@ Predeclare at least one stop:
 - identity cannot advance without an inaccessible record;
 - source terms or authorization prevent the next lawful action;
 - the question has enough independent evidence for its intended decision;
-- the remaining exact or field-action work lacks a required permission,
-  authority, or restricted handling channel.
+- the remaining private-source, protected-site, or field-action work lacks its
+  applicable consent, permission, authority, or handling channel.
 
 At handoff provide:
 

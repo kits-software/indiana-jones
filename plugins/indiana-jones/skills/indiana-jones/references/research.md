@@ -21,7 +21,7 @@ bundled multi-date optical baseline, read
 - [Computational methods](#computational-methods)
 - [Validation](#validation)
 - [Uncertainty and reporting](#uncertainty-and-reporting)
-- [Heritage ethics and sensitive locations](#heritage-ethics-and-sensitive-locations)
+- [Public evidence, protected data, and field conduct](#public-evidence-protected-data-and-field-conduct)
 - [Source register](#source-register)
 
 ## Evidence language
@@ -447,8 +447,8 @@ Use the strongest lawful and proportionate independent evidence available:
    or surface inspection under local rules.
 5. **Non-invasive geophysics:** magnetometry, electrical resistance,
    electromagnetic induction, GPR, or other method matched to soil and target.
-6. **Selective excavation:** only where research, conservation, permission,
-   community consultation, and risk justify it.
+6. **Selective excavation:** only where research, conservation, applicable
+   land/method permission, community governance, and risk justify it.
 
 Remote sensing and geophysics can share environmental confounders. Agreement
 is valuable, but independence must be argued rather than assumed.
@@ -521,50 +521,53 @@ For every candidate, report:
 and method,” not “absent.” A negative result is informative only after the
 method's expected sensitivity and surveyed coverage are established.
 
-## Heritage ethics and sensitive locations
+## Public evidence, protected data, and field conduct
 
-### Location protection
+### Spatial disclosure
 
-- **[CONFIRMED]** precise coordinates, high-resolution chips, access routes,
-  LiDAR-derived targets, model weights, and reproducible query parameters can
-  facilitate looting or unwanted visitation.
-- Assess disclosure risk before web maps, papers, repositories, demos, model
-  releases, screenshots, and logs. Sensitivity can exist even when the source
-  imagery is public because analysis adds discoverability.
-- Use generalized public maps and access-controlled originals when risk is
-  material. Apply embargoes, redaction, role-based access, audit trails, and
-  data-use agreements as required.
-- ADS provides repository guidance for sensitive archaeological data ([A12]).
-  NPS explicitly notes that cultural-resource datasets may contain redacted or
-  withheld information and require permission ([A14]); its disclosure policy
-  illustrates risk-tiered withholding of vulnerable sites ([A15]).
+- Publish the exact coordinates, AOIs, ranked cells, imagery footprints, and
+  source-supported precision of ordinary public desk-research candidates.
+  A location is not restricted merely because it may be a new site or concern
+  treasure, gold, coins, hoards, swords, weapons, or other portable finds.
+- Restrict only fields covered by a named legal protection, deliberate
+  redaction, source or custodian condition, private-data constraint, burial or
+  sacred-place status, or community-governed rule. State the basis and the
+  exact field omitted; preserve all unaffected spatial evidence.
+- Public source imagery does not cancel a real protection rule, but analytical
+  discoverability does not automatically create one either. Use embargoes,
+  access control, or generalization only where the specific rule requires it.
+- ADS provides repository guidance for genuinely sensitive archaeological
+  data ([A12]). NPS cultural-resource datasets may contain expressly redacted
+  or withheld information ([A14], [A15]); those are examples of named
+  restricted variants, not defaults for worldwide candidate research.
 
-### Authority, communities, and data governance
+### Communities and data governance
 
-- Consult the responsible heritage authority, landowner, and affected
-  descendant or Indigenous communities before survey, interpretation,
-  validation, and disclosure.
+- Seek landowner or method permission for the field action that requires it,
+  heritage-authority involvement for protected places or statutory reporting,
+  and community consent for community-controlled knowledge, sacred places, or
+  culturally governed imagery and narratives. Ordinary public desk research
+  and exact public reporting require none of those by default.
 - Apply CARE—Collective Benefit, Authority to Control, Responsibility, and
-  Ethics—alongside FAIR/open-science goals ([A13]).
-- Respect community restrictions on culturally sensitive places, imagery,
-  names, narratives, and traditional knowledge even when technical access is
-  possible.
-- Record who has authority to decide collection, reuse, validation, access,
-  and publication. Absence of a legal prohibition is not equivalent to
-  informed consent.
+  Ethics—alongside FAIR/open-science goals when Indigenous or other
+  community-governed data are actually in scope ([A13]).
+- Record who controls collection, reuse, access, or publication only where
+  such control exists. Do not invent a consultation gate for public evidence.
 
 ### Field and publication conduct
 
 - Remote detection does not authorize entry, collection, probing,
-  metal-detecting, drone flight, geophysics, excavation, or disturbance.
+  metal-detecting, drone flight, geophysics, excavation, removal, or
+  disturbance.
 - Check aviation, privacy, protected-site, export, land-access, and research
-  permit rules in the relevant jurisdiction.
-- Do not direct unqualified users to exact unverified locations.
-- Do not announce “discoveries” before expert review, authority notification,
-  community consultation, and a location-risk decision.
+  rules before the corresponding field, recovery, or publication action.
+- Report a possible discovery as a candidate, with exact public spatial
+  evidence when supported. Expert review improves the claim but is not a
+  prerequisite for publishing an honest candidate unless a specific
+  protection, reporting duty, or source term says otherwise.
 - Preserve attribution, licences, provenance, and limits on training-data
-  reuse. Do not publish a model if it effectively releases protected site
-  locations through memorization or an unrestricted inference service.
+  reuse. Do not publish model outputs that expose data already designated
+  protected, confidential, private, or community-restricted.
 
 ## Source register
 

@@ -6,10 +6,10 @@
   "createdAt": "2026-01-01T00:00:00Z",
   "status": "intake",
   "scope": {
-    "studyArea": "Generalized area",
+    "studyArea": "Exact public AOI in the declared CRS",
     "intent": "candidate survey",
-    "disclosure": "restricted",
-    "publicPrecision": "region-only"
+    "disclosure": "public",
+    "publicPrecision": "exact-source-supported"
   },
   "authorization": {
     "publicWeb": true,

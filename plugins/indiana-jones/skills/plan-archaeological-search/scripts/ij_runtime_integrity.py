@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from ij_artifacts import plan_sha256, read_json
+from ij_candidates import validate_candidate_artifact
 from ij_journal import file_sha256, value_sha256
 from ij_results import run_path
 
@@ -21,7 +22,15 @@ GROUND_TRUTH_KEY = re.compile(
 def _contains_ground_truth(value: Any) -> bool:
     if isinstance(value, dict):
         return any(
-            GROUND_TRUTH_KEY.search(str(key)) or _contains_ground_truth(child)
+            (
+                str(key) != "groundTruthState"
+                and GROUND_TRUTH_KEY.search(str(key))
+            )
+            or (
+                str(key) == "groundTruthState"
+                and child != "withheld"
+            )
+            or _contains_ground_truth(child)
             for key, child in value.items()
         )
     if isinstance(value, list):
@@ -37,11 +46,7 @@ def verify_candidate_freeze(
     case = plan.get("case")
     case = case if isinstance(case, dict) else {}
     frozen = case.get("candidatesFrozen") is True
-    required = frozen or any(
-        isinstance(action, dict) and action.get("requiresCandidatesFrozen") is True
-        for action in plan.get("actions", [])
-    )
-    if not required and candidate_artifact is None and candidate_seal is None:
+    if not frozen and candidate_artifact is None and candidate_seal is None:
         return None
     if not frozen:
         raise ValueError("candidate-dependent run requires a frozen candidate set")
@@ -58,6 +63,7 @@ def verify_candidate_freeze(
         raise ValueError("candidate artifact and freeze seal have invalid roots")
     if _contains_ground_truth(candidates):
         raise ValueError("candidate artifact contains ground-truth-like fields")
+    validate_candidate_artifact(plan, candidates)
     artifact_hash = file_sha256(candidate_artifact)
     expected = case.get("candidateArtifactSha256")
     if not isinstance(expected, str) or artifact_hash != expected:
@@ -72,6 +78,8 @@ def verify_candidate_freeze(
         raise ValueError("candidate freeze seal lacks a passed lineage scan")
     if seal.get("targetLabelsState") != case.get("targetLabelsState"):
         raise ValueError("candidate freeze seal target-label state is stale")
+    if seal.get("frozenPlanSha256") != plan_sha256(plan):
+        raise ValueError("candidate freeze seal does not match the frozen plan")
     source_plan = copy.deepcopy(plan)
     source_case = source_plan["case"]
     source_case["candidatesFrozen"] = False
@@ -84,6 +92,32 @@ def verify_candidate_freeze(
         "artifactSha256": artifact_hash,
         "sealSha256": file_sha256(candidate_seal),
     }
+
+
+def verify_run_candidate_freeze(
+    plan: dict[str, Any],
+    run_dir: Path,
+    run_payload: dict[str, Any],
+) -> None:
+    freeze = run_payload.get("candidateFreeze")
+    frozen = isinstance(plan.get("case"), dict) and plan["case"].get(
+        "candidatesFrozen"
+    ) is True
+    if not frozen:
+        if freeze is not None:
+            raise ValueError("unfrozen run contains unexpected candidate evidence")
+        return
+    if not isinstance(freeze, dict):
+        raise ValueError("frozen run lacks retained candidate evidence")
+    artifact = run_path(run_dir, str(freeze.get("artifactPath", "")))
+    seal = run_path(run_dir, str(freeze.get("sealPath", "")))
+    verified = verify_candidate_freeze(plan, artifact, seal)
+    if (
+        verified is None
+        or verified["artifactSha256"] != freeze.get("artifactSha256")
+        or verified["sealSha256"] != freeze.get("sealSha256")
+    ):
+        raise ValueError("retained candidate evidence does not match the run journal")
 
 
 def normalized_artifact_errors(

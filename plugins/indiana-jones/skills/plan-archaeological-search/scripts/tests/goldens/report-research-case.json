@@ -1,0 +1,620 @@
+{
+  "reconciliation": {
+    "schemaVersion": "archaeological-find-reconciliation-1.0",
+    "recordCount": 4,
+    "entityCount": 3,
+    "entities": [
+      {
+        "entityId": "find_sword_001",
+        "identityBasis": "accession",
+        "canonicalStatus": "unresolved-conflicts",
+        "reconciliationStatus": "contested-identifier-match",
+        "recordIds": [
+          "src_excavation:S-17",
+          "src_museum:S-17"
+        ],
+        "sourceIds": [
+          "src_excavation",
+          "src_museum"
+        ],
+        "originFamilyIds": [
+          "origin_excavation_1984",
+          "origin_museum_catalogue"
+        ],
+        "originRecordHashes": [
+          "1111111111111111111111111111111111111111111111111111111111111111",
+          "2222222222222222222222222222222222222222222222222222222222222222"
+        ],
+        "duplicateCount": 2,
+        "independentSourceCount": 2,
+        "fieldConflicts": {
+          "chronology": [
+            {
+              "basis": "blade typology",
+              "certainty": "reported",
+              "label": "late 10th century"
+            },
+            {
+              "basis": "associated coin terminus post quem",
+              "certainty": "reported",
+              "label": "early 11th century"
+            }
+          ]
+        },
+        "canonicalRecord": {
+          "recordId": "src_museum:S-17",
+          "sourceId": "src_museum",
+          "sourceRecordId": "S-17",
+          "title": "Pattern-welded sword",
+          "objectClass": "double-edged sword",
+          "classificationBasis": "blade and hilt typology",
+          "classificationCertainty": "probable",
+          "material": "iron with silver inlay",
+          "chronology": {
+            "label": "late 10th to early 11th century",
+            "basis": "typology and associated coin",
+            "certainty": "contested"
+          },
+          "datingBasis": "blade typology plus context terminus post quem",
+          "archaeologicalContext": {
+            "description": "Recorded river-terrace burial context 17",
+            "basis": "1984 context sheet",
+            "status": "secure-excavated"
+          },
+          "contextQuality": "secure-excavated",
+          "provenienceQuality": "context-record-and-grid",
+          "findspot": {
+            "description": "Trench 4, context 17",
+            "coordinates": [
+              19.12345,
+              54.12345
+            ],
+            "sensitivity": "public"
+          },
+          "spatialEvidence": {
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                19.12345,
+                54.12345
+              ]
+            },
+            "source": "excavation grid",
+            "sensitivity": "public"
+          },
+          "imageRefs": [
+            {
+              "artifact": "sword-context-public.png",
+              "annotation": "context boundary",
+              "sensitivity": "public"
+            },
+            {
+              "artifact": "registrar-only-label.png",
+              "sensitivity": "restricted"
+            }
+          ],
+          "repository": "River District Museum",
+          "accessionNumber": "S-17",
+          "custodyEvents": [
+            {
+              "date": "1984-08-12",
+              "event": "transferred from excavation archive"
+            }
+          ],
+          "analyses": [
+            {
+              "date": "2022-05-01",
+              "method": "radiography",
+              "result": "pattern welding documented"
+            }
+          ],
+          "evidenceClasses": [
+            "weapon-or-fitting"
+          ],
+          "recordReliability": "assessed-context-record",
+          "sensitivity": "public"
+        }
+      },
+      {
+        "entityId": "find_hoard_002",
+        "identityBasis": "source-record",
+        "canonicalStatus": "single-record",
+        "reconciliationStatus": "not-merged",
+        "recordIds": [
+          "src_excavation:H-2"
+        ],
+        "sourceIds": [
+          "src_excavation"
+        ],
+        "originFamilyIds": [
+          "origin_excavation_1984"
+        ],
+        "originRecordHashes": [
+          "3333333333333333333333333333333333333333333333333333333333333333"
+        ],
+        "duplicateCount": 1,
+        "independentSourceCount": 1,
+        "fieldConflicts": {},
+        "canonicalRecord": {
+          "recordId": "src_excavation:H-2",
+          "sourceId": "src_excavation",
+          "sourceRecordId": "H-2",
+          "title": "Gold and silver coin hoard",
+          "objectClass": "coin hoard",
+          "classificationBasis": "excavation inventory and numismatic catalogue",
+          "classificationCertainty": "reported",
+          "material": "gold and silver",
+          "chronology": {
+            "label": "deposited after 1032",
+            "basis": "latest identified coin",
+            "certainty": "reported"
+          },
+          "archaeologicalContext": "sealed ceramic container in ditch fill",
+          "contextQuality": "secure-excavated",
+          "provenienceQuality": "three-dimensional excavation record",
+          "findspot": {
+            "description": "Ditch 8, deposit 2",
+            "coordinates": [
+              19.22222,
+              54.22222
+            ],
+            "sensitivity": "public"
+          },
+          "repository": "River District Museum",
+          "accessionNumber": "H-2",
+          "recordReliability": "assessed-published-excavation",
+          "evidenceClasses": [
+            "assemblage-or-hoard",
+            "precious-material-object"
+          ],
+          "sensitivity": "public"
+        }
+      },
+      {
+        "entityId": "find_coin_003",
+        "identityBasis": "source-record",
+        "canonicalStatus": "single-record",
+        "reconciliationStatus": "not-merged",
+        "recordIds": [
+          "src_archive:C-9"
+        ],
+        "sourceIds": [
+          "src_archive"
+        ],
+        "originFamilyIds": [
+          "origin_archive_register"
+        ],
+        "originRecordHashes": [
+          "4444444444444444444444444444444444444444444444444444444444444444"
+        ],
+        "duplicateCount": 1,
+        "independentSourceCount": 1,
+        "fieldConflicts": {},
+        "canonicalRecord": {
+          "recordId": "src_archive:C-9",
+          "sourceId": "src_archive",
+          "title": "Gold coin",
+          "objectClass": "coin",
+          "material": "gold",
+          "findspot": {
+            "description": "Authority-only enclosure",
+            "coordinates": [
+              19.99999,
+              54.99999
+            ],
+            "sensitivity": "public"
+          },
+          "spatialRestriction": "authority-only",
+          "repository": "Regional Archive",
+          "accessionNumber": "C-9",
+          "recordReliability": "unassessed",
+          "sensitivity": "public"
+        }
+      }
+    ]
+  },
+  "plan": {
+    "area": {
+      "publicDescription": "River crossing research area"
+    },
+    "sources": [
+      {
+        "sourceId": "src_excavation",
+        "title": "1984 excavation archive",
+        "originFamilyId": "origin_excavation_1984",
+        "recordType": "excavation-record"
+      },
+      {
+        "sourceId": "src_museum",
+        "title": "River District Museum catalogue",
+        "originFamilyId": "origin_museum_catalogue",
+        "recordType": "museum-catalogue"
+      },
+      {
+        "sourceId": "src_archive",
+        "title": "Regional finds register",
+        "originFamilyId": "origin_archive_register",
+        "recordType": "finds-register"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeId": "phase_crossing",
+        "kind": "phase",
+        "label": "River crossing and burial use",
+        "authority": "reported",
+        "chronology": {
+          "earliest": "0950",
+          "latest": "1050",
+          "basis": "excavation sequence and artefact dating"
+        },
+        "sourceIds": [
+          "src_excavation"
+        ],
+        "sensitivity": "public"
+      },
+      {
+        "nodeId": "phase_market",
+        "kind": "phase",
+        "label": "Market and collection phase",
+        "authority": "inferred",
+        "chronology": {
+          "earliest": "1050",
+          "latest": "1250",
+          "basis": "documentary and object distribution"
+        },
+        "sourceIds": [
+          "src_archive"
+        ],
+        "sensitivity": "public"
+      },
+      {
+        "nodeId": "object_sword",
+        "kind": "object",
+        "label": "Pattern-welded sword S-17",
+        "authority": "reported",
+        "sourceIds": [
+          "src_excavation",
+          "src_museum"
+        ],
+        "coordinate": [
+          19.12345,
+          54.12345
+        ],
+        "sensitivity": "public",
+        "record": {
+          "schemaVersion": "archaeological-entity-1.0",
+          "objectClass": "sword",
+          "materials": [
+            "iron",
+            "silver"
+          ],
+          "dateInterval": {
+            "earliest": "0975",
+            "latest": "1025",
+            "basis": "blade typology plus associated coin"
+          },
+          "contextQuality": "secure-excavated",
+          "identityStatus": "same-object",
+          "sourceNativeIds": [
+            "S-17"
+          ]
+        }
+      },
+      {
+        "nodeId": "event_recovery",
+        "kind": "find-event",
+        "label": "Controlled excavation recovery",
+        "authority": "reported",
+        "sourceIds": [
+          "src_excavation"
+        ],
+        "sensitivity": "public",
+        "record": {
+          "schemaVersion": "archaeological-entity-1.0",
+          "eventType": "controlled excavation",
+          "dateInterval": {
+            "earliest": "1984-08-12",
+            "latest": "1984-08-12",
+            "basis": "field diary"
+          },
+          "recoveryMethod": "controlled excavation",
+          "publicLocation": "Trench 4 at 19.12345, 54.12345",
+          "contextQuality": "secure-excavated"
+        }
+      },
+      {
+        "nodeId": "analysis_xray",
+        "kind": "analysis",
+        "label": "Radiographic analysis",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "sensitivity": "public",
+        "record": {
+          "schemaVersion": "archaeological-entity-1.0",
+          "analysisType": "radiography",
+          "method": "digital X-ray",
+          "resultSummary": "pattern welding documented",
+          "performedAt": "2022-05-01"
+        }
+      },
+      {
+        "nodeId": "custody_accession",
+        "kind": "custody-event",
+        "label": "Museum accession",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "sensitivity": "public",
+        "record": {
+          "schemaVersion": "archaeological-entity-1.0",
+          "eventType": "accession",
+          "dateInterval": {
+            "earliest": "1984-09-01",
+            "latest": "1984-09-01",
+            "basis": "accession register"
+          },
+          "custodian": "River District Museum",
+          "status": "documented"
+        }
+      },
+      {
+        "nodeId": "repo_museum",
+        "kind": "repository",
+        "label": "River District Museum",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "sensitivity": "public",
+        "record": {
+          "schemaVersion": "archaeological-entity-1.0",
+          "institutionName": "River District Museum",
+          "repositoryType": "museum",
+          "verifiedAt": "2026-07-24"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "edge_phase_order",
+        "from": "phase_crossing",
+        "to": "phase_market",
+        "relation": "historically-precedes",
+        "authority": "inferred",
+        "sourceIds": [
+          "src_excavation",
+          "src_archive"
+        ],
+        "rationale": "The excavation phase predates the documented market phase."
+      },
+      {
+        "edgeId": "edge_sword_phase",
+        "from": "object_sword",
+        "to": "phase_crossing",
+        "relation": "part-of",
+        "authority": "inferred",
+        "sourceIds": [
+          "src_excavation"
+        ],
+        "rationale": "The object belongs to the dated crossing-phase context."
+      },
+      {
+        "edgeId": "edge_sword_find",
+        "from": "object_sword",
+        "to": "event_recovery",
+        "relation": "recovered-during",
+        "authority": "reported",
+        "sourceIds": [
+          "src_excavation"
+        ],
+        "rationale": "The field register links S-17 to the recovery event."
+      },
+      {
+        "edgeId": "edge_sword_analysis",
+        "from": "object_sword",
+        "to": "analysis_xray",
+        "relation": "analysed-by",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "rationale": "The analysis report names accession S-17."
+      },
+      {
+        "edgeId": "edge_sword_custody",
+        "from": "object_sword",
+        "to": "custody_accession",
+        "relation": "has-custody-event",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "rationale": "The accession register records the transfer."
+      },
+      {
+        "edgeId": "edge_custody_repo",
+        "from": "custody_accession",
+        "to": "repo_museum",
+        "relation": "custody-transferred-to",
+        "authority": "reported",
+        "sourceIds": [
+          "src_museum"
+        ],
+        "rationale": "The museum accepted custody."
+      },
+      {
+        "edgeId": "edge_phase_conflict",
+        "from": "phase_market",
+        "to": "phase_crossing",
+        "relation": "contradicts",
+        "authority": "reported",
+        "sourceIds": [
+          "src_archive"
+        ],
+        "rationale": "One later chronicle assigns the crossing foundation to 1100."
+      }
+    ]
+  },
+  "materialRecords": [
+    {
+      "recordId": "src_excavation:G-CR-4",
+      "sourceId": "src_excavation",
+      "originFamilyId": "origin_excavation_1984",
+      "sourceRecordId": "G-CR-4",
+      "rawRecordSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "title": "Crucible with analysed gold residue",
+      "objectClass": "production debris",
+      "classificationBasis": "excavated morphology and residue",
+      "classificationCertainty": "probable",
+      "material": "ceramic and gold",
+      "materialAssessment": {
+        "reportedMaterial": "ceramic and gold",
+        "materialClass": "precious-metal",
+        "basis": "catalogue-material-field",
+        "certainty": "reported",
+        "substance": "gold",
+        "supportsPreciousMaterial": true
+      },
+      "chronology": {
+        "label": "11th century",
+        "basis": "sealed context assemblage",
+        "certainty": "reported"
+      },
+      "archaeologicalContext": "in situ on sealed workshop floor",
+      "contextQuality": "secure-excavated",
+      "provenienceQuality": "three-dimensional excavation record",
+      "findspot": {
+        "description": "Workshop floor context 44",
+        "coordinates": [
+          19.33333,
+          54.33333
+        ],
+        "sensitivity": "public"
+      },
+      "repository": "River District Museum",
+      "accessionNumber": "G-CR-4",
+      "custodyEvents": [
+        {
+          "date": "1984-10-01",
+          "event": "accessioned"
+        }
+      ],
+      "laboratoryAssessment": {
+        "validated": true,
+        "method": "SEM-EDS",
+        "substance": "gold",
+        "result": "gold-bearing residue",
+        "validator": "Regional Archaeometry Laboratory",
+        "reportId": "RAL-2025-44"
+      },
+      "fieldConflicts": {
+        "title": [
+          "Crucible",
+          "Ceramic vessel fragment"
+        ]
+      }
+    },
+    {
+      "recordId": "src_museum:G-P-9",
+      "sourceId": "src_museum",
+      "originFamilyId": "origin_museum_catalogue",
+      "sourceRecordId": "G-P-9",
+      "rawRecordSha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "title": "Gold pendant",
+      "objectClass": "finished ornament",
+      "material": "gold",
+      "materialAssessment": {
+        "reportedMaterial": "gold",
+        "materialClass": "precious-metal",
+        "basis": "catalogue-material-field",
+        "certainty": "reported",
+        "substance": "gold",
+        "supportsPreciousMaterial": true
+      },
+      "archaeologicalContext": "reported stray find",
+      "contextQuality": "reported-find",
+      "repository": "River District Museum",
+      "accessionNumber": "G-P-9"
+    }
+  ],
+  "queryArtifacts": [
+    {
+      "schemaVersion": "archaeological-find-records-1.0",
+      "queryArtifact": {
+        "sourceId": "src_museum",
+        "adapter": "json",
+        "adapterVersion": "1.0",
+        "query": {
+          "terms": [
+            "sword",
+            "gold",
+            "hoard"
+          ],
+          "aliases": [
+            "Old Crossing",
+            "River Ford"
+          ],
+          "languages": [
+            "en",
+            "pl"
+          ],
+          "dateRange": {
+            "from": "0900",
+            "to": "1200"
+          }
+        },
+        "retrievedAt": "2026-07-24T10:00:00Z",
+        "resultCount": 2,
+        "truncated": false,
+        "pagination": {
+          "sourceExhausted": true
+        },
+        "rawArtifactSha256": "7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      "records": [
+        {
+          "recordId": "src_museum:S-17",
+          "sourceId": "src_museum",
+          "originFamilyId": "origin_museum_catalogue"
+        },
+        {
+          "recordId": "src_museum:G-P-9",
+          "sourceId": "src_museum",
+          "originFamilyId": "origin_museum_catalogue"
+        }
+      ]
+    },
+    {
+      "schemaVersion": "archaeological-find-records-1.0",
+      "queryArtifact": {
+        "sourceId": "src_university",
+        "adapter": "oai-pmh",
+        "adapterVersion": "1.0",
+        "query": {
+          "terms": [
+            "weapon deposition"
+          ],
+          "language": "de",
+          "fromDate": "0900",
+          "toDate": "1200"
+        },
+        "retrievedAt": "2026-07-24T10:05:00Z",
+        "resultCount": 0,
+        "truncated": false,
+        "pagination": {
+          "sourceExhausted": false
+        },
+        "failure": {
+          "code": "provider-timeout",
+          "message": "The repository timed out before confirming exhaustion."
+        },
+        "rawArtifactSha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      "records": []
+    }
+  ]
+}

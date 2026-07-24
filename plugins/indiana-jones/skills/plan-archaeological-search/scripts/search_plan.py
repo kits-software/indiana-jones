@@ -7,9 +7,11 @@ import sys
 from pathlib import Path
 
 from ij_artifacts import plan_sha256, public_export, read_json, write_json
-from ij_errors import diagnostic_json, error_code
+from ij_budget_cli import add_budget_arguments, budget_kwargs
+from ij_errors import InvocationError, diagnostic_json, error_code
 from ij_frontier import build_frontier
 from ij_claims import extract_claims
+from ij_cli_extended import add_extended_commands, handle_extended_command, validate_command
 from ij_ingest import (
     SUPPORTED_FORMATS,
     acquire_and_normalize,
@@ -24,6 +26,7 @@ from ij_orchestrator import advance_run, audit_run, run_until_handoff
 from ij_plan import new_plan, validate_plan
 from ij_probability import calibrated_probability_report
 from ij_readiness import readiness_errors
+from ij_report_inputs import read_sealed_report_input, read_sealed_report_inputs
 from ij_reports import (
     build_finds_report,
     build_object_report,
@@ -41,13 +44,23 @@ from ij_runtime import (
     start_action,
     stop_run,
 )
+from ij_source_contract import verify_source_acquisition
+
+
+class JsonArgumentParser(argparse.ArgumentParser):
+    def error(self, message: str) -> None:
+        raise InvocationError(f"invalid command arguments: {message}")
+
+
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
+    parser = JsonArgumentParser(
         description=(
-            "Build, validate, execute, resume, ingest, and redact archaeological research."
+            "Build, validate, execute, resume, ingest, and publish archaeological "
+            "research while withholding only explicitly protected spatial or source material."
         )
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    add_extended_commands(commands)
 
     create = commands.add_parser("new", help="Create a coarse reconnaissance plan.")
     create.add_argument("--place", required=True)
@@ -74,7 +87,7 @@ def _parser() -> argparse.ArgumentParser:
     create.add_argument(
         "--disclosure",
         choices=["public", "restricted", "heritage-authority-only"],
-        default="restricted",
+        default="public",
     )
     create.add_argument("--out", type=Path, required=True)
 
@@ -89,21 +102,25 @@ def _parser() -> argparse.ArgumentParser:
     rank = commands.add_parser("rank", help="Build the next ready action batch.")
     rank.add_argument("--plan", type=Path, required=True)
     rank.add_argument("--limit", type=int, default=4)
+    rank.add_argument("--allow-draft", action="store_true",
+        help="Write a non-executable preview even when research readiness is incomplete.",
+    )
     rank.add_argument("--out", type=Path, required=True)
 
-    export = commands.add_parser("export-public", help="Create a redacted public copy.")
+    export = commands.add_parser(
+        "export-public",
+        help="Create a public copy with explicitly protected material withheld.",
+    )
     export.add_argument("--plan", type=Path, required=True)
     export.add_argument("--out", type=Path, required=True)
+    export.add_argument("--schema", choices=["1.0-public", "2.0-public"], default="1.0-public")
 
     initialize = commands.add_parser(
         "init-run", help="Create an evidence-bound resumable research run."
     )
     initialize.add_argument("--plan", type=Path, required=True)
     initialize.add_argument("--run-dir", type=Path, required=True)
-    initialize.add_argument("--max-actions", type=int, default=100)
-    initialize.add_argument("--max-attempts", type=int, default=200)
-    initialize.add_argument("--max-result-bytes", type=int, default=100_000_000)
-    initialize.add_argument("--max-seconds", type=int, default=86_400)
+    add_budget_arguments(initialize)
     initialize.add_argument("--candidate-artifact", type=Path)
     initialize.add_argument("--candidate-seal", type=Path)
 
@@ -115,14 +132,17 @@ def _parser() -> argparse.ArgumentParser:
     start = commands.add_parser("start-action", help="Lease and start one ready action.")
     start.add_argument("--run-dir", type=Path, required=True)
     start.add_argument("--action-id", required=True)
+    start.add_argument("--idempotency-key")
 
     complete = commands.add_parser(
-        "complete-action", help="Seal evidence and complete a running action."
+        "complete-action",
+        aliases=["record-result"],
+        help="Seal evidence and complete a running action.",
     )
     complete.add_argument("--run-dir", type=Path, required=True)
     complete.add_argument("--action-id", required=True)
     complete.add_argument("--attempt-id", required=True)
-    complete.add_argument("--result", type=Path)
+    complete.add_argument("--result", type=Path, required=True)
     complete.add_argument("--summary", required=True)
     complete.add_argument("--source-id", action="append", default=[])
     complete.add_argument("--acceptance-evidence", action="append", default=[])
@@ -152,7 +172,9 @@ def _parser() -> argparse.ArgumentParser:
     status.add_argument("--run-dir", type=Path, required=True)
 
     ingest = commands.add_parser(
-        "ingest-source", help="Boundedly ingest and normalize a public source."
+        "ingest-source",
+        aliases=["source-ingest"],
+        help="Boundedly ingest and normalize a public source.",
     )
     ingest.add_argument("--plan", type=Path, required=True)
     ingest.add_argument("--source-id", required=True)
@@ -164,10 +186,17 @@ def _parser() -> argparse.ArgumentParser:
     ingest.add_argument("--out", type=Path, required=True)
 
     reconcile = commands.add_parser(
-        "reconcile-finds", help="Conservatively reconcile normalized find records."
+        "reconcile-finds",
+        help="Conservatively reconcile normalized find records.",
     )
     reconcile.add_argument("--input", type=Path, nargs="+", required=True)
     reconcile.add_argument("--out", type=Path, required=True)
+    reconcile_run = commands.add_parser(
+        "reconcile-entities",
+        help="Reconcile only the sealed results declared by a ready run action.",
+    )
+    reconcile_run.add_argument("--run-dir", type=Path, required=True)
+    reconcile_run.add_argument("--action-id", required=True)
 
     migrate = commands.add_parser("migrate", help="Migrate a v1 plan non-destructively.")
     migrate.add_argument("--plan", type=Path, required=True)
@@ -193,6 +222,7 @@ def _parser() -> argparse.ArgumentParser:
     graph_object.add_argument("--out", type=Path, required=True)
 
     finds = commands.add_parser("report-finds", help="Build a known-finds report.")
+    finds.add_argument("--run-dir", type=Path, required=True)
     finds.add_argument("--reconciliation", type=Path, required=True)
     finds.add_argument("--area", required=True)
     finds.add_argument("--public", action="store_true")
@@ -201,6 +231,7 @@ def _parser() -> argparse.ArgumentParser:
     object_report = commands.add_parser(
         "report-object", help="Build a reconciled object record report."
     )
+    object_report.add_argument("--run-dir", type=Path, required=True)
     object_report.add_argument("--reconciliation", type=Path, required=True)
     object_report.add_argument("--entity-id", required=True)
     object_report.add_argument("--public", action="store_true")
@@ -209,11 +240,13 @@ def _parser() -> argparse.ArgumentParser:
     material = commands.add_parser(
         "report-material", help="Distinguish material presence from production."
     )
+    material.add_argument("--run-dir", type=Path, required=True)
     material.add_argument("--records", type=Path, required=True)
     material.add_argument("--material", required=True)
     material.add_argument("--out", type=Path, required=True)
 
     gaps = commands.add_parser("report-gaps", help="Report bounded source coverage gaps.")
+    gaps.add_argument("--run-dir", type=Path, required=True)
     gaps.add_argument("--input", type=Path, nargs="+", required=True)
     gaps.add_argument("--question", required=True)
     gaps.add_argument("--alias", action="append", default=[])
@@ -259,28 +292,12 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _validate_or_report(plan: dict, require_ready: bool) -> bool:
-    result = validate_plan(plan)
-    readiness = (
-        readiness_errors(plan) + execution_readiness_errors(plan)
-        if result.valid
-        else []
-    )
-    output = {
-        "valid": result.valid,
-        "ready": result.valid and not readiness,
-        "planSha256": plan_sha256(plan),
-        "errors": result.errors,
-        "readinessErrors": readiness,
-        "warnings": result.warnings,
-    }
-    print(json.dumps(output, indent=2, sort_keys=True))
-    return result.valid and (not require_ready or not readiness)
-
-
 def main(argv: list[str] | None = None) -> int:
-    args = _parser().parse_args(argv)
     try:
+        args = _parser().parse_args(argv)
+        extended = handle_extended_command(args)
+        if extended is not None:
+            return extended
         if args.command == "new":
             if args.rows < 1 or args.columns < 1:
                 raise ValueError("rows and columns must be positive")
@@ -307,10 +324,7 @@ def main(argv: list[str] | None = None) -> int:
             state = initialize_run(
                 read_json(args.plan),
                 args.run_dir,
-                max_actions=args.max_actions,
-                max_attempts=args.max_attempts,
-                max_result_bytes=args.max_result_bytes,
-                max_seconds=args.max_seconds,
+                **budget_kwargs(args),
                 candidate_artifact=args.candidate_artifact,
                 candidate_seal=args.candidate_seal,
             )
@@ -327,13 +341,17 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "start-action":
             print(
                 json.dumps(
-                    start_action(args.run_dir, args.action_id),
+                    start_action(
+                        args.run_dir,
+                        args.action_id,
+                        idempotency_key=args.idempotency_key,
+                    ),
                     indent=2,
                     sort_keys=True,
                 )
             )
             return 0
-        if args.command == "complete-action":
+        if args.command in {"complete-action", "record-result"}:
             print(
                 json.dumps(
                     complete_action(
@@ -420,6 +438,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "audit":
             print(json.dumps(audit_run(args.run_dir), indent=2, sort_keys=True))
             return 0
+        if args.command == "reconcile-entities":
+            result = execute_deterministic_action(args.run_dir, args.action_id)
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
         if args.command == "reconcile-finds":
             reconciled = reconcile_artifacts([read_json(path) for path in args.input])
             reconciled["assessment"] = assessment_summary(reconciled)
@@ -466,8 +488,13 @@ def main(argv: list[str] | None = None) -> int:
             )
             return 0
         if args.command == "report-finds":
+            reconciliation, _, _ = read_sealed_report_input(
+                args.run_dir,
+                args.reconciliation,
+                {"archaeological-find-reconciliation-1.0"},
+            )
             report = build_finds_report(
-                read_json(args.reconciliation),
+                reconciliation,
                 area_description=args.area,
                 public=args.public,
             )
@@ -475,8 +502,13 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps({"out": str(args.out), "findCount": len(report["finds"])}))
             return 0
         if args.command == "report-object":
+            reconciliation, _, _ = read_sealed_report_input(
+                args.run_dir,
+                args.reconciliation,
+                {"archaeological-find-reconciliation-1.0"},
+            )
             report = build_object_report(
-                read_json(args.reconciliation),
+                reconciliation,
                 args.entity_id,
                 public=args.public,
             )
@@ -484,7 +516,11 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps({"out": str(args.out), "entityId": args.entity_id}))
             return 0
         if args.command == "report-material":
-            artifact = read_json(args.records)
+            artifact, _, _ = read_sealed_report_input(
+                args.run_dir,
+                args.records,
+                {"archaeological-find-records-1.0"},
+            )
             records = artifact.get("records")
             if not isinstance(records, list):
                 raise ValueError("records artifact must contain a records array")
@@ -493,8 +529,16 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps({"out": str(args.out), "conclusion": report["conclusion"]}))
             return 0
         if args.command == "report-gaps":
+            inputs = read_sealed_report_inputs(
+                args.run_dir,
+                args.input,
+                {
+                    "archaeological-find-records-1.0",
+                    "archaeological-find-reconciliation-1.0",
+                },
+            )
             report = build_source_gap_report(
-                [read_json(path) for path in args.input],
+                inputs,
                 question=args.question,
                 aliases=args.alias,
                 languages=args.language,
@@ -504,7 +548,15 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "assess-probability":
             calibration = read_json(args.calibration)
-            case = read_json(args.plan).get("case", {}) if args.plan else None
+            case = None
+            if args.plan:
+                probability_plan = read_json(args.plan)
+                validation = validate_plan(probability_plan)
+                if not validation.valid:
+                    raise ValueError(
+                        "probability plan is invalid: " + "; ".join(validation.errors)
+                    )
+                case = probability_plan.get("case", {})
             report = calibrated_probability_report(
                 calibration,
                 case=case,
@@ -516,7 +568,7 @@ def main(argv: list[str] | None = None) -> int:
 
         plan = read_json(args.plan)
         if args.command == "validate":
-            return 0 if _validate_or_report(plan, args.ready) else 2
+            return validate_command(plan, args.ready)
 
         result = validate_plan(plan)
         if not result.valid:
@@ -527,15 +579,18 @@ def main(argv: list[str] | None = None) -> int:
             if args.limit < 1:
                 raise ValueError("limit must be positive")
             research_errors = readiness_errors(plan) + execution_readiness_errors(plan)
-            if research_errors:
+            if research_errors and not args.allow_draft:
                 for error in research_errors:
                     print(f"error: {error}", file=sys.stderr)
                 return 2
-            write_json(args.out, build_frontier(plan, args.limit))
+            frontier = build_frontier(plan, args.limit)
+            frontier["planningPreviewOnly"] = bool(research_errors)
+            frontier["readinessErrors"] = research_errors
+            write_json(args.out, frontier)
             print(json.dumps({"out": str(args.out), "sourcePlanSha256": plan_sha256(plan)}))
             return 0
         if args.command == "export-public":
-            write_json(args.out, public_export(plan))
+            write_json(args.out, public_export(plan, args.schema))
             print(json.dumps({"out": str(args.out), "sourcePlanSha256": plan_sha256(plan)}))
             return 0
         if args.command == "report-history":
@@ -563,7 +618,7 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-        if args.command == "ingest-source":
+        if args.command in {"ingest-source", "source-ingest"}:
             source = next(
                 (
                     item
@@ -574,9 +629,26 @@ def main(argv: list[str] | None = None) -> int:
             )
             if source is None:
                 raise ValueError(f"unknown source: {args.source_id}")
+            acquisition = source.get("acquisition")
+            if (
+                not isinstance(acquisition, dict)
+                or acquisition.get("locator") != args.input
+                or acquisition.get("format") != args.format
+            ):
+                raise ValueError("ingestion input does not match the declared source contract")
             query = json.loads(args.query_json)
             if not isinstance(query, dict):
                 raise ValueError("query-json must decode to an object")
+            verify_source_acquisition(
+                source,
+                actual_locator=args.input,
+                inputs={
+                    "sourceId": args.source_id,
+                    "locator": args.input,
+                    "format": args.format,
+                    "query": query,
+                },
+            )
             artifact = acquire_and_normalize(
                 source=source,
                 locator=args.input,
@@ -595,7 +667,14 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-    except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as error:
+    except (
+        OSError,
+        ValueError,
+        TypeError,
+        KeyError,
+        RecursionError,
+        json.JSONDecodeError,
+    ) as error:
         print(diagnostic_json(error), file=sys.stderr)
         return error_code(error)[1]
     return 2

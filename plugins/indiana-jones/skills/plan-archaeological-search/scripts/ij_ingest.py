@@ -1,35 +1,33 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 import time
 import urllib.request
-import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from ij_adapters import ADAPTER_REGISTRY, adapter_descriptor
+from ij_assessment import assessment_summary
 from ij_ingest_guard import (
     ValidatingRedirectHandler,
-    public_host_problem,
+    automation_access_problem,
     safe_xml_root,
     validate_public_url,
     validate_query_artifact,
 )
-from ij_journal import file_sha256, value_sha256
+from ij_journal import value_sha256
+from ij_find_classification import evidence_and_risk_classes
+from ij_material_classification import classify_reported_material
+from ij_spatial_policy import spatial_policy
+from ij_xml_records import flatten_xml, oai_pagination, oai_records
 
 
 NORMALIZATION_VERSION = "archaeological-find-v1"
-SUPPORTED_FORMATS = {
-    "json",
-    "jsonl",
-    "csv",
-    "oai-pmh",
-    "iiif",
-    "rdf-xml",
-    "sparql-json",
-}
+SUPPORTED_FORMATS = set(ADAPTER_REGISTRY)
 ID_KEYS = ("accessionNumber", "accession", "identifier", "id", "recordId")
 TITLE_KEYS = ("title", "name", "label", "objectName", "type")
 OBJECT_KEYS = ("objectClass", "objectType", "classification", "type", "object")
@@ -38,20 +36,6 @@ PERIOD_KEYS = ("period", "chronology", "date", "dating", "temporal")
 REPOSITORY_KEYS = ("repository", "institution", "museum", "currentLocation")
 FINDSPOT_KEYS = ("findspot", "findPlace", "place", "location", "provenience")
 CONTEXT_KEYS = ("context", "findContext", "excavationContext", "stratigraphy")
-PRODUCTION_TERMS = {
-    "crucible",
-    "cupellation",
-    "mould",
-    "mold",
-    "slag",
-    "casting waste",
-    "metalworking debris",
-    "unfinished",
-    "goldsmith",
-    "workshop",
-}
-WEAPON_TERMS = {"sword", "dagger", "spear", "weapon", "scabbard"}
-PRECIOUS_TERMS = {"gold", "electrum", "silver", "aureus", "solidus"}
 
 
 def _string(value: Any) -> str | None:
@@ -67,9 +51,7 @@ def _string(value: Any) -> str | None:
             candidate = _string(value.get(key))
             if candidate:
                 return candidate
-        candidates = [
-            candidate for candidate in (_string(item) for item in value.values()) if candidate
-        ]
+        candidates = [candidate for candidate in (_string(item) for item in value.values()) if candidate]
         if candidates:
             return "; ".join(candidates)
     return None
@@ -85,36 +67,6 @@ def _first(record: dict[str, Any], keys: tuple[str, ...]) -> str | None:
         if candidate:
             return candidate
     return None
-
-
-def _flatten_xml(element: ET.Element) -> dict[str, Any]:
-    values: dict[str, Any] = {}
-
-    def append(key: str, value: str) -> None:
-        if not value:
-            return
-        existing = values.get(key)
-        if existing is None:
-            values[key] = value
-        elif isinstance(existing, list):
-            existing.append(value)
-        else:
-            values[key] = [existing, value]
-
-    for attribute, value in element.attrib.items():
-        append(f"@{attribute.rsplit('}', 1)[-1]}", value.strip())
-    for child in element.iter():
-        if child is element:
-            continue
-        key = child.tag.rsplit("}", 1)[-1]
-        value = (child.text or "").strip()
-        append(key, value)
-        for attribute, attribute_value in child.attrib.items():
-            attribute_key = attribute.rsplit("}", 1)[-1]
-            append(f"{key}.@{attribute_key}", attribute_value.strip())
-            if not value and attribute_key in {"about", "resource", "href"}:
-                append(key, attribute_value.strip())
-    return values
 
 
 def _records_from_json(value: Any) -> list[dict[str, Any]]:
@@ -149,6 +101,21 @@ def _records_from_json(value: Any) -> list[dict[str, Any]]:
         if not isinstance(record, dict):
             raise ValueError(f"JSON record {index + 1} must be an object")
     return records
+
+
+def _strict_json_loads(text: str) -> Any:
+    def object_from_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        value: dict[str, Any] = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError(f"JSON object contains duplicate key {key!r}")
+            value[key] = item
+        return value
+
+    def reject_constant(value: str) -> None:
+        raise ValueError(f"JSON contains non-standard numeric constant {value}")
+
+    return json.loads(text, object_pairs_hook=object_from_pairs, parse_constant=reject_constant)
 
 
 def _records_from_csv(payload: bytes) -> list[dict[str, Any]]:
@@ -190,8 +157,8 @@ def _shape_limits(value: Any, depth: int = 0) -> int:
 def parse_records(payload: bytes, format_name: str) -> list[dict[str, Any]]:
     if format_name not in SUPPORTED_FORMATS:
         raise ValueError(f"unsupported source format: {format_name}")
-    if format_name in {"json", "iiif", "sparql-json"}:
-        value = json.loads(payload.decode("utf-8"))
+    if format_name in {"json", "iiif", "sparql-json", "crossref-json", "openalex-json", "doi-json"}:
+        value = _strict_json_loads(payload.decode("utf-8"))
         _shape_limits(value)
         if (
             format_name == "iiif"
@@ -211,7 +178,7 @@ def parse_records(payload: bytes, format_name: str) -> list[dict[str, Any]]:
         for line_number, line in enumerate(payload.decode("utf-8").splitlines(), 1):
             if not line.strip():
                 continue
-            value = json.loads(line)
+            value = _strict_json_loads(line)
             if not isinstance(value, dict):
                 raise ValueError(f"JSONL line {line_number} must be an object")
             records.append(value)
@@ -220,59 +187,22 @@ def parse_records(payload: bytes, format_name: str) -> list[dict[str, Any]]:
         return _records_from_csv(payload)
     root = safe_xml_root(payload)
     if format_name == "oai-pmh":
-        records = []
-        for element in root.iter():
-            if element.tag.rsplit("}", 1)[-1] != "record":
-                continue
-            header = next(
-                (
-                    child
-                    for child in element
-                    if child.tag.rsplit("}", 1)[-1] == "header"
-                ),
-                None,
-            )
-            if header is not None and header.attrib.get("status") == "deleted":
-                continue
-            records.append(_flatten_xml(element))
-        return records
+        return oai_records(root)
     descriptions = [
         element
         for element in root.iter()
         if element.tag.rsplit("}", 1)[-1] in {"Description", "NamedIndividual"}
     ]
-    return [_flatten_xml(element) for element in descriptions] or [_flatten_xml(root)]
+    return [flatten_xml(element) for element in descriptions] or [flatten_xml(root)]
 
 
 def pagination_metadata(payload: bytes, format_name: str) -> dict[str, Any]:
     if format_name != "oai-pmh":
         return {"sourceExhausted": True}
-    root = safe_xml_root(payload)
-    token = next(
-        (
-            element
-            for element in root.iter()
-            if element.tag.rsplit("}", 1)[-1] == "resumptionToken"
-        ),
-        None,
-    )
-    token_text = (token.text or "").strip() if token is not None else ""
-    metadata: dict[str, Any] = {
-        "sourceExhausted": not bool(token_text),
-        "resumptionToken": token_text or None,
-    }
-    if token is not None:
-        for key in ("cursor", "completeListSize", "expirationDate"):
-            if key in token.attrib:
-                metadata[key] = token.attrib[key]
-    return metadata
+    return oai_pagination(safe_xml_root(payload))
 
 
-def _public_host_problem(locator: str) -> str | None:
-    return public_host_problem(locator)
-
-
-def _read_bounded(locator: str, max_bytes: int) -> bytes:
+def _read_bounded(locator: str, max_bytes: int, timeout_seconds: float) -> bytes:
     parsed = urlparse(locator)
     if parsed.scheme in {"http", "https"}:
         validate_public_url(locator)
@@ -281,7 +211,7 @@ def _read_bounded(locator: str, max_bytes: int) -> bytes:
             headers={"User-Agent": "Indiana-Jones-Archaeology-Research/1.0"},
         )
         opener = urllib.request.build_opener(ValidatingRedirectHandler())
-        with opener.open(request, timeout=30) as response:
+        with opener.open(request, timeout=timeout_seconds) as response:
             final_url = response.geturl()
             validate_public_url(final_url)
             declared = response.headers.get("Content-Length")
@@ -296,6 +226,37 @@ def _read_bounded(locator: str, max_bytes: int) -> bytes:
     if len(payload) > max_bytes:
         raise ValueError("source exceeds max_bytes")
     return payload
+
+
+def _restart_checkpoint(
+    *,
+    source_id: str,
+    format_name: str,
+    adapter_version: str,
+    query: dict[str, Any],
+    raw_sha256: str,
+    pagination: dict[str, Any],
+) -> dict[str, Any]:
+    """Bind the cursor to its exact request so it cannot resume another query."""
+
+    cursor = pagination.get("resumptionToken")
+    if cursor is None:
+        cursor = pagination.get("cursor")
+    basis = {
+        "sourceId": source_id,
+        "adapter": format_name,
+        "adapterVersion": adapter_version,
+        "query": query,
+        "rawArtifactSha256": raw_sha256,
+        "pagination": pagination,
+    }
+    return {
+        "checkpointId": value_sha256(basis),
+        "querySha256": value_sha256(query),
+        "rawArtifactSha256": raw_sha256,
+        "sourceExhausted": pagination.get("sourceExhausted") is True,
+        "resumeCursor": cursor,
+    }
 
 
 def _terms(record: dict[str, Any]) -> str:
@@ -318,6 +279,7 @@ def normalize_record(
     index: int,
     sensitivity: str,
     origin_family_id: str | None = None,
+    spatial_restriction: str | None = None,
 ) -> dict[str, Any]:
     title = _first(record, TITLE_KEYS) or f"catalogue record {index}"
     object_class = _first(record, OBJECT_KEYS) or "unclassified object or record"
@@ -328,21 +290,19 @@ def normalize_record(
     findspot = _first(record, FINDSPOT_KEYS)
     context = _first(record, CONTEXT_KEYS)
     terms = _terms(record)
-    evidence_classes: list[str] = []
-    risk_classes: list[str] = []
-    if any(term in terms for term in PRODUCTION_TERMS):
-        evidence_classes.append("material-production")
-    if any(term in terms for term in PRECIOUS_TERMS):
-        evidence_classes.append("precious-material-object")
-        risk_classes.append("portable-high-value")
-    if any(term in terms for term in WEAPON_TERMS):
-        evidence_classes.append("weapon-or-fitting")
-        risk_classes.append("weapon")
-    if "hoard" in terms:
-        evidence_classes.append("assemblage-or-hoard")
-        risk_classes.extend(["hoard", "portable-high-value"])
-    if any(term in terms for term in {"grave", "burial", "tomb", "funerary"}):
-        risk_classes.append("burial")
+    material_assessment = classify_reported_material(material, title)
+    evidence_classes, risk_classes = evidence_and_risk_classes(
+        terms,
+        material_assessment,
+    )
+    findspot_sensitivity, effective_spatial_restriction = spatial_policy(
+        record,
+        sensitivity,
+        spatial_restriction,
+        risk_classes,
+        FINDSPOT_KEYS,
+        _string,
+    )
     raw_hash = value_sha256(record)
     normalized = {
         "recordId": f"{source_id}:{accession or raw_hash[:20]}",
@@ -352,13 +312,27 @@ def normalize_record(
         "title": title,
         "objectClass": object_class,
         "material": material,
+        "materialAssessment": material_assessment,
+        "sourceMetadata": (
+            record.get("metadata")
+            if isinstance(record.get("metadata"), (dict, list))
+            else None
+        ),
+        "sourceAttributes": (
+            {
+                str(key): value
+                for key, value in record.items()
+                if str(key).startswith("@") or ".@" in str(key)
+            }
+            or None
+        ),
         "chronology": {"label": chronology, "certainty": "reported"} if chronology else None,
         "archaeologicalContext": context,
         "findspot": (
             {
                 "description": findspot,
                 "precision": "source-reported-unknown",
-                "sensitivity": "restricted" if sensitivity == "public" else sensitivity,
+                "sensitivity": findspot_sensitivity,
             }
             if findspot
             else None
@@ -371,6 +345,7 @@ def normalize_record(
         "rawRecordSha256": raw_hash,
         "normalizationVersion": NORMALIZATION_VERSION,
         "sensitivity": sensitivity,
+        "spatialRestriction": effective_spatial_restriction,
     }
     return {key: value for key, value in normalized.items() if value is not None}
 
@@ -384,23 +359,47 @@ def acquire_and_normalize(
     max_bytes: int = 10_000_000,
     max_records: int = 5_000,
     query: dict[str, Any] | None = None,
+    timeout_seconds: float = 30.0,
 ) -> dict[str, Any]:
     if max_bytes < 1 or max_bytes > 100_000_000:
         raise ValueError("max_bytes must be between 1 and 100000000")
     if max_records < 1 or max_records > 100_000:
         raise ValueError("max_records must be between 1 and 100000")
+    if (
+        isinstance(timeout_seconds, bool)
+        or not isinstance(timeout_seconds, (int, float))
+        or timeout_seconds <= 0
+        or timeout_seconds > 300
+    ):
+        raise ValueError("timeout_seconds must be greater than 0 and at most 300")
     source_id = source.get("sourceId")
     if not isinstance(source_id, str) or not source_id:
         raise ValueError("source.sourceId is required")
-    if source.get("accessBasis") != "public":
-        raise ValueError("automated ingestion is limited to explicitly public sources")
+    remote = urlparse(locator).scheme in {"http", "https"}
+    access_basis = source.get("accessBasis")
+    if remote and access_basis != "public":
+        raise ValueError("remote automated ingestion is limited to explicitly public sources")
+    if not remote and access_basis not in {"public", "user-provided", "licensed"}:
+        raise ValueError(
+            "local ingestion requires public, user-provided, or licensed accessBasis"
+        )
+    descriptor = adapter_descriptor(format_name)
+    acquisition = source.get("acquisition")
+    if isinstance(acquisition, dict) and acquisition.get("adapterVersion") not in {
+        None,
+        descriptor["version"],
+    }:
+        raise ValueError("declared adapterVersion does not match the adapter registry")
+    access_problem = automation_access_problem(source, locator)
+    if access_problem:
+        raise ValueError(access_problem)
     query_artifact = {} if query is None else query
     validate_query_artifact(query_artifact)
-    payload = _read_bounded(locator, max_bytes)
     raw_path = out.with_suffix(out.suffix + ".raw")
     raw_path.parent.mkdir(parents=True, exist_ok=True)
-    with raw_path.open("xb") as stream:
-        stream.write(payload)
+    if out.exists() or raw_path.exists():
+        raise FileExistsError("output and raw attachment paths must not already exist")
+    payload = _read_bounded(locator, max_bytes, float(timeout_seconds))
     records = parse_records(payload, format_name)
     truncated = len(records) > max_records
     records = records[:max_records]
@@ -416,23 +415,40 @@ def acquire_and_normalize(
             index=index,
             sensitivity=sensitivity,
             origin_family_id=source.get("originFamilyId"),
+            spatial_restriction=source.get("spatialRestriction"),
         )
         for index, record in enumerate(records, 1)
     ]
+    raw_sha256 = hashlib.sha256(payload).hexdigest()
+    checkpoint = _restart_checkpoint(
+        source_id=source_id,
+        format_name=format_name,
+        adapter_version=descriptor["version"],
+        query=query_artifact,
+        raw_sha256=raw_sha256,
+        pagination=pagination,
+    )
     artifact = {
         "schemaVersion": "archaeological-find-records-1.0",
         "queryArtifact": {
             "sourceId": source_id,
             "adapter": format_name,
+            "adapterVersion": descriptor["version"],
             "locator": locator,
             "query": query_artifact,
             "pagination": pagination,
+            "checkpoint": checkpoint,
             "retrievedAt": time.time(),
             "accessBasis": source.get("accessBasis"),
             "license": source.get("license"),
-            "providerTerms": source.get("providerTerms", "verify source terms"),
-            "rawArtifactPath": raw_path.name,
-            "rawArtifactSha256": file_sha256(raw_path),
+            "providerTerms": source.get("providerTerms", "local-declared-snapshot"),
+            "rawArtifactSha256": raw_sha256,
+            "rawArtifactRef": {
+                "sha256": raw_sha256,
+                "bytes": len(payload),
+                "relation": "result-attachment",
+                "sourceName": raw_path.name,
+            },
             "rawBytes": len(payload),
             "resultCount": len(normalized),
             "truncated": truncated,
@@ -441,8 +457,22 @@ def acquire_and_normalize(
         },
         "records": normalized,
     }
-    with out.open("x", encoding="utf-8") as stream:
-        stream.write(json.dumps(artifact, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+    encoded = json.dumps(artifact, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+    raw_created = False
+    out_created = False
+    try:
+        with raw_path.open("xb") as stream:
+            raw_created = True
+            stream.write(payload)
+        with out.open("x", encoding="utf-8") as stream:
+            out_created = True
+            stream.write(encoded)
+    except Exception:
+        if out_created:
+            out.unlink(missing_ok=True)
+        if raw_created:
+            raw_path.unlink(missing_ok=True)
+        raise
     return artifact
 
 
@@ -479,15 +509,31 @@ def _conservative_canonical(
         }
         if len(encoded) == 1:
             canonical[field] = records[0][field]
+    if "title" in conflicts:
+        canonical["title"] = (
+            f"Unresolved title ({len(conflicts['title'])} reported variants)"
+        )
     return canonical, "unresolved-conflicts" if conflicts else "consensus"
 
 
 def reconcile_artifacts(artifacts: list[dict[str, Any]]) -> dict[str, Any]:
+    if len(artifacts) > 512:
+        raise ValueError("reconciliation exceeds maximum artifact count")
     clusters: dict[tuple[str, ...], list[dict[str, Any]]] = {}
+    total_records = 0
+    total_values = 0
     for artifact in artifacts:
+        if not isinstance(artifact, dict):
+            raise ValueError("find artifacts must be objects")
+        total_values += _shape_limits(artifact)
+        if total_values > 2_000_000:
+            raise ValueError("reconciliation exceeds maximum cumulative value count")
         records = artifact.get("records")
         if not isinstance(records, list):
             raise ValueError("find artifact records must be an array")
+        total_records += len(records)
+        if total_records > 100_000:
+            raise ValueError("reconciliation exceeds maximum record count")
         for record in records:
             if not isinstance(record, dict):
                 raise ValueError("find artifact records must contain objects")
@@ -587,6 +633,10 @@ def discover_source_candidates(
             continue
         acquisition = source.get("acquisition")
         adapter = acquisition.get("format") if isinstance(acquisition, dict) else None
+        locator = acquisition.get("locator") if isinstance(acquisition, dict) else None
+        access_problem = (
+            automation_access_problem(source, locator) if isinstance(locator, str) else None
+        )
         candidates.append(
             {
                 "sourceId": source.get("sourceId"),
@@ -596,75 +646,28 @@ def discover_source_candidates(
                 "license": source.get("license"),
                 "sensitivity": source.get("sensitivity"),
                 "adapter": adapter,
+                "adapterDescriptor": (
+                    adapter_descriptor(adapter) if adapter in SUPPORTED_FORMATS else None
+                ),
                 "executable": (
                     source.get("accessBasis") == "public"
                     and adapter in SUPPORTED_FORMATS
-                    and isinstance(acquisition.get("locator"), str)
+                    and isinstance(locator, str)
+                    and access_problem is None
                     if isinstance(acquisition, dict)
                     else False
                 ),
-                "authorizationRequired": source.get("accessBasis") != "public",
+                "authorizationRequired": (
+                    source.get("accessBasis") != "public" or access_problem is not None
+                ),
             }
         )
     return {
         "schemaVersion": "archaeological-source-discovery-1.0",
         "candidateCount": len(candidates),
         "implicitAuthorization": False,
+        "adapterRegistry": {
+            name: adapter_descriptor(name) for name in sorted(ADAPTER_REGISTRY)
+        },
         "candidates": candidates,
-    }
-
-
-def acquisition_binding_errors(plan: dict[str, Any]) -> list[str]:
-    source_map = {
-        source.get("sourceId"): source
-        for source in plan.get("sources", [])
-        if isinstance(source, dict) and isinstance(source.get("sourceId"), str)
-    }
-    errors: list[str] = []
-    for action in plan.get("actions", []):
-        if not isinstance(action, dict) or action.get("status") != "planned":
-            continue
-        spec = action.get("execution", {})
-        inputs = spec.get("inputs", {}) if isinstance(spec, dict) else {}
-        if spec.get("executor") != "ingest-source" or not isinstance(inputs, dict):
-            continue
-        source = source_map.get(inputs.get("sourceId"), {})
-        acquisition = source.get("acquisition")
-        if not isinstance(acquisition, dict):
-            errors.append(f"action {action.get('actionId')} source lacks acquisition")
-        elif any(acquisition.get(key) != inputs.get(key) for key in ("locator", "format")):
-            errors.append(f"action {action.get('actionId')} acquisition does not match source")
-    return errors
-
-
-def assessment_summary(reconciliation: dict[str, Any]) -> dict[str, Any]:
-    entities = reconciliation.get("entities", [])
-    source_ids = {
-        source_id
-        for entity in entities
-        if isinstance(entity, dict)
-        for source_id in entity.get("sourceIds", [])
-    }
-    assessed = [
-        entity
-        for entity in entities
-        if isinstance(entity, dict)
-        and entity.get("canonicalRecord", {}).get("recordReliability") != "unassessed"
-    ]
-    return {
-        "assessmentVersion": "non-probabilistic-v1",
-        "answerability": "supported" if entities else "no-records-in-searched-sources",
-        "sourceCoverage": {
-            "distinctSources": len(source_ids),
-            "note": "Coverage is limited to ingested sources and is not a completeness claim.",
-        },
-        "recordReliability": {
-            "assessedEntities": len(assessed),
-            "unassessedEntities": len(entities) - len(assessed),
-        },
-        "associationStrength": "requires claim-specific scholarly assessment",
-        "probability": None,
-        "probabilityReason": (
-            "No calibrated representative detection model or base rate was supplied."
-        ),
     }

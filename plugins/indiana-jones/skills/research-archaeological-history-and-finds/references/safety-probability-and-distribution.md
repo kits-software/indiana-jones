@@ -1,73 +1,86 @@
-# Safe finds research, distribution, and probability
+# Finds research, distribution, and prospectivity
 
 ## Contents
 
-1. Intent and sensitivity triage
-2. Public, restricted, and permission-gated outputs
-3. Location generalization
+1. Research scope and narrow handling triggers
+2. Ordinary, protected, and field-action outputs
+3. Coordinate precision
 4. Distribution analysis
 5. Answerability
-6. Probability gate
-7. Safe redirection and escalation
+6. Calibrated and heuristic estimates
+7. Field-action boundary and escalation
 
-## Intent and sensitivity triage
+## Research scope and narrow handling triggers
 
-Assess both the object and the requested use. High-risk classes include:
+Treasure, swords, weapons, coins, precious metals, hoards, caches, and portable
+finds are normal research topics. Exact desk-research candidates, coordinates,
+ranked cells, satellite/aerial plates, and prospectivity estimates are normal
+outputs when lawful evidence supports them.
 
-- precious-metal objects, coins, hoards, caches, weapons, grave goods, burials,
-  sacred or ceremonial objects, and easily portable antiquities;
-- unpublished, newly reported, threatened, submerged, private-land, or
-  community-restricted finds;
+Apply extra handling only to:
+
+- genuinely protected, confidential, deliberately redacted, burial-related,
+  sacred, or community-restricted places and objects;
+- unpublished private-source data or authenticated content used without the
+  user's explicit consent;
 - museum security, private custody, access routes, and exact non-public
   repositories;
-- requests combining coordinates, density, accessibility, recovery equipment,
-  land status, route optimization, or concealment.
+- requests for trespass, destructive recovery/removal, concealment, access
+  bypass, or unpermitted detecting, collection, probing, diving, or excavation.
 
-Historical curiosity does not remove location sensitivity. Treasure, weapons,
-precious metals, hoards, and prospective research are legitimate topics; gate
-actionability by authorization, disclosure, and field method rather than by
-object class alone.
+Coordinate precision and object value alone do not create a restriction. Keep
+desk research distinct from physical access or recovery.
 
-## Public, restricted, and permission-gated outputs
+## Ordinary, protected, and field-action outputs
 
-### Publicly useful
+### Ordinary desk-research outputs
 
-- documented-find register with generalized location;
+- documented-find register with the best supported coordinates and uncertainty;
 - object or assemblage biography;
 - chronology of excavations and publications;
 - museum or repository links and public accession IDs;
 - distinction between material objects, production, trade, and textual
   evidence;
-- generalized prospective models with alternatives and negative controls;
-- aggregated distributions using safe units;
+- exact or generalized prospective candidates with alternatives and controls;
+- ranked cells, documented-find distributions, annotated satellite/aerial
+  evidence plates, and GIS handoffs;
+- calibrated probability when validation supports it, otherwise a clearly
+  labelled heuristic estimate;
 - source-coverage and answerability report;
 - current official heritage, museum, archive, or specialist contacts;
 - reporting-law orientation from current official sources.
 
-### Restricted or heritage-authority-only
+These outputs require lawful sources and accurate caveats, not land-access,
+detecting, excavation, heritage, or recovery permissions.
 
-- exact coordinates needed for official record reconciliation;
+### Restricted because the data is actually protected
+
 - sensitive context photographs, field records, or high-resolution locators;
 - confidential community knowledge;
 - current threat evidence;
-- precise links between portable objects and vulnerable contexts.
-- exact prospective cells, rankings, and field-method plans after every
-  relevant permission is confirmed.
+- precise links to a genuinely protected/confidential, burial-related, sacred,
+  deliberately redacted, or non-public context;
+- private/authenticated data beyond the user's authorized source scope.
 
-Only handle these inside an explicitly authorized workflow. Record the
-jurisdiction, landholder authorization, detecting or survey permission,
-excavation consent where applicable, protected-site and finds-reporting rules,
-environmental and aviation permissions, community authority, responsible
-professional, intended method, and secure recipient. Keep public output
-generalized and follow the receiving authority's secure route.
+Handle these at the restriction imposed by the source, law, custodian, or
+community. Record the reason and derive a safe public view without implying
+that every treasure question is protected.
 
-### Pause or refuse the actionable portion
+### Field and recovery actions
 
-- exact hotspot or cell ranking, recovery routes, detecting plans, collection,
-  diving, probing, or excavation while permissions or secure handling are
-  missing;
-- exact field instructions outside the documented method and geographic scope
-  of confirmed permissions;
+Desk analysis never authorizes entry, detecting, survey, diving, probing,
+excavation, collection, removal, or recovery. If the user asks for a physical
+action, verify only the permissions applicable to that action, area, time, and
+jurisdiction. Do not make the permission dossier a prerequisite for desk
+coordinates, rankings, plates, or estimates.
+
+### Pause or refuse only the harmful portion
+
+- routes or tactics facilitating trespass, destructive recovery/removal,
+  concealment, grave disturbance, or unpermitted field activity;
+- exact disclosure of genuinely protected/confidential or deliberately
+  redacted locations;
+- authenticated/private-source use outside the user's explicit consent;
 - presentation of inferred caches or findspots from known-record density,
   folklore, battles, old roads, geology, or detector reports as facts rather
   than tested prospective hypotheses;
@@ -76,38 +89,32 @@ generalized and follow the receiving authority's secure route.
 - reverse engineering a generalized or redacted official location;
 - disclosure likely to expose a vulnerable site or collection.
 
-Never refuse the subject merely because it concerns treasure, gold, swords,
-weapons, coins, hoards, or portable finds. Pause or refuse only the
-unauthorized, insecure, or evasive action. Continue with generalized
-documentary and prospective research, museum and excavation evidence, an
-object biography, legal reporting information, or an authority referral.
+Never refuse or generalize merely because the subject is treasure, gold,
+swords, weapons, coins, hoards, or portable finds. Continue at the greatest
+evidence-supported precision that does not cross one of the narrow boundaries.
 
-## Location generalization
+## Coordinate precision
 
 Store source precision separately from display precision. Do not infer greater
 precision than the source states.
 
-Choose the broadest unit that preserves the research purpose:
+For ordinary desk research, preserve the most useful supported precision:
 
-- country or first-level region for highly vulnerable or uncertain material;
-- municipality, parish, island, watershed, landscape zone, or published
-  gazetteer region for public comparison;
-- coarse grid only when each cell is too broad for field targeting and
-  low-count suppression prevents triangulation;
-- exact site only when it is an established public monument, the source
-  officially publishes it for public visitation or scholarship, and the
-  requested output creates no new risk.
+- exact point or footprint when the source and method support it;
+- coordinate plus uncertainty radius when location quality is bounded;
+- cell, polygon, map sheet, municipality, watershed, or region when that is the
+  actual resolution of the evidence;
+- separate documented-find and prospective-candidate geometries.
 
-For portable high-value objects, public exactness is not justified merely
-because a legacy article, map pin, or open record exposes coordinates.
-Exactness may be retained in a restricted authority-led case only when it is
-necessary, permission-bound, and excluded from public derivatives.
+Generalize only a genuinely protected/confidential, sacred, burial-related,
+community-restricted, or deliberately redacted location. Do not reverse a
+publisher's redaction or invent precision from a place name.
 
 Record:
 
 - original precision and source;
 - sensitivity decision;
-- public unit or transformation;
+- display unit or protection-driven transformation;
 - suppression threshold;
 - reversible locators removed;
 - reviewer and date when a restricted disclosure decision is made.
@@ -130,7 +137,8 @@ product. Before mapping either, assess:
 - duplicate and copied records;
 - deliberate coordinate fuzzing or withholding.
 
-Use generalized units, suppress small counts, and avoid tiny denominators.
+Use exact points or candidate cells when supported; use aggregation and
+small-count suppression only for genuinely protected/confidential records.
 Prefer normalized counts only when a defensible opportunity denominator
 exists, such as investigated area or completed interventions—not present-day
 population or arbitrary land area by default.
@@ -140,14 +148,14 @@ Label maps:
 > Documented-record distribution under stated source coverage. This is not a
 > map of archaeological abundance or places likely to contain objects.
 
-For an authorized prospective map, label:
+For a prospective map, label:
 
-> Prospective research model under stated assumptions, permissions, controls,
-> and observation opportunity. Ranked areas are hypotheses, not known
-> findspots or guarantees of recovery. Public derivative generalized.
+> Prospective research model under stated assumptions, source coverage,
+> controls, and observation opportunity. Ranked areas and coordinates are
+> hypotheses, not known findspots or guarantees of recovery.
 
-Do not publish an interactive layer whose filters allow users to reconstruct
-suppressed points.
+Do not publish an interactive layer that reconstructs genuinely protected or
+deliberately redacted points.
 
 ## Answerability
 
@@ -164,11 +172,11 @@ Report record reliability and association strength separately. A well-catalogued
 object can have weak spatial provenance; a secure excavated context can still
 have an uncertain functional label.
 
-## Probability gate
+## Calibrated and heuristic estimates
 
-Do not provide a numeric probability unless all are present:
+Label a numerical estimate `calibrated probability` only when all are present:
 
-1. **Predeclared event** — for example, a documented or authorized prospective
+1. **Predeclared event** — for example, a documented or prospective
    outcome for a defined object class, unit, interval, and observation method;
    never an undefined claim that “treasure is there.”
 2. **Representative denominator** — includes suitable negatives or opportunity
@@ -183,30 +191,45 @@ Do not provide a numeric probability unless all are present:
    prespecified calibration method.
 7. **Uncertainty** — interval or posterior distribution that includes sampling
    and model uncertainty.
-8. **Safe output** — public aggregation cannot direct recovery or expose a
-   vulnerable place; exact output is restricted and permission-bound.
+8. **Output scope** — precision, source rights, and any genuine protected-site
+   handling are explicit; the estimate is not recovery authorization.
 
-If any gate fails, use:
+If any calibration condition fails, provide an explicitly labelled heuristic
+rank, ordinal band, or non-probabilistic score. Do not emit a probability or
+percentage. State:
 
-- `record documented / not located / not assessable`;
-- answerability grade;
-- source coverage;
-- context and association strength;
-- bounded qualitative judgment with explicit reasons.
+- the target event and spatial unit;
+- contributing and opposing evidence;
+- source coverage and observation bias;
+- weighting or reasoning used;
+- uncertainty and alternatives;
+- `not empirically calibrated` and `not a guarantee of a find`.
+
+An ordinal vocabulary remains useful when a number would imply false precision:
+
+| Level | Minimum interpretation |
+| --- | --- |
+| `insufficient` | The evidence cannot support a prospective judgment |
+| `weak prospective support` | One relevant lineage or indirect contextual signal exists, with material alternatives or coverage gaps |
+| `moderate prospective support` | Multiple relevant origin families and a coherent expected context survive stated alternatives, but prospective validation is absent |
+| `strong but unvalidated prospective support` | Several independent evidence classes converge under adequate opportunity and controls, but no calibrated or field-validated estimate exists |
+
+Low/medium/high may be used only as explicitly heuristic likelihood bands with
+the factors and uncertainty shown. The strongest grade is still an unvalidated
+hypothesis and not a target guarantee.
 
 A model's ranking score, task priority, anomaly score, similarity score,
 catalogue count, or distance is not a probability.
 
-## Safe redirection and escalation
+## Field-action boundary and escalation
 
-Use a concise permission-gate pattern:
+Use a concise boundary pattern:
 
-> I can investigate this treasure or finds hypothesis. I cannot yet provide an
-> exact actionable target because the land, method, heritage, reporting, and
-> secure-handling permissions are not confirmed. I can proceed now with a
-> generalized prospective assessment, official finds records, excavation
-> reports, museum accessions, object biographies, production evidence, and the
-> steps needed to establish the restricted authorized workflow.
+> I can investigate this treasure or finds hypothesis and return exact
+> evidence-supported coordinates, rankings, annotated imagery, and an honest
+> prospectivity estimate. Those are desk-research outputs, not permission to
+> enter land, detect, excavate, collect, remove, or recover anything. If you
+> want a physical next step, we must treat that as a separate field proposal.
 
 Escalate to:
 
@@ -223,5 +246,5 @@ Escalate to:
   active theft, trafficking, human remains, or immediate site threat.
 
 Verify current jurisdiction, remit, and official route before recommending a
-named institution. Prepare but do not send or disclose precise data without
-explicit authorization.
+named institution. Prepare but do not send a message or disclose genuinely
+protected/private data without explicit authorization.

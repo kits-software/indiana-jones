@@ -123,6 +123,8 @@ decision a stable ID. Record:
 - source authority, origin family, role, date, locator, and use basis;
 - the proposed depiction for each visible element;
 - status, rationale, source IDs, alternatives, and visual impact;
+- the uncertainty treatment for each high-impact disputed or weakly
+  constrained feature;
 - negative constraints and known model failure modes;
 - the exact prompt, inspection checks, uncertainty policy, and caption.
 
@@ -186,6 +188,10 @@ For unresolved high-impact choices, prefer one of:
 - `single-main-with-disclosure`: choose the best-supported option and explain
   the alternatives beside the image;
 - `defer-depiction`: crop, obscure, simplify, or omit the unknowable element.
+
+Record this treatment on each affected visual decision. When different
+features need different treatments, set the overall review policy to
+`decision-specific`.
 
 Do not encode uncertainty only as fog, transparency, or sketchiness inside an
 otherwise photorealistic image; viewers may read that as style rather than

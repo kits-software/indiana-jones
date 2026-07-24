@@ -1,4 +1,4 @@
 interface:
-  display_name: "History, Life & Finds"
-  short_description: "Reconstruct how people lived in a place"
-  default_prompt: "Use $research-archaeological-history-and-finds to reconstruct how people lived, built, worked, travelled, and what material traces they may have left here."
+  display_name: "History, Finds & Treasure"
+  short_description: "Trace history and rank find candidates"
+  default_prompt: "Use $research-archaeological-history-and-finds to trace this place through time and research exact evidence-supported sword, gold, coin, hoard, treasure, and other find candidates, including coordinates, rankings, imagery, custody, and honest estimates."

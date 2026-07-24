@@ -29,7 +29,7 @@ multiple outer banks and ditches. The
 publishes the study-area centre as NGR NY 6949 4868.
 
 The benchmark uses a public, already-known scheduled monument. It does not
-expose a possible new or restricted site.
+contain an explicitly protected, confidential, or private location.
 
 ## Input
 

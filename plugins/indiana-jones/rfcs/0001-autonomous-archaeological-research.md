@@ -1,698 +1,597 @@
 # RFC 0001: Autonomous Archaeological Research
 
-- Status: Proposed
-- Target schema: `2.0`
-- Scope: `plugins/indiana-jones`
-- Decision owners: Indiana Jones plugin maintainers
+- Status: Implemented
+- Date: 2026-07-24
+- Scope: Indiana Jones Codex plugin
+- Decision: ship a bounded, evidence-sealed autonomous desk-research system
 
 ## Summary
 
-The plugin will become a resumable, evidence-bound archaeological research system rather than a planner that relies on an agent to edit JSON correctly. It will execute lawful research, preserve source and reasoning lineage, track historical and object biographies, produce finds-specific reports, and stop safely when evidence or authorization is insufficient.
+Indiana Jones is an autonomous archaeological desk researcher for questions
+about landscapes, historical change, known finds, objects, swords, gold,
+hoards, treasure-related evidence, and prospective archaeological candidates.
+It may plan and execute bounded research, ingest lawful sources, reconcile
+records, rank competing hypotheses, resume after interruption, render
+evidence-backed reports, and state what remains unknown.
 
-The system will support questions such as:
+Treasure research is an allowed first-class use. Public, licensed, or
+user-provided evidence may support exact candidate coordinates, ranked cells,
+annotated aerial or satellite plates, documented find locations, and honest
+prospectivity assessments. This does not require a field-permission dossier.
 
-- What happened in this landscape through time?
-- Which swords are documented within a safely generalized area?
-- Is there evidence for gold objects, gold working, trade, or production?
-- Which source or expert could resolve the remaining uncertainty?
+The boundary is conduct and sensitivity, not the word “treasure”:
 
-Treasure-oriented research is in scope. Public work stays generalized; exact targeting runs only in a restricted or heritage-authority-only case after the system verifies the applicable jurisdiction, land-access, detecting, excavation, heritage, and disclosure permissions. “Always try” means exhaust lawful, evidence-producing paths; it never means silently converting research into unpermitted recovery instructions.
+- explicitly public and unrestricted spatial evidence may remain exact;
+- private, authority-controlled, vulnerable, sacred, burial, deliberately
+  withheld, or otherwise protected spatial evidence is not disclosed publicly;
+- authenticated or private sources require the applicable access authority;
+- non-invasive field activity requires an official, scope-bound permission
+  instrument;
+- trespass, detecting, excavation, collection, removal, and recovery are not
+  autonomous capabilities and are never authorized by a desk report.
 
-## Motivation
-
-The current planning skill has a strong research model: resolved places, time-sliced hypotheses, independent source families, controls, authorization gates, an adaptive grid, a deterministic frontier, and public redaction. Its executable surface, however, only creates, validates, ranks, and exports plans.
-
-The review found the following gaps:
-
-1. There is no executor, result-ingestion path, checkpoint, retry, or resume loop.
-2. An action can be marked `completed` without a result or evidence, allowing dependent work to be unlocked by editing JSON.
-3. Research readiness and candidate freezing are advisory rather than hard execution gates.
-4. Actions describe work but cannot invoke a bounded, provider-neutral implementation.
-5. Budgets and stopping rules are labels rather than enforced controls.
-6. Unknown or misspelled sensitivity values can fail open during public export.
-7. Malformed input can escape as an implementation traceback rather than a stable diagnostic.
-8. Safety checks do not reliably distinguish generalized treasure research, permitted exact targeting, and unpermitted recovery intent.
-9. Objects, finds, assemblages, repositories, analyses, and custody histories are not first-class records.
-10. Catalogue and archive source routing is advisory rather than executable.
-11. The model cannot distinguish robust evidence for material production from the presence of a finished object.
-12. There is no finds-specific report or object-biography report.
-13. Scheduling scores risk being mistaken for archaeological probability.
+The user-facing voice is a seasoned archaeology professor with a restrained
+adventure sensibility: vivid, direct, curious, and rigorous. Persona must
+never turn inference into observation or confidence into fact.
 
 ## Goals
 
-- Execute public and explicitly authorized research actions from a validated plan.
-- Make every state transition attributable, append-only, idempotent, and recoverable after interruption.
-- Require evidence-bound result seals before an action can unlock dependants.
-- Treat readiness, authorization, candidate freezing, budgets, and stops as runtime invariants.
-- Add a provider-neutral adapter contract for catalogues, repositories, archives, and scholarly metadata.
-- Represent objects, find events, assemblages, repositories, custody, analyses, and source-qualified relationships.
-- Reconstruct historical sequences without converting documentary inference into archaeological stratigraphy.
-- Reason explicitly about material production, circulation, deposition, recovery, and curation.
-- Support generalized public treasure research and permission-gated exact research without leaking restricted targeting data.
-- Produce safe history, finds, object-biography, material-evidence, source-gap, and referral reports.
-- Default to qualitative evidence grades; allow numeric probability only after an explicit calibration gate.
-- Fail closed on unknown disclosure or sensitivity values.
-- Return stable, actionable diagnostics for all untrusted input.
-- Preserve version 1 plans without silently changing their meaning.
+The implementation:
+
+1. turns an imprecise place or story into a resolved area, time slices,
+   competing hypotheses, controls, sources, and executable tasks;
+2. treats known finds, prospective candidates, object identity, custody,
+   production, and historical narrative as different evidence problems;
+3. supports bounded autonomous progress with durable replay, leases, budgets,
+   stop reasons, and resumable work;
+4. seals every result to its plan, action, evidence, source snapshots, and
+   normalized records;
+5. searches for swords, gold, hoards, treasure-related contexts, workshops,
+   routes, settlements, and other evidence without assuming that a desired
+   object is present;
+6. presents exact ordinary public candidates and annotated imagery when
+   evidence and rights permit;
+7. withholds genuinely sensitive spatial data and keeps field/recovery action
+   separate;
+8. produces comprehensive layouts, source-gap guidance, bounded guesses, and
+   verified-at-report-time referrals to useful institutions;
+9. emits probability only after explicit calibration gates; and
+10. remains inspectable through deterministic artifacts and tests.
 
 ## Non-goals
 
-- Autonomous physical fieldwalking, metal detecting, collection, probing, excavation, UAV operation, land access, or contact with people and institutions.
-- Turning a research result into physical recovery instructions unless the user separately requests that stage and every required permission is confirmed.
-- Publishing precise locations merely because another public page exposes them.
-- Using hidden extraction, mass download, bulk capture, stitching, or reconstruction on Google Maps, Google Earth, or Street View; analyzing Street View or copy-prohibited outputs; or building a systematic derived dataset without a licence covering the exact use. Bounded exploratory local analysis of a permitted attributed Earth capture is allowed when its use basis and provenance are recorded.
-- Treating catalogue absence, remote-sensing non-detection, or incomplete coverage as proof of archaeological absence.
-- Generating a probability from an ordinal priority score.
-- Defining a single worldwide institution list or treating one jurisdiction’s catalogue model as universal.
-- Replacing an archaeologist, curator, heritage or community authority, conservator, or materials specialist.
+The plugin does not:
 
-## Normative language
+- claim that imagery alone verifies an archaeological discovery;
+- promise that a sword, gold, hoard, or any other object will be found;
+- convert a ranked candidate or exact coordinate into access permission;
+- provide tactics for trespass, detecting, digging, collection, concealment,
+  removal, or recovery;
+- expose protected or non-public findspots;
+- scrape prohibited interfaces or bypass authentication and licensing;
+- send messages, submit reports, or contact institutions without explicit user
+  authorization;
+- claim a probability from an ordinal score, catalogue count, distance, model
+  confidence, or intuition; or
+- replace the competent heritage authority, community authority, land manager,
+  field archaeologist, conservator, or jurisdiction-specific legal advice.
 
-`MUST`, `MUST NOT`, `SHOULD`, and `MAY` are normative. A “public action” means read-only research against a source whose access basis and licence permit the requested use. An “authorized action” additionally requires a named approval record scoped to that method, provider, account, case, and validity period.
+## User contract
 
-## Design principles
+### Allowed desk research
 
-1. **Evidence before state.** Completion follows a sealed result, never an unverified input assertion.
-2. **Fail closed.** Unknown safety, sensitivity, licence, state, or method values block execution and public export.
-3. **Append, then project.** Events are durable authority; `plan.json` and the frontier are reproducible views.
-4. **Bound every expedition.** Every run has request, time, byte, action, and source budgets plus explicit stops.
-5. **Separate observation and interpretation.** Records, entities, claims, hypotheses, and conclusions retain different types.
-6. **Preserve origin families.** Ten pages repeating one catalogue record are one origin, not ten corroborations.
-7. **Precision follows authority.** Exact work is possible in a correctly authorized restricted case, never by topic alone.
-8. **Priority is not probability.** Scheduler utility, evidence grade, and calibrated probability have separate schemas.
-9. **No silent automation.** Every connector declares its access basis, licence, capabilities, and side-effect class.
+The system may always attempt lawful, read-only research using:
+
+- open or public catalogues, archives, maps, gazetteers, reports, and APIs;
+- licensed imagery and data within their permitted use;
+- user-provided material;
+- consent-gated authenticated sources after access is confirmed;
+- deterministic local analysis of data the user may lawfully process; and
+- manual review of interactive viewers when capture or bulk analysis is not
+  permitted.
+
+Allowed outputs include:
+
+- documented finds and object histories;
+- exact public points, footprints, and areas of interest;
+- ranked prospective candidates and comparison cells;
+- annotated satellite, aerial, map, terrain, or LiDAR-derived plates;
+- negative results and source-coverage denominators;
+- calibrated probabilities or explicitly non-probabilistic heuristic rankings;
+- a minimum useful source package when evidence is insufficient; and
+- a short, verified referral list for the relevant jurisdiction and problem.
+
+### Exact spatial policy
+
+Exactness is decided per evidence item.
+
+An exact ordinary desk-research point is retained unless a specific
+restriction applies. Schema-2 plans write `public` explicitly and reject
+unknown sensitivity values during validation; ad hoc report records are not
+treated as protected merely because an optional sensitivity tag is absent. A
+topic is not restricted because it concerns treasure, weapons, precious
+metal, portable finds, or a high-value candidate.
+
+Public export withholds spatial evidence explicitly marked:
+
+- `restricted`;
+- `non-public`;
+- `private`;
+- `vulnerable`;
+- `sacred`;
+- `burial`;
+- `authority-only`;
+- `heritage-authority-only`;
+- `withhold`; or
+- `withheld`.
+
+Burial language found during normalization escalates the findspot to protected
+handling. Public handoff validation also rejects private-network URLs, signed
+or credential-bearing URLs, unsafe local paths, and protected-location
+classes.
+
+### Field and recovery policy
+
+`public-desk`, `licensed-computation`, and authorized read-only source work do
+not require land, detecting, excavation, or recovery permissions.
+
+`field-non-invasive` requires a confirmed official permission bundle bound to:
+
+- the issuing authority;
+- the legal or administrative instrument;
+- the selected gazetteer area;
+- the actual proposed method;
+- the valid time window;
+- the named holder or team;
+- scope and conditions; and
+- independently checkable approval references.
+
+A user statement such as “the owner said it is fine” is not sufficient
+machine-readable proof.
+
+Physical detecting, digging, lifting, collecting, removing, or recovering
+objects remains outside the autonomous action set. Text scanners reject direct
+and paraphrased recovery instructions even when hidden inside execution
+payloads.
 
 ## Architecture
 
-### Components
-
-The implementation is split into modules below 700 lines where practical:
-
-- `search_plan.py`: stable CLI and exit-code boundary.
-- `ij_errors.py`: typed diagnostics and exception-to-exit-code conversion.
-- `ij_plan.py`: schema validation and version dispatch.
-- `ij_readiness.py`: structural, research, execution, and publication gates.
-- `ij_events.py`: append-only event envelope, hash chain, and replay.
-- `ij_state.py`: legal state transitions and materialized plan projection.
-- `ij_execution.py`: bounded dispatcher, idempotency, checkpoint, and resume.
-- `ij_frontier.py`: deterministic scheduling of ready actions.
-- `ij_policy.py`: budgets, stops, scoring policy, and calibration policy.
-- `ij_safety.py`: intent, object sensitivity, authorization, and output policy.
-- `ij_sources.py`: adapter protocol, discovery, snapshot, and provenance.
-- `adapters/`: provider-specific or standards-based read-only adapters.
-- `ij_objects.py`: object/find/assemblage normalization and reconciliation.
-- `ij_history.py`: time-slice, claim-conflict, and sequence synthesis.
-- `ij_materials.py`: material-production evidence evaluation.
-- `ij_probability.py`: calibration gate and held-out evaluation.
-- `ij_artifacts.py`: canonical hashes and fail-closed exports.
-- `ij_reports.py`: history, finds, biography, material, gap, and referral views.
-
-The planner remains provider-neutral. Adapters implement access; they do not
-own evidence grading, safety, scheduling, or conclusions.
-
-### Durable case layout
+### Workflow
 
 ```text
-case/
-  plan.json                 # Materialized schema-2 plan
-  events.jsonl              # Append-only hash-chained authority
-  snapshots/                # Hash-addressed source response manifests
-  records/                  # Normalized records and extraction manifests
-  results/                  # Sealed action results
-  candidates/               # Frozen candidate sets
-  reports/                  # Restricted reports
-  public/                   # Independently redacted exports
-  checkpoints/              # Rebuildable run cursors
+question or source package
+          |
+          v
+place resolution + research package authoring
+          |
+          v
+schema-2 evidence graph + executable actions
+          |
+          v
+readiness, source-access, explicit-conduct, and budget gates
+          |
+          v
+ranked frontier -> bounded action -> sealed result
+          |                              |
+          +----------- replay -----------+
+                         |
+                         v
+history/finds/object/material/prospectivity reports
+                         |
+                         v
+public exact output or sensitivity-aware withholding
 ```
 
-Source content is stored only when access terms permit it. Otherwise the
-snapshot contains canonical identifiers, retrieval metadata, response hashes,
-and a reproducibility note without retaining prohibited content.
+The durable authority is the schema-2 plan plus the append-only event journal
+and sealed result artifacts. Frontier packets, reports, exports, and prose are
+derived views.
 
-### Event envelope
+### Implemented components
 
-Every mutation MUST append an event before updating a materialized view:
+| Concern | Implemented authority |
+| --- | --- |
+| Plan schema, graph, validation | `skills/plan-archaeological-search/scripts/ij_plan.py` |
+| Declarative research packages | `scripts/ij_authoring.py` |
+| Readiness and execution contracts | `scripts/ij_readiness.py`, `scripts/ij_execution_spec.py` |
+| Action scope and conduct classes | `scripts/ij_safety.py`, `scripts/ij_targeting.py` |
+| Field permission instruments | `scripts/ij_permissions.py` |
+| Typed archaeological entities | `scripts/ij_entities.py` |
+| Frontier ranking and blocking | `scripts/ij_frontier.py` |
+| Runtime, leases, replay | `scripts/ij_runtime.py`, `scripts/ij_journal.py` |
+| Budgets and stop conditions | `scripts/ij_budgets.py` |
+| Result and artifact integrity | `scripts/ij_result_validation.py`, `scripts/ij_runtime_integrity.py`, `scripts/ij_results.py` |
+| Source lineage registry | `scripts/ij_lineage.py`, `scripts/ij_source_contract.py` |
+| Source acquisition and adapters | `scripts/ij_ingest.py`, `scripts/ij_adapters.py`, `scripts/ij_adapter_protocol.py` |
+| XML/OAI parsing | `scripts/ij_xml_records.py`, `scripts/ij_ingest_guard.py` |
+| Finds reconciliation and claims | `scripts/ij_workflow.py`, `scripts/ij_claims.py` |
+| Candidate freeze and public export | `scripts/ij_candidates.py`, `scripts/ij_artifacts.py`, `scripts/ij_disclosure.py` |
+| History and object biography | `scripts/ij_history.py` |
+| Material and production reasoning | `scripts/ij_materials.py`, `scripts/ij_material_classification.py` |
+| Calibration and assessment | `scripts/ij_calibration.py`, `scripts/ij_probability.py`, `scripts/ij_assessment.py` |
+| Deterministic report core | `scripts/ij_reports.py`, `scripts/ij_public_report.py`, `scripts/ij_report_inputs.py`, `scripts/ij_spatial.py` |
+| CLI composition | `scripts/search_plan.py`, `scripts/ij_cli_extended.py` |
+| Professor voice and report layouts | `skills/report-archaeological-evidence/` |
+| Archaeological discovery workflow | `skills/indiana-jones/` |
+| History, finds, swords, and gold workflow | `skills/research-archaeological-history-and-finds/` |
+| Imagery and reconstruction | `skills/indiana-jones/`, `skills/illustrate-historical-reconstruction/` |
 
-```json
-{
-  "eventId": "evt_...",
-  "caseId": "case_...",
-  "sequence": 42,
-  "eventType": "action.result-recorded",
-  "occurredAt": "2026-07-24T12:00:00Z",
-  "actor": {"kind": "agent", "id": "codex"},
-  "commandId": "cmd_...",
-  "idempotencyKey": "sha256:...",
-  "previousEventHash": "sha256:...",
-  "payloadHash": "sha256:...",
-  "payload": {}
-}
-```
+Paths in the table after the first row are relative to
+`skills/plan-archaeological-search/` unless they begin with `skills/`.
 
-Replay MUST reproduce the same plan hash. A duplicated idempotency key with
-the same payload returns the prior result; the same key with a different
-payload is an error. A broken sequence or hash chain blocks mutation.
+## Evidence model
 
-## Schema 2.0
+### Plan
 
-### Existing records
+Schema `2.0` records:
 
-Version 2 retains places, areas, grid cells, sources, graph nodes and edges,
-actions, hypotheses, policies, and disclosure classes. Enumerated values are
-validated at every boundary. Unknown values are errors, never extensions by
-accident.
+- the case question, intended decision, research mode, disclosure, and
+  authorization;
+- a selected gazetteer identity and exact/restricted geometry;
+- adaptive grid cells and landscape context;
+- sources with origin-family identity, workflow role, access basis, record
+  type, licence, target-label state, and sensitivity;
+- typed nodes and source-bound edges;
+- competing archaeological, natural, modern, processing, and null hypotheses;
+- actions, prerequisites, methods, controls, outcomes, scores, execution
+  contracts, acceptance criteria, and stopping policy; and
+- optional frozen candidate evidence.
 
-### Archaeological object
+Observed, reported, derived, inferred, hypothesis, and corroborated authority
+states remain distinct. A public node may not cite a non-public source.
 
-```json
-{
-  "objectId": "obj_...",
-  "preferredLabel": "double-edged sword",
-  "objectClass": ["weapon", "sword"],
-  "materials": [{"material": "iron", "claimId": "claim_..."}],
-  "typology": [{"system": "catalogue-name", "term": "type", "claimId": "claim_..."}],
-  "chronology": {"earliest": 1200, "latest": 1350, "basisClaimIds": ["claim_..."]},
-  "authenticity": "reported",
-  "currentRepositoryId": "repo_...",
-  "accessionIdentifiers": [{"scheme": "local", "value": "123"}],
-  "sensitivity": "restricted",
-  "provenanceSourceIds": ["src_..."]
-}
-```
+### Typed archaeological entities
 
-`authenticity` is one of `unassessed`, `reported`, `contested`, `verified`, or
-`rejected`. Object labels and classifications are assertions with sources, not
-timeless facts.
+The graph supports typed records for:
 
-### Find event
+- excavation contexts;
+- objects;
+- find events;
+- assemblages;
+- collections and repositories;
+- analyses;
+- custody events;
+- production evidence;
+- people and organizations;
+- catalogue and publication records; and
+- source snapshots.
 
-A find event records:
+Object identity is conservative. Reconciliation preserves source-native IDs,
+origin families, conflicting fields, and the stated match basis. Similar
+titles or nearby locations alone do not prove that two records describe the
+same object.
 
-- `findEventId`, object or assemblage IDs, date or interval, and recovery
-  method;
-- archaeological context and context-quality grade;
-- original location assertion, precision, coordinate uncertainty, and
-  sensitivity;
-- discoverer/recovery body only when lawful and necessary;
-- excavation, inventory, publication, and reporting identifiers;
-- claim and source lineage;
-- whether the record describes an observation, report, legacy attribution, or
-  inferred association.
+Gold-related evidence is separated into material presence, surface treatment,
+finished object, production debris, documentary craft activity, trade or
+circulation, and geological occurrence. A gold object does not prove local
+gold working. The same discipline separates a sword, fitting, depiction,
+replica, production trace, and find event.
 
-Public outputs use a separately derived generalized area. They never transform
-a precise restricted location into a public one in place.
+### Source snapshots and result seals
 
-### Assemblage
+A manual `research-result-2.0` must contain:
 
-An assemblage has an ID, membership assertions, formation interpretation,
-context, chronology, recovery history, completeness caveat, source lineage,
-and sensitivity. Membership can be contested or source-specific.
+- the active `actionId`;
+- source-bound observations or explicit negative results;
+- one evidence statement for every acceptance criterion;
+- method and adapter versions;
+- result sensitivity and disclosure;
+- source snapshot references; and
+- normalized record references when used.
 
-### Repository and custody
+An agent may not invent `snapshot:<sourceId>`. It must reference a
+content-addressed snapshot from a sealed prerequisite or include captured
+source text in a local snapshot manifest bound to:
 
-A repository represents a museum, archive, laboratory, heritage body, private
-collection where lawful to record, or an unknown repository. A custody event
-links an object or assemblage to a repository or responsible body over an
-interval and records:
+- the declared action source;
+- its plan origin family and access basis;
+- a lowercase SHA-256 content digest;
+- a timezone-aware retrieval timestamp; and
+- `snapshot:<sourceId>:<contentSha256>`.
 
-- event type: `recovered`, `transferred`, `accessioned`, `loaned`,
-  `deaccessioned`, `lost`, `repatriated`, or `reported`;
-- supporting claim and source IDs;
-- legal/ethical caveats;
-- confidence and contradiction status.
+The validator recomputes the digest from the captured text. Deterministic
+ingestion derives the same hash-qualified identity from retained raw bytes.
+The complete result JSON and deterministic raw attachment are retained and
+sealed, so a manifest cannot substitute an unverifiable digest for evidence
+bytes.
 
-This is collection provenance. It MUST NOT be presented as archaeological
-provenience.
+Completion seals the plan hash, action hash, execution inputs, evidence,
+versions, attempt, command, timing, budgets, snapshots, normalized records,
+authorization, sensitivity, and disclosure. Runtime audit replays the journal
+and verifies retained result bytes against their seals.
 
-### Analysis and production evidence
+## Autonomous execution
 
-An analysis stores method, sample relationship, laboratory or analyst,
-calibration/limitations, result, units, source, and object/context link.
+### Lifecycle
 
-Production evidence uses explicit classes:
-
-1. direct installation: furnace, hearth, crucible setting, moulding area;
-2. production debris: slag, crucible, mould, tuyere, casting waste;
-3. tools or residues linked to a secure production context;
-4. compositional, isotopic, metallographic, or use-wear evidence;
-5. documentary or iconographic production evidence;
-6. finished object or raw material without production context.
-
-The material reasoner MUST NOT infer local gold working from a gold object
-alone. It reports the strongest supported statement—presence, circulation,
-repair, working, or production—and the evidence required to advance it.
-
-### Graph additions
-
-New node kinds:
-
-- `object`, `find-event`, `assemblage`, `repository`, `custody-event`;
-- `analysis`, `production-evidence`, `person-or-organization`;
-- `catalogue-record`, `publication-record`, `source-snapshot`.
-
-New relations:
-
-- `found-at`, `recovered-in`, `member-of`, `made-of`, `typed-as`;
-- `dated-by`, `analysed-by`, `supports-production-of`;
-- `held-by`, `custody-before`, `same-object-as`, `possibly-same-as`;
-- `catalogued-as`, `published-as`, `reported-by`, `derived-from`.
-
-Only real excavated contexts may participate in Harris-style stratigraphic
-relations. Documentary, object-biography, and custody sequence edges remain
-separate.
-
-### Claims and conflicts
-
-Every extracted fact is a claim with:
-
-- subject, predicate, object/value, temporal scope, and spatial scope;
-- source and origin-family IDs;
-- quoted span or machine-readable record locator;
-- extraction method and version;
-- assertion status and evidence grade;
-- contradiction links and adjudication state.
-
-Entity reconciliation MUST preserve every source identifier and expose the
-rule or review decision behind `same-object-as`. It MUST NOT merge solely on a
-similar description and nearby location.
-
-## Action execution
-
-### States
+The implemented lifecycle is:
 
 ```text
-planned -> ready -> running -> completed
-                    |    |       |
-                    |    |       +-> superseded
-                    |    +-> failed -> ready (bounded retry)
-                    +-> blocked -> ready (block resolved)
-planned/ready/blocked/failed -> rejected
-planned/ready/blocked/failed -> cancelled
-v1 completed -> completed-unverified -> completed (sealed evidence)
+planned -> running -> completed
+                    -> failed
+                    -> interrupted -> planned
+planned -> blocked
+run -> explicitly stopped
 ```
 
-The executor derives `ready`; callers cannot set it directly. `running`
-requires a lease, attempt ID, budget reservation, executable adapter, current
-authorization, and a matching plan hash. Expired leases become recoverable
-attempts, not silent failures.
-
-`completed` requires a result seal containing:
-
-- action, attempt, command, plan, input, and output hashes;
-- adapter and method versions;
-- start/end timestamps and consumed budget;
-- source snapshot and normalized record IDs;
-- observations, negative results, warnings, and errors;
-- authorization record when applicable;
-- result sensitivity and disclosure decision.
-
-Dependency checks require a valid seal. A JSON field saying `completed` cannot
-unlock work. `completed-unverified` is archival and never satisfies a
-prerequisite.
-
-### Commands
-
-Existing commands remain:
-
-```text
-new
-validate
-rank
-export-public
-```
-
-Version 2 adds:
-
-```text
-migrate                 Convert a v1 case into a new v2 destination.
-freeze-candidates       Hash and seal a candidate set before ground truth.
-source-discover         List bounded source candidates without ingesting them.
-source-ingest           Snapshot and normalize selected source records.
-extract-claims          Produce reviewable claims from a sealed snapshot.
-reconcile-entities      Propose or approve cross-source entity links.
-record-result           Seal an external or manually reviewed action result.
-advance                 Execute one ready bounded batch.
-run                     Repeat bounded batches until a stop condition.
-resume                  Recover leases and continue an interrupted run.
-audit                   Replay events and verify hashes, gates, and lineage.
-report-history          Build a sourced time-slice and conflict report.
-report-finds            Build a safely generalized known-finds report.
-report-object           Build an object and custody biography.
-report-material         Build a material-production evidence matrix.
-report-gaps             Explain source coverage and the next lawful checks.
-```
-
-Mutating commands require `--case-dir` and either an explicit
-`--idempotency-key` or a deterministic command manifest. They refuse to
-overwrite inputs. `run` requires explicit finite budgets and never contacts,
-posts, purchases, books, downloads prohibited content, or changes an external
-system.
-
-### Readiness gates
-
-`advance`, `run`, `resume`, `record-result`, and every report enforce their
-appropriate gate:
-
-- **Structural:** schema, references, acyclic task graph, safe locators.
-- **Research:** resolved place, safe area description, hypotheses and
-  alternatives, source coverage, controls, and a falsifier.
-- **Execution:** current plan hash, executable action, adapter, access basis,
-  licence, authorization, budgets, and prerequisites.
-- **Candidate:** required freeze seal exists and ground-truth lineage cannot
-  flow into candidate generation.
-- **Publication:** known sensitivity, generalized geometry, source rights,
-  and a redaction audit.
-
-`rank` MUST enforce research readiness by default. `--allow-draft` MAY produce
-an explicitly non-executable planning preview.
-
-### Budgets and stopping
-
-A run policy requires finite non-negative limits:
-
-- actions, attempts, retries per action, wall-clock time, and bytes retained;
-- requests globally and per provider;
-- records, candidates, and report items;
-- provider-specific rate and concurrency caps.
-
-The dispatcher reserves budget atomically before an attempt and records actual
-use afterward. Resume reconstructs remaining budget from events.
-
-Supported stops include:
-
-- all required hypotheses reach their evidence threshold;
-- every allowed adapter is exhausted for the declared query variants;
-- a configured number of consecutive actions yields no novel origin family,
-  claim, object, or contradiction;
-- the next action exceeds budget, authorization, licence, or safety limits;
-- a contradiction or sensitivity escalation requires expert review;
-- no executable frontier remains.
-
-Every stop emits a reason, supporting metrics, unresolved questions, and the
-next lawful action. “No executable frontier” is not “nothing exists.”
-
-## Source adapters
-
-### Adapter contract
-
-Each adapter declares:
-
-- stable ID and semantic version;
-- supported standards, record types, jurisdictions, languages, and query
-  capabilities;
-- access basis, authentication requirement, licence discovery behavior,
-  retention constraints, and side-effect class;
-- rate/concurrency defaults;
-- methods for `discover`, `fetch`, `normalize`, and `checkpoint`;
-- deterministic pagination cursor and canonical record identifier;
-- fields that may contain sensitive location or personal information.
-
-Initial adapters SHOULD cover generic JSON/CSV, OAI-PMH, IIIF manifests,
-RDF/SPARQL, and DOI/OpenAlex/Crossref-style scholarly metadata. Named heritage
-register, museum, excavation repository, or numismatic adapters are added only
-with fixtures, current terms review, and a jurisdiction note.
-
-Discovery returns source candidates, never implicit authorization. Ingestion
-requires an allowlisted candidate and records the exact query, aliases,
-language, bounds, date, pagination, retrieval time, response hash, licence,
-and origin family.
-
-### “Always try” fallback
-
-The executor can expand a documented search ladder within budget:
-
-1. official heritage and finds registers;
-2. excavation repositories and museum catalogues;
-3. scholarly publications, theses, archives, and historical maps;
-4. alternate place names, historical spellings, languages, and OCR variants;
-5. citation following and identifier reconciliation;
-6. a broader, safely generalized area, period, or object class;
-7. a source-gap result naming unavailable, inaccessible, unlicensed, or
-   undiscovered evidence.
-
-Expansion never weakens safety, precision, authorization, or licence gates.
-Guesses are emitted as hypotheses with discriminating tests, not catalogue
-facts.
-
-## Safety and disclosure
-
-### Intent classes
-
-Every case and action is classified before scheduling:
-
-- `documentary-known-records`: lawful research into documented finds;
-- `landscape-research`: non-invasive candidate or historical research;
-- `treasure-research-public`: generalized documentary or prospective research;
-- `treasure-research-restricted`: exact analysis under recorded authority and disclosure control;
-- `authority-casework`: exact heritage information under recorded authority control;
-- `field-proposal`: planning only, never permission to act;
-- `intrusive-or-evasive`: unpermitted trespass, detecting, collection, excavation, burial disturbance, access bypass, or concealment.
-
-Public modes may run within ordinary gates but cannot emit exact targeting data. Restricted treasure research requires `restricted` or `heritage-authority-only` disclosure and a permission bundle that resolves the governing jurisdiction and records `confirmed` or lawfully `not-required`, with source, scope, approving body, and validity period, for land access, detecting, excavation, heritage consent, finds/treasure reporting, and any community or sacred-site authority applicable to the case. Unknown, expired, contradictory, or incomplete permissions block exact targeting.
-
-The plugin may continue a blocked exact request as generalized public research only after making the scope change explicit. Physical activity is never performed autonomously. `intrusive-or-evasive` is rejected.
-
-### High-risk object policy
-
-Weapons, coins, precious-metal objects, hoards, burials, grave goods, sacred objects, human remains, and vulnerable portable finds receive a high-risk review even when the source is public.
-
-Allowed:
-
-- search documented records;
-- discuss history, typology, chronology, collection, and published context;
-- provide counts or patterns at a deliberately generalized scale;
-- under the restricted treasure mode, compare exact candidates and estimate a defined target event when every permission, evidence, and calibration gate passes;
-- refer the user to a museum, archaeologist, community authority, or heritage authority.
-
-Rejected or restricted:
-
-- public exact findspot lists, cell rankings, hotspot maps, access routes, or terrain-navigation details;
-- exact targeting without the complete permission bundle and restricted disclosure;
-- combining individually public records to reveal a sensitive pattern;
-- instructions to detect, collect, probe, or excavate beyond the confirmed permission scope;
-- evasion of reporting, land, heritage, community, burial, or access controls.
-
-Safety classification examines intent, object class, precision, aggregation risk, jurisdiction, permissions, action sequence, and output—not only prohibited verbs or object topics.
-
-### Fail-closed export
-
-Only the exact value `public`, plus a successful publication gate, permits public output. Missing, misspelled, unknown, inherited, or contradictory sensitivity is treated as `restricted`. Public export uses an allowlist and recomputes safe geometry from policy; it never copies and opportunistically rounds a source coordinate.
-
-An export manifest records excluded fields, generalization method, aggregation threshold, reviewer, input hash, and output hash. Public reports receive a second independent lint covering labels, prose, URLs, identifiers, image metadata, and attachments.
-
-## History and finds reporting
-
-Reports preserve source citations, origin families, conflicts, uncertainty,
-negative evidence, and the exact coverage denominator.
-
-`report-history` contains:
-
-- resolved name concordance and area;
-- sourced time slices, events, processes, and competing interpretations;
-- what changed, what persisted, and which intervals lack evidence;
-- documentary sequence clearly separated from stratigraphy.
-
-`report-finds` contains:
-
-- safely generalized study area and search coverage;
-- objects and assemblages grouped by class and period;
-- context-quality and recovery-method distribution;
-- duplicate/reconciliation warnings;
-- repository, accession, and source links when disclosure permits;
-- explicit distinction between no record found and evidence of absence.
-
-`report-object` contains:
-
-- classification and dating claims;
-- find context and provenience quality;
-- conservation or analysis evidence;
-- custody chronology and present repository;
-- authenticity, identity, and ownership disputes.
-
-`report-material` contains an evidence matrix for presence, circulation,
-repair, working, or production and identifies the next discriminating evidence.
-
-`report-gaps` records attempted sources, queries, aliases, languages, dates,
-permissions, failures, and the institutions or specialists best placed to
-continue. Contact information is verified at report time; the executor does
-not message anyone.
-
-## Probability and scoring
-
-Three concepts remain structurally separate:
-
-- `priorityScore`: deterministic scheduler utility for choosing the next
-  action; never rendered with a percent sign.
-- `evidenceGrade`: ordinal assessment with reasons and limitations.
-- `estimatedProbability`: optional calibrated estimate for a precisely defined
-  event.
-
-Numeric probability is blocked unless the case has:
-
-- a declared event and denominator;
-- representative positive and negative observations;
-- documented detection and reporting processes;
-- bias and missingness treatment;
-- geographically separated training, calibration, and held-out evaluation;
-- a frozen model, features, threshold, and candidate set;
-- calibration metrics such as Brier score and reliability bins;
-- uncertainty intervals and a validity-domain statement.
-
-Treasure-target probability may run only in `treasure-research-restricted` after both the permission bundle and calibration gate pass; it remains restricted and cannot authorize physical activity. Public mode reports evidence grades and generalized patterns. When calibration fails, every mode states which data would be required rather than inventing a percentage.
-
-## Input and error handling
-
-All JSON, JSONL, adapter responses, cursors, manifests, URLs, and CLI values are
-untrusted. Parsers enforce size, depth, count, numeric-finiteness, encoding,
-enumeration, and schema limits before business logic.
-
-Expected invalid input MUST produce:
-
-```json
-{
-  "ok": false,
-  "error": {
-    "code": "IJ_SCHEMA_INVALID",
-    "message": "Action status is not recognized.",
-    "path": "$.actions[2].status",
-    "hint": "Use one of: planned, blocked, rejected."
-  }
-}
-```
-
-No expected user, provider, or file error prints a traceback. Exit codes are
-stable: `2` invalid invocation, `3` invalid data, `4` safety/authorization
-block, `5` budget/stop, `6` provider failure, and `7` integrity failure.
-Unexpected defects may retain a traceback only behind an explicit debug flag
-and MUST redact secrets.
-
-Tests include malformed and truncated JSON, wrong container types, deep nesting, huge values, non-finite numbers, invalid UTF-8, broken cursors, unknown enumerations, adapter timeouts, and partially written event logs.
-
-## Migration and backward compatibility
-
-- Version 1 files remain readable by `validate`, `rank --allow-draft`, and
-  `export-public`, using the stricter fail-closed exporter.
-- Mutating or executing a version 1 plan is refused until migration.
-- `migrate --input v1.json --out <new-case-dir>` is non-destructive and writes
-  a migration manifest with before/after hashes and every default or warning.
-- Version 1 `completed` actions become `completed-unverified`; they do not satisfy prerequisites until an operator attaches a result and runs `record-result`.
-- Existing node and edge IDs are retained. New records receive deterministic
-  IDs where identity is unambiguous and review-required IDs otherwise.
-- Unknown legacy sensitivity becomes `restricted`; it is never guessed.
-- Existing priority weights retain their ordinal meaning and are never copied
-  into probability fields.
-- Public export remains schema `1.0-public` during a deprecation window, with a
-  new `2.0-public` export available explicitly. Golden fixtures cover both.
-- Migration is idempotent and refuses to overwrite its source or destination.
-
-## Threat model
-
-| Threat | Consequence | Required control |
-|---|---|---|
-| User edits an action to `completed` | False evidence unlocks work | Event authority and result seals |
-| Ground truth enters candidate generation | Inflated rediscovery performance | Freeze seal and lineage gate |
-| Misspelled sensitivity | Precise location leaks | Closed enum and deny-by-default export |
-| An exact treasure request looks documentary | Unpermitted recovery guidance is produced | Research mode, permission bundle, precision, aggregation, and sequence classifier |
-| Public records are combined | Sensitive hotspot emerges | Aggregation-risk review and generalized output |
-| Repeated source copies | False corroboration | Origin-family deduplication |
-| Catalogue records refer to one object | Inflated find counts | Reviewable entity reconciliation |
-| Finished gold object implies workshop | False production claim | Material evidence ladder |
-| Adapter changes or paginates poorly | Irreproducible or skipped records | Versioned adapter, snapshot hash, deterministic cursor |
-| Authentication leaks in URL or logs | Credential exposure | Secret-safe locator validation and redaction |
-| Crash after external read | Duplicate or inconsistent state | Idempotency, append-first events, leases, resume |
-| Endless “always try” expansion | Cost and provider abuse | Finite budgets, novelty stop, source exhaustion |
-| Priority score is read as probability | False quantitative certainty | Separate schemas and calibration gate |
-| Malformed input crashes CLI | Lost work or leaked internals | Typed boundary errors and fuzz corpus |
-| Report cites stale contacts | Failed or harmful referral | Verify at report time; no autonomous outreach |
-
-## Milestones
-
-### M0: Safety and parser boundary
-
-- Add typed diagnostics and stable exit codes.
-- Close all sensitivity enums and public-export paths.
-- Classify portable-find targeting and aggregation risk.
-- Add malformed-input and redaction regression suites.
-
-### M1: Durable execution
-
-- Add event log, replay, hash chain, idempotency, leases, and checkpoints.
-- Implement action states and sealed completion.
-- Enforce readiness, authorization, freeze, and executable-adapter gates.
-- Implement budgets, stops, `advance`, `run`, `resume`, and `audit`.
-
-### M2: Finds and history model
-
-- Add object, find, assemblage, repository, custody, analysis, claim, and conflict records.
-- Add migration from version 1 and legacy-completion quarantine.
-- Implement entity reconciliation and historical sequence synthesis.
-
-### M3: Executable source routing
-
-- Implement the adapter protocol and standards-based fixture adapters.
-- Add bounded discovery, ingestion, snapshots, claim extraction, and source exhaustion.
-- Prove restart-safe pagination and origin-family deduplication.
-
-### M4: Reasoning and reports
-
-- Implement material-production rules and counterexamples.
-- Add history, finds, object, material, gap, and referral reports.
-- Add public generalization manifests and independent leakage lint.
-
-### M5: Calibrated inference
-
-- Enforce the probability gate.
-- Add a held-out, non-sensitive benchmark with calibration metrics.
-- Prove that uncalibrated cases emit no percentage or probability field.
+`init-run` copies and hash-binds the plan. `next` returns a bounded ready batch
+and blocked reasons. `start-action` creates an expiring lease. `run-action`
+executes deterministic adapters. `complete-action` seals a structured result.
+`resume` interrupts only expired leases; it never steals a live lease. `audit`
+replays and verifies the run.
+
+`advance` and `run` execute finite deterministic work until a declared stop or
+an agent handoff is required. Agent work is represented as a bounded task
+packet and must return through the same result validator.
+
+### Operation-specific idempotency
+
+Idempotency is intentionally narrow:
+
+- `start-action` accepts a caller idempotency key and returns the same attempt
+  only for the same action;
+- replaying `complete-action` requires the same result hash, summary,
+  normalized source-ID set, and attachment hashes; explicitly supplied
+  acceptance evidence must equal the sealed evidence, while omission defers to
+  that sealed evidence;
+- reusing a key or changing any of those bound values is rejected; and
+- offline artifacts use exclusive creation and do not overwrite prior output.
+
+The RFC does not claim universal command idempotency.
+
+### Budgets and stops
+
+Run budgets cover:
+
+- unique actions started;
+- attempts started;
+- retained result bytes;
+- elapsed seconds;
+- requests;
+- requests per provider;
+- records returned; and
+- consecutive completions with no novelty.
+
+Budget is reserved before an action and reconciled on completion, failure, or
+interruption. The frontier reports deterministic `budget-exhausted:*` reasons.
+Other stops include explicit user stop, safety/access gate, unresolved place,
+method inadequacy, stronger alternative, bounded sufficiency, graph
+invalidity, sensitivity escalation, and professional handoff.
+
+No candidate-count, report-item-count, requests-per-minute, or concurrency
+budget is claimed by this implementation.
+
+## Source acquisition
+
+The bounded standard-library adapters support:
+
+- JSON;
+- JSON Lines;
+- CSV;
+- OAI-PMH;
+- IIIF JSON;
+- RDF/XML; and
+- SPARQL JSON results;
+- Crossref JSON;
+- OpenAlex JSON; and
+- DOI metadata JSON.
+
+Remote automated ingestion is limited to explicitly public sources. Local
+ingestion accepts public, licensed, or user-provided sources. Redirects,
+private-network destinations, unsafe URLs, nested credentials, unsafe XML,
+oversized payloads, excessive records, stale acquisition contracts, and
+overwrites are rejected.
+
+Every acquisition retains the raw bytes, raw digest, query artifact, adapter
+version, normalization version, source identity, origin family, access basis,
+pagination state, and checkpoint.
+
+Only OAI-PMH currently implements restartable pagination through a declared
+resumption token and predeclared continuation page. Every other listed format
+is a bounded single-snapshot parser; the plugin does not claim resumable paging
+for it.
+
+The search ladder expands place aliases, object terms, language variants, and
+broader terms in a deterministic finite sequence. Exhaustion becomes evidence:
+searched branches, denominators, access gaps, parse failures, and unresolved
+queries appear in source-gap reports.
+
+## History, finds, and treasure research
+
+The autonomous workflow can:
+
+- trace a place through historical phases;
+- find documented swords, fittings, weapons, coins, gold objects, hoards,
+  workshop evidence, and related records;
+- connect find events, contexts, repositories, accessions, analyses, custody,
+  conservation, and publications;
+- reconcile duplicate or contradictory catalogue records;
+- distinguish an object’s presence from production, trade, deposition, and
+  recovery;
+- map documented distributions separately from prospective hypotheses;
+- freeze candidates before later ground-truth or authority-controlled review;
+- rank candidates with explicit factors and counterevidence; and
+- record a negative result without turning non-detection into absence.
+
+“Always try” means continue through the next lawful source branch or bounded
+hypothesis when useful. It does not mean fabricate evidence, bypass access, or
+ignore a stop condition.
+
+## Probability
+
+`calibrated-probability` is allowed only when the supplied benchmark and
+held-out evaluation establish:
+
+- a predeclared event and spatial unit;
+- a representative denominator;
+- an observation model;
+- independent validation;
+- origin-family leakage control;
+- calibration evidence and metrics;
+- an uncertainty interval; and
+- an explicit output and sensitivity scope.
+
+If a gate fails, the system emits
+`heuristic-ranking-not-probability`. It may provide an ordinal rank, band, or
+non-probabilistic score with supporting and opposing factors, alternatives,
+coverage, and uncertainty. It must not emit a probability or percentage.
+The CLI exposes this contract as `assess-heuristic`; calibrated output remains
+a separate `assess-probability` command.
+
+Neither form authorizes field activity or recovery.
+
+## Reporting
+
+### Deterministic report core
+
+The code produces stable schemas for:
+
+- known-finds reports;
+- reconciled object reports;
+- historical phase reports;
+- object biographies;
+- material/production evidence reports;
+- source-gap reports;
+- candidate assessments; and
+- public exports and spatial handoffs.
+
+Reports preserve source IDs, origin families, record IDs, classification,
+dating, context, custody, conflicts, denominators, limitations, and disclosure
+decisions. Public serialization removes internal IDs and restricted spatial
+fields while retaining explicitly public exact evidence.
+
+### Professor-led layouts
+
+The reporting skill composes the deterministic artifacts into:
+
+- a broad-area reconnaissance brief;
+- a candidate atlas;
+- a single-candidate dossier;
+- a source-gap teaching note;
+- a negative-result report;
+- a restricted authority brief;
+- a known-finds register;
+- an object or assemblage biography;
+- a history-through-time and material-evidence report;
+- a documented-versus-prospective distribution report; and
+- a prospectivity and field-action brief.
+
+For an imprecise area it explains the search windows, what signatures to look
+for, where each modality is useful, what controls distinguish alternatives,
+and which missing source would most change the answer.
+
+When evidence is thin, it chooses one of three honest outputs:
+
+1. proceed with bounded assumptions and list the assumption, reason, falsifier,
+   and confidence;
+2. ask for a minimum useful source package; or
+3. stop with a source-gap report when the question is not answerable.
+
+### Imagery and annotations
+
+When rights permit, candidate reports pair the source image with an annotated
+plate. Numbered annotations describe observations, not conclusions. The report
+records source, acquisition date, provider, licence, CRS or georeferencing,
+processing, image footprint, candidate footprint, positional uncertainty,
+alternatives, and source/annotation/rendered SHA-256 hashes.
+
+An interactive-viewer screenshot is a manual reference unless its terms allow
+derivative capture and analysis. Open imagery or a user/licensed local raster
+is preferred for reproducible pixel work.
+
+### Contacts and institutes
+
+The contact workflow matches the actual need to:
+
+- a competent heritage authority;
+- an Indigenous, descendant, religious, or community authority;
+- a local or regional archaeological service;
+- a museum, archive, finds liaison, or collections unit;
+- a university or national laboratory;
+- a geophysics, remote-sensing, dating, materials, conservation, or
+  osteoarchaeology specialist; or
+- a land manager for separately proposed field access.
+
+Contact names, unit remit, official page, and public route must be verified at
+report time because institutional details change. The plugin explains why the
+first contact is appropriate and what evidence package to send. It may draft a
+message but does not send it without explicit authorization.
+
+## Migration and compatibility
+
+Legacy schema-1 plans are never executed as trusted evidence. `migrate` creates
+a separate schema-2 artifact and manifest, marks legacy completions
+unverified, preserves typed records, and does not overwrite the source.
+Candidate freezing hash-binds a candidate set before later ground-truth access.
+
+Expected invalid input is returned as a structured diagnostic with a stable
+code, message, path where available, retryability, and suggested resolution.
+Secrets are redacted from diagnostics and public output.
 
 ## Acceptance matrix
 
-| Review finding | Implementation target | Required acceptance proof |
-|---|---|---|
-| No executor or resume loop | `ij_events.py`, `ij_execution.py`, CLI `advance/run/resume/audit` | Kill a fixture run after each event boundary; resume produces the uninterrupted event and result hashes |
-| Forgeable completion | `ij_state.py`, result seals, frontier gate | Hand-edited `completed` cannot unlock a dependant; sealed result can |
-| Optional readiness/freeze | `ij_readiness.py`, `ij_execution.py`, `search_plan.py` | Every execution command rejects an unready plan or missing/stale freeze seal |
-| Non-executable actions | Adapter binding and dispatcher | Every schedulable method resolves to one executable adapter or is blocked with a typed reason |
-| Inert budgets/stops | `ij_policy.py`, reservation events | Request/action/time/retry/novelty fixture stops exactly at its configured boundary and resumes with the correct remainder |
-| Fail-open redaction | `ij_artifacts.py`, publication lint | Unknown, missing, misspelled, nested, image-metadata, and prose coordinates are withheld |
-| Malformed input crashes | `ij_errors.py`, boundary parsers | Invalid-input corpus returns stable JSON diagnostics without traceback |
-| Treasure and portable-find safety | `ij_safety.py` | Public sword/gold research is generalized; unauthorized exact work is blocked; an exact restricted fixture runs only with the complete permission bundle |
-| Missing archaeological entities | `ij_objects.py`, schema 2 | Round-trip an object, find event, assemblage, repository, analysis, and contested custody biography |
-| Advisory source routing | `ij_sources.py`, `adapters/` | Discover, ingest, checkpoint, resume, normalize, and hash fixtures for each supported standard |
-| Weak material reasoning | `ij_materials.py` | Finished gold object alone cannot yield local-production; secure crucible/debris evidence can support a qualified claim |
-| Missing finds reports | `ij_reports.py` | Golden history/finds/object/material/gap reports preserve citations, conflicts, coverage, and safe precision |
-| Priority/probability confusion | `ij_probability.py`, report schemas | Priority never appears as probability; insufficient calibration blocks numeric output; held-out fixture reports calibration |
-| Unsafe legacy state | migration command | v1 completed actions migrate to non-unlocking `completed-unverified`; source remains byte-identical |
-
-In addition to row-specific tests, the suite MUST include:
-
-- end-to-end “documented swords near a named place” research with duplicate catalogue records, contested context, interruption, and safe reporting;
-- end-to-end “gold objects versus gold-working evidence” research where the correct conclusion is weaker than the initial hypothesis;
-- permission-complete restricted treasure research that executes exact analysis but cannot enter a public export;
-- sparse-source fallback that exhausts lawful variants and reports a bounded gap without inventing evidence;
-- an authority-only fixture proving exact data remains absent from public plans, logs, reports, images, URLs, and attachments;
-- static checks keeping authored implementation and test files below 700 lines where practical.
-
-All integration tests use local fixtures or explicitly authorized test services. No test contacts a live catalogue by default.
+| Review finding | Implemented authority | Required proof |
+| --- | --- | --- |
+| No executor or resume loop | `ij_runtime.py`, `ij_executors.py`, CLI `run/resume/audit` | Fault after each durable boundary; resumed and uninterrupted hashes match |
+| Forgeable completion | `ij_results.py`, `ij_runtime_integrity.py`, frontier gate | Edited completion cannot unlock a dependent; a sealed result can |
+| Optional readiness or freeze | `ij_execution_spec.py`, `ij_candidates.py`, runtime | Execution rejects an unready plan or stale/missing freeze seal |
+| Non-executable actions | `ij_adapters.py`, execution bindings | Every schedulable method resolves to an executor or a typed block |
+| Inert budgets and stops | `ij_budgets.py`, reservation events | Each limit stops exactly at its boundary and resumes with the right remainder |
+| Spatial evidence over-withheld | `ij_artifacts.py`, `ij_spatial.py`, handoff validator | Public points/AOIs/footprints survive; explicit restrictions withhold only affected geometry and invalid states never leak |
+| Malformed input crashes | `ij_errors.py`, bounded parsers | Invalid fixtures return stable redacted JSON diagnostics without tracebacks |
+| Treasure research confused with field action | `ij_safety.py`, `ij_targeting.py` | Exact desk fixtures emit coordinates, rankings, and plates; explicit unlawful/destructive conduct is blocked |
+| Missing archaeological entities | `ij_entities.py`, schema 2 | Object, find, assemblage, repository, analysis, and contested custody round-trip |
+| Advisory source routing | `ij_ingest.py`, adapter protocol | Supported fixtures discover, ingest, checkpoint, resume, normalize, and hash |
+| Weak material reasoning | `ij_materials.py` | A gold object alone cannot prove production; secure debris/context can support a qualified claim |
+| Missing finds reports | `ij_reports.py`, golden fixtures | History/finds/object/material/gap reports preserve citations, conflicts, coverage, and supported precision |
+| Priority confused with probability | `ij_probability.py`, `ij_calibration.py` | Priority never appears as probability; heuristic and calibrated outputs obey separate gates |
+| Unsafe legacy state | `ij_migrate.py` | Legacy completions migrate as non-unlocking, source bytes unchanged |
 
 ## Definition of done
 
-This RFC is implemented only when:
+1. Every acceptance-matrix row has automated proof.
+2. A fresh public schema-2 case can be authored, executed, interrupted,
+   resumed, audited, reported, spatially handed off, and publicly exported
+   using documented commands.
+3. Replay reproduces the final plan, event, and result hashes.
+4. No prerequisite is satisfied without a valid result seal.
+5. Readiness, source access, candidate freeze, budgets, stops, explicit
+   protected-site restrictions, and explicit physical-conduct gates cannot be
+   bypassed.
+6. Unknown schema, disclosure, sensitivity, method, and licence values fail
+   with stable diagnostics rather than silently changing meaning.
+7. Provider failures and malformed input return redacted, actionable errors.
+8. Object, find, assemblage, repository, custody, analysis, and conflict
+   histories survive serialization and migration.
+9. Source adapters demonstrate bounded, provenance-preserving discovery and
+   ingestion; restart claims are limited to formats with checkpoint proof.
+10. Reports distinguish presence, circulation, working, and production, and
+    distinguish catalogue silence from archaeological absence.
+11. Lawful sword, gold, coin, hoard, and treasure research produces cited
+    exact coordinates, rankings, imagery references, annotated plates, and map
+    handoffs without a field-permission dossier.
+12. Every prospectivity number is labelled calibrated or heuristic; calibrated
+    claims require held-out evidence and heuristic estimates expose assumptions,
+    uncertainty, and limitations.
+13. The professor voice, candidate layouts, source-gap guidance, bounded
+    assumptions, and institute/specialist referral routes are documented.
+14. Schema-1 fixtures remain readable; migration is non-destructive and
+    idempotent; both public export contracts retain their golden hashes.
+15. The plugin and every contributed skill pass their official validators, all
+    relevant suites pass, repository whitespace is clean, and authored source
+    files stay below the repository line limit.
 
-1. Every acceptance-matrix row passes in CI.
-2. A fresh version 2 case can be created, made ready, executed, interrupted, resumed, audited, reported, and publicly exported from documented commands.
-3. Replay from `events.jsonl` reproduces the final plan and result hashes.
-4. No action satisfies a prerequisite without a valid result seal.
-5. No path bypasses readiness, authorization, candidate-freeze, budget, stop, or safety gates.
-6. Unknown sensitivity and disclosure values are denied everywhere.
-7. Malformed input and provider failures produce stable redacted diagnostics.
-8. Object, find, assemblage, repository, custody, analysis, and conflict histories survive serialization and migration.
-9. Source adapters demonstrate bounded, restart-safe, provenance-preserving discovery and ingestion.
-10. Reports distinguish object presence, circulation, working, and production; catalogue silence remains a source gap.
-11. Public sword/gold research is cited and generalized; exact treasure research requires the complete permission bundle, stays restricted, and never silently becomes physical recovery guidance.
-12. No numeric probability appears without the permission policy applicable to its target, the calibration gate, and held-out evidence.
-13. Documentation states what executes autonomously, what remains approval-gated, and what the system will never do.
-14. Version 1 fixtures remain readable, migrations are non-destructive and idempotent, and both public export contracts pass their golden tests.
-15. A maintainer signs off the threat-model tests and a qualified archaeology or heritage reviewer signs off object, provenance, permission, and disclosure behavior.
+Current repository verification is recorded in the implementation handoff
+rather than frozen into this normative RFC, because test counts can grow.
 
-Until every condition holds, the plugin MUST describe itself as an archaeological research planner and evidence assistant, not as a fully autonomous archaeological researcher.
+## Deployment notes
+
+This RFC completes the engineering implementation for bounded autonomous desk
+research. Before using it to support a real field program, operators should
+obtain jurisdiction-specific review from the relevant archaeological,
+community, land-access, data-rights, and legal authorities. That review is a
+deployment recommendation, not a prerequisite for lawful desk research and
+not part of the repository engineering definition of done.
+
+The plugin should describe itself as an autonomous archaeological desk
+researcher and evidence assistant. It should not describe itself as an
+autonomous excavator, detectorist, recovery service, or heritage authority.

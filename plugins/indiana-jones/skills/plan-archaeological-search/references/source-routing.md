@@ -14,9 +14,11 @@ Classify the AOI as:
 - `community-or-authority-controlled`.
 
 Public search engines, APIs, cloud notebooks, and map links may retain query
-coordinates. For a restricted AOI, search only coarse administrative units,
-download lawful regional data, and filter locally. Do not put access tokens in
-URLs, plans, logs, screenshots, or citations.
+coordinates. Generate exact map links for research results by default and note
+that opening them transmits the displayed location to the provider. If a named
+legal, custodian, community, source, or user restriction forbids that
+transmission, use lawful regional data and filter locally. Do not put access
+tokens in URLs, plans, logs, screenshots, or citations.
 
 Assign every source:
 
@@ -92,16 +94,19 @@ separately licensed imagery for systematic or reproducible computation.
 Use [OpenStreetMap](https://www.openstreetmap.org/copyright), lawful Overpass
 queries, or regional extracts to inspect modern roads, paths, drains, quarries,
 buildings, cemeteries, utilities, land use, and other confounders. Archaeology
-and heritage tags are volunteer leads, not authoritative labels. Do not upload
-unpublished candidates.
+and heritage tags are volunteer leads, not authoritative labels. Exact
+candidate queries and map links are normal desk-research evidence. Avoid
+sending a feature to a third-party endpoint only when a specific external-query
+restriction applies, and name that restriction in the case record.
 
 Use [Wikidata data access](https://www.wikidata.org/wiki/Help:Data_access) and
 Wikipedia to discover aliases, official IDs, bibliographies, and leads, then
 follow their references. Do not count a linked-data copy and its source as
 independent corroboration.
 
-For restricted AOIs, download coarse regional OSM/Wikidata data and filter
-locally instead of sending exact coordinates to public query endpoints.
+For AOIs governed by an explicit external-query restriction, download lawful
+regional OSM/Wikidata data and filter locally instead of sending exact
+coordinates to public query endpoints.
 
 ## 5. Geology, soils, terrain, and hydrology
 
@@ -194,10 +199,12 @@ version. It refuses authenticated or authority-controlled sources; those
 remain explicit read-only agent actions after named authorization. Preserve
 original terms and reconcile objects conservatively by strong identifiers.
 
-For treasure, swords, precious metals, hoards, burials, or other vulnerable
-portable material, public catalogue research and generalized distributions
-are valid. Exact prospective work belongs to a restricted or
-heritage-authority-only case with the complete recorded permission bundle.
+For treasure, swords, precious metals, hoards, and other portable material,
+exact desk prospectivity, candidate coordinates, rankings, and imagery plates
+are valid outputs from lawful sources and need no field-permission bundle.
+Restrict only genuinely protected/confidential locations, burial or sacred
+contexts, deliberately redacted records, and private data without consent.
+Field access, detecting, excavation, collection, and recovery remain separate.
 
 ## 10. Oral, community, and social sources
 
@@ -251,10 +258,11 @@ access conditions.
 
 - Separate contextual priors from direct archaeological evidence.
 - Do not tune and validate on the same published site set.
-- Do not output coordinates more precise than the source or authority permits.
+- Preserve source-supported point, AOI, and image precision; cite any authority
+  that requires a less precise derivative.
 - Multiple coarse sources may intersect to re-identify a withheld location.
-- Do not publish exact candidates in issue trackers, public maps, notebooks,
-  repositories, or social posts.
+- Do not place a genuinely restricted location in issue trackers, public maps,
+  notebooks, repositories, or social posts.
 - Stop and refer when research encounters human remains, sacred knowledge,
   threatened sites, access-controlled registers, unclear land access, or
   probable looting risk.

@@ -28,9 +28,15 @@ def extract_claims(artifact: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("normalized records must contain objects")
         record_id = record.get("recordId")
         source_id = record.get("sourceId")
+        origin_family_id = record.get("originFamilyId")
         raw_hash = record.get("rawRecordSha256")
-        if not all(isinstance(value, str) and value for value in (record_id, source_id, raw_hash)):
-            raise ValueError("normalized record lacks identity or raw-record lineage")
+        if not all(
+            isinstance(value, str) and value
+            for value in (record_id, source_id, origin_family_id, raw_hash)
+        ):
+            raise ValueError(
+                "normalized record lacks identity, origin-family, or raw-record lineage"
+            )
         for field, predicate in CLAIM_FIELDS.items():
             if field not in record or record[field] in (None, "", [], {}):
                 continue
@@ -48,7 +54,7 @@ def extract_claims(artifact: dict[str, Any]) -> dict[str, Any]:
                     "predicate": predicate,
                     "value": value,
                     "sourceIds": [source_id],
-                    "originFamilyId": query.get("originFamilyId", source_id),
+                    "originFamilyId": origin_family_id,
                     "recordLocator": {
                         "sourceRecordId": record.get("sourceRecordId"),
                         "rawRecordSha256": raw_hash,

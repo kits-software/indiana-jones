@@ -38,6 +38,7 @@ VARIANT_POLICIES = {
     "single-main-with-disclosure",
     "defer-depiction",
 }
+REVIEW_POLICIES = VARIANT_POLICIES | {"decision-specific"}
 UNCERTAIN_STATUSES = {"plausible", "illustrative", "contested"}
 
 
@@ -241,6 +242,14 @@ def validate_decisions(
                         "high-impact uncertainty requires an alternative",
                     )
                 )
+            if decision.get("uncertaintyTreatment") not in VARIANT_POLICIES:
+                issues.append(
+                    issue(
+                        f"{path}.uncertaintyTreatment",
+                        "must declare alternative-variants, "
+                        "single-main-with-disclosure, or defer-depiction",
+                    )
+                )
     return uncertain_high_impact
 
 
@@ -335,7 +344,7 @@ def validate_review(
                 "must name uncertain high-impact decisions: " + ", ".join(missing),
             )
         )
-    if uncertain_high_impact and review.get("variantPolicy") not in VARIANT_POLICIES:
+    if uncertain_high_impact and review.get("variantPolicy") not in REVIEW_POLICIES:
         issues.append(
             issue(
                 "$.review.variantPolicy",

@@ -14,7 +14,7 @@
 10. Object or assemblage biography
 11. History-through-time and material-evidence report
 12. Documented and prospective distribution report
-13. Permission-gated prospectivity brief
+13. Prospectivity and field-action brief
 14. Methods and provenance appendix
 
 ## Layout selector
@@ -26,12 +26,12 @@
 | One location or feature | Single-candidate dossier | Source frame plus derived comparison |
 | Only a screenshot, story, or vague description | Source-gap teaching note | Supplied reference, if lawful, clearly limited |
 | No candidates or all rejected | Negative-result report | Coverage/quality view and representative controls |
-| Possible new or sensitive site | Restricted authority brief | Restricted plate; no public locator |
-| “Were swords, gold, coins, or hoards found nearby?” | Known-finds register | Safe generalized context map or record-coverage view |
+| Possible new or sensitive site | Single-candidate dossier or restricted authority brief | Exact point/footprint plus evidence plate unless a named restriction applies |
+| “Were swords, gold, coins, or hoards found nearby?” | Known-finds register | Source-reported points plus record-coverage view |
 | “What happened to this object or collection?” | Object or assemblage biography | Event timeline and identity/custody links |
 | Place history plus finds, craft, or trade | History-through-time and material-evidence report | Phase timeline with evidence lanes |
-| Compare known finds or prospective areas | Documented and prospective distribution report | Separate generalized record and hypothesis maps |
-| Exact prospective work with confirmed permissions | Permission-gated prospectivity brief | Restricted map; generalized public derivative |
+| Compare known finds or prospective areas | Documented and prospective distribution report | Separate exact record and hypothesis layers |
+| Exact treasure/gold/sword/hoard prospectivity | Prospectivity and field-action brief | Exact candidate map and plates; separate field gates only if requested |
 | Reproducibility or peer review | Methods appendix | Source and derived artifact index |
 
 Combine layouts only when the audience needs both. Put the decision-facing
@@ -136,24 +136,30 @@ Use for two or more inspected candidates.
 
 ### Candidate register
 
-| Rank | Candidate ID | E-grade | Observed proxy | Strongest alternative | Corroboration | Next action |
-| --- | --- | --- | --- | --- | --- | --- |
+| Rank | Candidate ID | Map and precision | E-grade | Estimate | Observed proxy | Strongest alternative | Corroboration | Next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Use “not ranked” when candidates came from incomparable sources or methods.
+Every row contains a clickable `[Open in Google Maps](...)` link to the exact
+point when known. Add separate clickable links for research AOIs, candidate
+footprints, and image locations rather than using one geometry as a substitute
+for another.
 
 ### Candidate section
 
 For each advanced candidate include:
 
 1. evidence plate;
-2. observed;
-3. derived;
-4. working interpretation;
-5. at least two alternatives and discriminating tests;
-6. independent corroboration and counter-evidence;
-7. positional/resolution/coverage uncertainty;
-8. grade with reasons and validation gap;
-9. one non-invasive next action.
+2. spatial handoff block with map link, precision label, and optional KML or
+   GeoJSON;
+3. observed;
+4. derived;
+5. working interpretation;
+6. at least two alternatives and discriminating tests;
+7. independent corroboration and counter-evidence;
+8. positional/resolution/coverage uncertainty;
+9. grade and calibrated or heuristic estimate with reasons and validation gap;
+10. one desk-research or non-invasive next action.
 
 Add a rejection gallery for instructive false positives. Showing why drains,
 field edges, geology, tree throws, shadows, and seams failed is part of the
@@ -171,6 +177,18 @@ unknown.
 ### Evidence plate
 
 Include the conservative source frame and any declared derived comparison.
+
+### Spatial handoff
+
+Include:
+
+- clickable `[Open in Google Maps](...)` for every exact point and applicable
+  AOI;
+- precision label, feature role, and disclosure class;
+- KML or GeoJSON download when requested;
+- whether each geometry is a candidate point, candidate footprint, research
+  AOI, image point, or image footprint; and
+- links from image locations or footprints to their source/derived plates.
 
 ### Observation ledger
 
@@ -228,7 +246,8 @@ Teach:
 Request only what changes the assessment:
 
 - original file or stable source/item URL;
-- approximate AOI or generalized place;
+- exact point or AOI when available, otherwise the best-supported approximate
+  place and its uncertainty;
 - acquisition date and provider/product;
 - scale, pixel size, or map sheet;
 - unedited source view plus any derived version;
@@ -261,18 +280,19 @@ Keep it concise and neutral:
 
 1. handling banner and intended recipient role;
 2. reason for referral and urgency;
-3. generalized public location;
-4. precise locator only in the authorized restricted enclosure;
-5. source and acquisition provenance;
-6. conservative source plate and annotations;
-7. observed/derived/inferred separation;
-8. alternatives already checked;
-9. sensitivity, community, land-status, and threat considerations;
-10. requested action, such as confidential desk review;
-11. sender-controlled contact draft, never automatically submitted.
+3. exact research location and its source precision;
+4. map links for points, AOIs, candidate footprints, and image coverage;
+5. any explicit legal, custodian, community, or user handling restriction;
+6. source and acquisition provenance;
+7. conservative source plate and annotations;
+8. observed/derived/inferred separation;
+9. alternatives already checked;
+10. sensitivity, community, land-status, and threat considerations;
+11. requested action, such as confidential desk review;
+12. sender-controlled contact draft, never automatically submitted.
 
-Do not place precise coordinates in filenames, public manifests, image labels,
-or email subjects.
+Do not place private personal data, access credentials, or field-entry
+instructions in filenames, manifests, image labels, or email subjects.
 
 ## Known-finds register
 
@@ -285,7 +305,7 @@ area.
 - define “near,” area, period, terminology, and source coverage;
 - distinguish documented finds from prospective hypotheses;
 - state answerability and the strongest material limitation;
-- state public location generalization and suppression rules.
+- state source precision and any explicit location restriction.
 
 ### Register
 
@@ -360,7 +380,7 @@ Use paired panels:
 │ A. Documented-record pattern │ B. Prospective hypothesis    │
 │ coverage and reporting bias  │ assumptions and controls     │
 ├──────────────────────────────┴──────────────────────────────┤
-│ generalized unit • suppression • permissions • caveat       │
+│ source precision • restrictions • permissions • caveat      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -369,14 +389,18 @@ opportunity, and why record density is not past abundance. Panel B must state
 expected context, preservation and detection opportunity, alternatives,
 negative controls, validation method, and why the model is not a guarantee.
 
-Public panels use broad units and low-count suppression. Do not provide filters
-or combinations that reconstruct protected points. Exact professional layers
-belong only in the permission-gated restricted brief.
+Show source-reported points and separately display uncertainty, record coverage,
+and reporting bias. If a named authority has actually protected a location,
+record the restriction and omit only the affected geometry. Exact spatial
+evidence remains distinct from any permission-gated field-method layer.
 
-## Permission-gated prospectivity brief
+## Prospectivity and field-action brief
 
-Use exact or actionable treasure, hoard, sword, precious-metal, burial, or
-portable-find planning only when the case records:
+Use for exact treasure, hoard, sword, precious-metal, or portable-find desk
+prospectivity. The research portion includes exact candidate coordinates,
+rankings, annotated satellite/aerial plates, alternatives, and an honest
+estimate without requiring field permissions. If the user separately requests
+field activity, append a field-action section that records:
 
 - exact jurisdiction and relevant current law or official guidance;
 - landholder authorization and geographic scope;
@@ -386,23 +410,27 @@ portable-find planning only when the case records:
 - responsible professional and receiving heritage authority;
 - allowed method, time window, data handling, stopping, discovery, and
   emergency procedures;
-- restricted recipients and a generalized public derivative.
+- intended recipients and any feature-specific restriction that actually
+  applies.
 
 Structure:
 
-1. permission and authority matrix;
-2. precise research question and bounded area;
-3. documented evidence and source coverage;
-4. prospective model, alternatives, negative controls, and calibration status;
-5. ranked tests, not promises of recovery;
-6. field action, stop-work, reporting, custody, and conservation gates;
-7. restricted exact map;
-8. public generalized summary;
-9. unresolved permission or evidence blockers.
+1. precise research question and bounded area;
+2. documented evidence and source coverage;
+3. exact candidate register, coordinates, and satellite/aerial plates;
+4. prospective model, alternatives, negative controls, and estimate status:
+   `calibrated` or `heuristic`;
+5. ranked desk tests, not promises of recovery;
+6. optional field permission, stop-work, reporting, custody, and conservation
+   matrix, clearly separate from the research result;
+7. exact evidence map and GIS handoff;
+8. public evidence summary with exact spatial features unless a specific
+   restriction requires an alternate derivative;
+9. unresolved evidence, source, protection, or optional field blockers.
 
-If any required permission is absent or ambiguous, mark the corresponding
-exact action `blocked` and continue with generalized research. Do not refuse
-the treasure topic itself.
+Missing field permission blocks only the corresponding physical action. It
+does not block exact desk-research coordinates, rankings, plates, or estimates.
+Generalize only geometry covered by a genuine protection/confidentiality rule.
 
 ## Methods and provenance appendix
 
@@ -416,8 +444,8 @@ Include:
 - rejected alternatives and negative controls;
 - object, find-event, context, assemblage, accession, identity-link, and
   custody records when applicable;
-- documented-versus-prospective separation, permission matrix, and public
-  generalization rule;
+- documented-versus-prospective separation, permission matrix, and any
+  feature-specific restriction;
 - artifact register with source, annotation, rendered-output, and report hashes;
 - disclosure/redaction log;
 - unresolved evidence and next responsible reviewer.

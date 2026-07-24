@@ -151,8 +151,10 @@ similarity into certainty.
 
 - No permission is inferred for access, detecting, collection, flying,
   probing, or excavation.
-- Precise locations of possible new, sacred, burial-related, vulnerable, or
-  non-public sites are protected.
+- Exact points, AOIs, image locations, and image footprints remain visible as
+  research evidence, and every point carries a clickable Google Maps link,
+  unless a specific legal, custodian, community, source, or user restriction
+  requires otherwise.
 - Sources and transformations remain attributed, and their licences control
   reuse.
 - Local and descendant communities are research partners and knowledge
@@ -169,8 +171,9 @@ location.
 
 Indiana Jones is an **experimental version 0.1.0**. Today it can investigate a
 place across public or explicitly authorized sources, preserve an auditable
-evidence trail, and prepare public-safe reports. Exact prospectivity work
-remains permission-gated. The repository also contains transparent terrain and
+evidence trail, and prepare spatially explicit reports. Exact desk-research
+points and prospectivity are normal outputs; field action remains separately
+permission-gated. The repository also contains transparent terrain and
 multi-date optical baselines; these are research prototypes, not general-purpose
 “lost site detectors.”
 

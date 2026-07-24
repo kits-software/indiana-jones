@@ -65,7 +65,8 @@ not necessarily an archaeological assemblage.
   market appearance, or unknown;
 - finder or excavator only where ethically and lawfully publishable;
 - source location and precision;
-- safe public location and generalization method;
+- source-supported public location and any specifically named restriction or
+  generalization method;
 - stratigraphic or spatial context ID;
 - context description, integrity, disturbance, and association basis;
 - reporting authority and report or case number where public;

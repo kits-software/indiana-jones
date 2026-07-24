@@ -21,15 +21,20 @@ more protective handling and ask the user or an appropriate heritage authority.
   another person's account.
 - Never request passwords, session tokens, recovery codes, or other credentials.
   Use only an existing session that the user explicitly authorizes.
-- Do not facilitate trespass, unpermitted drone flights, metal detecting,
-  probing, digging, artifact collection, excavation, removal, or disturbance.
+- Do not facilitate trespass, unpermitted drone flights, unauthorized metal
+  detecting, probing, digging, artifact collection, excavation, removal, or
+  disturbance. Authorized professional planning remains confined to the
+  documented method, area, validity period, responsible archaeologist, and
+  restricted delivery channel; one permission never authorizes another
+  activity.
   Do not provide routes, access points, landowner details, or field tactics that
   would make those acts easier.
 - Treat cropmarks, soilmarks, shadowmarks, spectral anomalies, historical-map
   alignments, and geometric forms as observations or hypotheses, not confirmed
   archaeological sites.
-- Do not publish or repeat precise locations for vulnerable, restricted, sacred,
-  burial-related, or potentially new sites.
+- Do not publish precise locations covered by a specific legal, custodian,
+  sacred/burial, community, confidentiality, or deliberate-redaction
+  restriction. Novelty alone does not require suppressing a desk-research point.
 
 ## Authorization gate
 
@@ -122,7 +127,7 @@ require case-specific authorization.
   capture and intended use.
 - Keep all visible Google and third-party attribution intact.
 - Do not export, copy, or reconstruct raw Earth catalog-layer data.
-- Prefer a text observation and safe deep link. Retain only a small number of
+- Prefer a text observation and exact deep link. Retain only a small number of
   permitted, user-requested static Earth captures with attribution legible and
   adjacent; never screenshot Street View.
 - Preserve the original capture separately, record its hash and use basis, and
@@ -206,26 +211,27 @@ Rules:
   them with a search-result snippet.
 - Keep quotations short and necessary. Use paraphrase when wording is not
   evidentially important.
-- Record every redaction or generalization so an authorized reviewer can
-  understand why the public output is less precise than the restricted record.
+- Record every redaction or generalization with the authority that required it
+  so a reviewer can understand why the output differs from the source evidence.
 
-## Archaeological location protection
+## Archaeological coordinate and protection handling
 
-Exact coordinates are high-risk data, not ordinary citations. The U.S. National
-Park Service summarizes ARPA's prohibition on public disclosure of sensitive
-information about the nature and location of archaeological resources on U.S.
-public and Indian lands. Other jurisdictions have their own rules:
+Exact coordinates are ordinary research evidence unless a specific protection
+applies. For example, the U.S. National Park Service summarizes ARPA's
+prohibition on public disclosure of sensitive information about archaeological
+resources on certain U.S. public and Indian lands. Other jurisdictions differ:
 [NPS, Archaeological Resources Protection Act](https://www.nps.gov/subjects/archeology/archaeological-resources-protection-act.htm).
 
-Apply these controls regardless of whether a coordinate was found in a public
-post:
+For ordinary lawful desk research, preserve exact candidate points,
+AOIs, footprints, rankings, image points, image footprints, and imagery links
+with source precision and uncertainty.
+Apply the following controls only to a genuinely protected/confidential point:
 
 - Preserve any official sensitivity or disclosure classification.
-- Do not calculate, expose, or confirm exact coordinates for a protected or
-  potentially new site.
-- In public output, use the least precise geography that still supports the
-  research purpose. Choose the scale based on vulnerability; do not use a fixed
-  redaction radius that can be reversed.
+- Do not calculate, expose, or confirm exact coordinates when the governing
+  restriction forbids it; novelty alone is not such a restriction.
+- In the protected public derivative, use the least precision that supports the
+  research purpose and cannot be trivially reversed.
 - Remove coordinates, pins, tile identifiers, cadastral references, access
   routes, distinctive nearby landmarks, camera metadata, and reversible map
   overlays from public artifacts.
@@ -282,9 +288,11 @@ ethics principles emphasize stewardship, responsibility, preservation,
 reporting, and compliance with governing laws:
 [SAA, Principles of Archaeological Ethics](https://www.saa.org/Member/SAAMember/Career-and-Practice/Principles-of-Archaeological-Ethics.aspx).
 
-## Possible new-site escalation
+## Protected or urgent new-site escalation
 
-When public or authenticated research suggests a previously unrecorded site:
+When research suggests a previously unrecorded site that is also covered by a
+specific protection, confidentiality, burial/sacred, community, or active-
+threat concern:
 
 1. Stop public triangulation and do not solicit crowdsourced identification.
 2. Preserve minimal, non-destructive evidence: source identifiers, imagery
@@ -317,7 +325,8 @@ Before returning research:
 - all browsing remained read-only and no messages or interactions occurred;
 - every material claim links to provenance and states its evidential status;
 - personal and authenticated-source data are minimized;
-- protected or possible-new-site locations are generalized and metadata-clean;
+- specifically protected/confidential locations are handled according to their
+  named restriction and metadata-clean;
 - alternative explanations and uncertainty are visible;
 - community and heritage-authority interests are identified;
 - no field access, collection, excavation, or circumvention is encouraged; and
