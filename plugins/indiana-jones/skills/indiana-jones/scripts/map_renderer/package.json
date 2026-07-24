@@ -1,0 +1,19 @@
+{
+  "name": "@indiana-jones/map-renderer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic local MapLibre screenshot renderer with provenance manifests.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "render:fixture": "node src/cli.mjs render --job fixtures/extrusion-job.json --output artifacts/extrusion.png",
+    "render:terrain-fixture": "node src/cli.mjs render --job fixtures/terrain-job.json --output artifacts/terrain.png",
+    "probe": "node src/cli.mjs probe",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "maplibre-gl": "5.23.0"
+  }
+}

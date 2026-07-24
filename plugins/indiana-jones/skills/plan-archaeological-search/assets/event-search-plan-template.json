@@ -1,0 +1,638 @@
+{
+  "schemaVersion": "1.0",
+  "case": {
+    "caseId": "case_example_disputed_event",
+    "question": "Which candidate landscape best fits the independent accounts and period terrain?",
+    "intendedDecision": "Select non-invasive documentary and landscape tests",
+    "studyKind": "historical-reconstruction",
+    "targetLabelsState": "unknown",
+    "candidatesFrozen": false,
+    "disclosure": "restricted",
+    "authorization": {
+      "publicWeb": true,
+      "authenticatedPlatforms": [],
+      "fieldActions": false,
+      "communityConsultation": false
+    }
+  },
+  "area": {
+    "namedPlace": "Example Disputed Event Region",
+    "gazetteerCandidates": [
+      {
+        "id": "example:event-region",
+        "label": "Example Disputed Event Region",
+        "selected": true
+      }
+    ],
+    "selectedGazetteerId": "example:event-region",
+    "restrictedGeometry": {
+      "type": "bbox",
+      "crs": "EPSG:4326",
+      "bbox": [
+        8.0,
+        52.0,
+        8.3,
+        52.1
+      ]
+    },
+    "publicDescription": "a generalized disputed-event study region",
+    "analysisCrs": "EPSG:4326",
+    "metricPlanning": false,
+    "gridMethod": "landscape-window-reconnaissance"
+  },
+  "grid": {
+    "strategy": "coarse-first-adaptive",
+    "rows": 1,
+    "columns": 3,
+    "cells": [
+      {
+        "cellId": "cell_route_crossing",
+        "level": 0,
+        "parentId": null,
+        "publicLabel": "western route-and-crossing window",
+        "restrictedGeometry": {
+          "type": "bbox",
+          "crs": "EPSG:4326",
+          "bbox": [
+            8.0,
+            52.0,
+            8.1,
+            52.1
+          ]
+        },
+        "neighbors": [
+          "cell_high_ground"
+        ],
+        "landscapeContext": [
+          "period crossing hypothesis"
+        ],
+        "coverageState": "unsearched",
+        "sensitivity": "restricted"
+      },
+      {
+        "cellId": "cell_high_ground",
+        "level": 0,
+        "parentId": null,
+        "publicLabel": "central high-ground window",
+        "restrictedGeometry": {
+          "type": "bbox",
+          "crs": "EPSG:4326",
+          "bbox": [
+            8.1,
+            52.0,
+            8.2,
+            52.1
+          ]
+        },
+        "neighbors": [
+          "cell_route_crossing",
+          "cell_control"
+        ],
+        "landscapeContext": [
+          "period visibility hypothesis"
+        ],
+        "coverageState": "unsearched",
+        "sensitivity": "restricted"
+      },
+      {
+        "cellId": "cell_control",
+        "level": 0,
+        "parentId": null,
+        "publicLabel": "eastern matched control window",
+        "restrictedGeometry": {
+          "type": "bbox",
+          "crs": "EPSG:4326",
+          "bbox": [
+            8.2,
+            52.0,
+            8.3,
+            52.1
+          ]
+        },
+        "neighbors": [
+          "cell_high_ground"
+        ],
+        "landscapeContext": [
+          "comparable terrain outside narrative hotspot"
+        ],
+        "coverageState": "unsearched",
+        "sensitivity": "restricted"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "accessStage": "pre-detection",
+      "sourceId": "src_account_a",
+      "title": "Example independent contemporary account A",
+      "workflowRole": "research-context",
+      "targetLabelState": "none",
+      "originFamilyId": "account-family-a",
+      "accessBasis": "public",
+      "sensitivity": "public",
+      "recordType": "historical-document",
+      "license": "verify holding institution and object-level rights"
+    },
+    {
+      "accessStage": "pre-detection",
+      "sourceId": "src_account_b",
+      "title": "Example independent contemporary account B",
+      "workflowRole": "research-context",
+      "targetLabelState": "none",
+      "originFamilyId": "account-family-b",
+      "accessBasis": "public",
+      "sensitivity": "public",
+      "recordType": "historical-document",
+      "license": "verify holding institution and object-level rights"
+    },
+    {
+      "accessStage": "pre-detection",
+      "sourceId": "src_period_map",
+      "title": "Example reconstructed period route and hydrology source",
+      "workflowRole": "analysis",
+      "targetLabelState": "none",
+      "originFamilyId": "period-map-family",
+      "accessBasis": "licensed",
+      "sensitivity": "restricted",
+      "recordType": "historical-map",
+      "license": "verify map and derivative-use rights"
+    },
+    {
+      "accessStage": "pre-detection",
+      "sourceId": "src_dem",
+      "title": "Example licensed terrain model",
+      "workflowRole": "analysis",
+      "targetLabelState": "none",
+      "originFamilyId": "terrain-product-family",
+      "accessBasis": "licensed",
+      "sensitivity": "restricted",
+      "recordType": "measurement",
+      "license": "verify product-specific analysis and attribution terms"
+    },
+    {
+      "accessStage": "pre-detection",
+      "sourceId": "src_modern_context",
+      "title": "Example modern roads, drainage, parcels, and disturbance",
+      "workflowRole": "negative-control",
+      "targetLabelState": "none",
+      "originFamilyId": "modern-context-family",
+      "accessBasis": "public",
+      "sensitivity": "public",
+      "recordType": "modern-map",
+      "license": "verify database and attribution terms"
+    },
+    {
+      "accessStage": "post-freeze",
+      "sourceId": "src_heritage_inventory",
+      "title": "Competent heritage inventory",
+      "workflowRole": "ground-truth",
+      "targetLabelState": "withheld",
+      "originFamilyId": "authority-inventory-family",
+      "accessBasis": "authority-controlled",
+      "sensitivity": "non-public",
+      "recordType": "official-inventory",
+      "license": "access and disclosure controlled by competent authority"
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "event_reported_encounter",
+      "kind": "event",
+      "label": "Reported historical encounter with disputed location",
+      "authority": "reported",
+      "sourceIds": [
+        "src_account_a",
+        "src_account_b"
+      ],
+      "cellIds": [],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_crossing_event",
+      "kind": "hypothesis",
+      "label": "Movement and encounter near the period crossing",
+      "authority": "hypothesis",
+      "hypothesisClass": "archaeological",
+      "sourceIds": [
+        "src_account_a"
+      ],
+      "cellIds": [
+        "cell_route_crossing"
+      ],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_high_ground_event",
+      "kind": "hypothesis",
+      "label": "Encounter organized around period high ground",
+      "authority": "hypothesis",
+      "hypothesisClass": "archaeological",
+      "sourceIds": [
+        "src_account_b"
+      ],
+      "cellIds": [
+        "cell_high_ground"
+      ],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_natural_visibility",
+      "kind": "hypothesis",
+      "label": "Natural landform and preservation explain the apparent fit",
+      "authority": "hypothesis",
+      "hypothesisClass": "natural",
+      "sourceIds": [
+        "src_dem"
+      ],
+      "cellIds": [],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_modern_pattern",
+      "kind": "hypothesis",
+      "label": "Modern route, drainage, or commemorative pattern",
+      "authority": "hypothesis",
+      "hypothesisClass": "modern",
+      "sourceIds": [
+        "src_modern_context"
+      ],
+      "cellIds": [],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_processing",
+      "kind": "hypothesis",
+      "label": "Georeferencing or terrain-processing artefact",
+      "authority": "hypothesis",
+      "hypothesisClass": "processing",
+      "sourceIds": [
+        "src_period_map",
+        "src_dem"
+      ],
+      "cellIds": [],
+      "sensitivity": "restricted"
+    },
+    {
+      "nodeId": "hyp_null",
+      "kind": "hypothesis",
+      "label": "Available evidence cannot discriminate the event location",
+      "authority": "hypothesis",
+      "hypothesisClass": "null",
+      "sourceIds": [],
+      "cellIds": [],
+      "sensitivity": "restricted"
+    }
+  ],
+  "edges": [
+    {
+      "edgeId": "edge_account_a_motivates_crossing",
+      "from": "event_reported_encounter",
+      "to": "hyp_crossing_event",
+      "relation": "motivates",
+      "authority": "inferred",
+      "sourceIds": [
+        "src_account_a"
+      ],
+      "rationale": "Account A's defining features are spatially testable against the crossing reconstruction."
+    },
+    {
+      "edgeId": "edge_account_b_motivates_high_ground",
+      "from": "event_reported_encounter",
+      "to": "hyp_high_ground_event",
+      "relation": "motivates",
+      "authority": "inferred",
+      "sourceIds": [
+        "src_account_b"
+      ],
+      "rationale": "Account B's defining features are spatially testable against period visibility."
+    },
+    {
+      "edgeId": "edge_competing_loci",
+      "from": "hyp_crossing_event",
+      "to": "hyp_high_ground_event",
+      "relation": "alternative-to",
+      "authority": "hypothesis",
+      "sourceIds": [],
+      "rationale": "The candidate loci are competing rather than cumulative claims."
+    }
+  ],
+  "actions": [
+    {
+      "actionId": "act_name_concordance",
+      "actionClass": "public-desk",
+      "method": "name-resolution",
+      "label": "Resolve names, jurisdictions, and locatable defining features",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Resolve names, jurisdictions, and independently locatable defining features."},
+        "outputs": ["event name and place concordance"],
+        "acceptanceCriteria": ["Cite each accepted identity.", "Preserve disputed identifications."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "stage": "framing",
+      "status": "planned",
+      "candidateFocused": false,
+      "cellIds": [],
+      "hypothesisIds": [
+        "hyp_crossing_event",
+        "hyp_high_ground_event",
+        "hyp_null"
+      ],
+      "sourceIds": [
+        "src_account_a",
+        "src_account_b"
+      ],
+      "prerequisites": [],
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "scores": {
+        "discrimination": 0.8,
+        "falsification": 0.5,
+        "independence": 0.9,
+        "coverage": 0.5,
+        "compute": 0.05,
+        "humanReview": 0.6,
+        "delay": 0.2,
+        "money": 0.0
+      }
+    },
+    {
+      "actionId": "act_source_coverage",
+      "actionClass": "public-desk",
+      "method": "source-coverage",
+      "label": "Inventory source, terrain, and control coverage in every window",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Inventory source, terrain, and control coverage in every declared window."},
+        "outputs": ["coverage and source-gap ledger"],
+        "acceptanceCriteria": ["Report the searched denominator.", "Separate unavailable coverage from negative evidence."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 2
+      },
+      "lane": "coverage",
+      "stage": "framing",
+      "status": "planned",
+      "candidateFocused": false,
+      "cellIds": [
+        "cell_route_crossing",
+        "cell_high_ground",
+        "cell_control"
+      ],
+      "hypothesisIds": [
+        "hyp_null"
+      ],
+      "sourceIds": [
+        "src_period_map",
+        "src_dem",
+        "src_modern_context"
+      ],
+      "prerequisites": [],
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "scores": {
+        "discrimination": 0.2,
+        "falsification": 0.2,
+        "independence": 0.7,
+        "coverage": 1.0,
+        "compute": 0.1,
+        "humanReview": 0.4,
+        "delay": 0.2,
+        "money": 0.0
+      }
+    },
+    {
+      "actionId": "act_period_terrain",
+      "actionClass": "licensed-computation",
+      "method": "historical-terrain-reconstruction",
+      "label": "Reconstruct period routes, crossings, hydrology, and visibility",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Reconstruct period terrain and movement alternatives from licensed sources."},
+        "outputs": ["period terrain reconstruction"],
+        "acceptanceCriteria": ["Retain source and processing provenance.", "Test anachronism and preservation alternatives."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "stage": "hypothesis-building",
+      "status": "planned",
+      "candidateFocused": false,
+      "cellIds": [
+        "cell_route_crossing",
+        "cell_high_ground",
+        "cell_control"
+      ],
+      "hypothesisIds": [
+        "hyp_crossing_event",
+        "hyp_high_ground_event",
+        "hyp_natural_visibility",
+        "hyp_modern_pattern"
+      ],
+      "sourceIds": [
+        "src_period_map",
+        "src_dem",
+        "src_modern_context"
+      ],
+      "prerequisites": [
+        "act_name_concordance"
+      ],
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "scores": {
+        "discrimination": 0.9,
+        "falsification": 0.7,
+        "independence": 0.8,
+        "coverage": 0.8,
+        "compute": 0.5,
+        "humanReview": 0.8,
+        "delay": 0.4,
+        "money": 0.1
+      }
+    },
+    {
+      "actionId": "act_event_candidate",
+      "actionClass": "licensed-computation",
+      "method": "terrain-analysis",
+      "label": "Test the candidate event windows with licensed terrain data",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Apply the frozen terrain test to candidate event windows without ground-truth leakage."},
+        "outputs": ["hash-bound candidate-window result"],
+        "acceptanceCriteria": ["Preserve method and raster hashes.", "Record null and processing explanations."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "stage": "candidate-generation",
+      "status": "planned",
+      "candidateFocused": true,
+      "comparisonFamilyId": "event-terrain-v1",
+      "pairedControlActionId": "act_event_control",
+      "cellIds": [
+        "cell_route_crossing",
+        "cell_high_ground"
+      ],
+      "hypothesisIds": [
+        "hyp_crossing_event",
+        "hyp_high_ground_event",
+        "hyp_natural_visibility",
+        "hyp_modern_pattern",
+        "hyp_processing",
+        "hyp_null"
+      ],
+      "sourceIds": [
+        "src_dem"
+      ],
+      "prerequisites": [
+        "act_period_terrain"
+      ],
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "scores": {
+        "discrimination": 0.8,
+        "falsification": 0.8,
+        "independence": 0.8,
+        "coverage": 0.5,
+        "compute": 0.5,
+        "humanReview": 0.5,
+        "delay": 0.2,
+        "money": 0.0
+      }
+    },
+    {
+      "actionId": "act_event_control",
+      "actionClass": "licensed-computation",
+      "method": "negative-control",
+      "label": "Run the identical terrain test in the matched control window",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Apply the identical frozen terrain test to the matched control window."},
+        "outputs": ["hash-bound control-window result"],
+        "acceptanceCriteria": ["Use identical processing parameters.", "Compare candidate and control denominators."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "negative-control",
+      "stage": "candidate-generation",
+      "status": "planned",
+      "candidateFocused": false,
+      "comparisonFamilyId": "event-terrain-v1",
+      "cellIds": [
+        "cell_control"
+      ],
+      "hypothesisIds": [
+        "hyp_natural_visibility",
+        "hyp_modern_pattern",
+        "hyp_processing",
+        "hyp_null"
+      ],
+      "sourceIds": [
+        "src_dem",
+        "src_modern_context"
+      ],
+      "prerequisites": [
+        "act_period_terrain"
+      ],
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "scores": {
+        "discrimination": 0.7,
+        "falsification": 0.9,
+        "independence": 0.8,
+        "coverage": 0.6,
+        "compute": 0.5,
+        "humanReview": 0.5,
+        "delay": 0.2,
+        "money": 0.0
+      }
+    },
+    {
+      "actionId": "act_authority_unblind",
+      "actionClass": "specialist-handoff",
+      "method": "heritage-inventory-corroboration",
+      "label": "Compare frozen windows with the competent inventory",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "After freezing and approval, compare event windows with the competent inventory."},
+        "outputs": ["authority-controlled event corroboration"],
+        "acceptanceCriteria": ["Verify the candidate artifact hash.", "Keep authority-only locations restricted."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 1
+      },
+      "lane": "corroboration",
+      "stage": "post-freeze-corroboration",
+      "status": "planned",
+      "candidateFocused": false,
+      "requiresCandidatesFrozen": true,
+      "cellIds": [],
+      "hypothesisIds": [
+        "hyp_crossing_event",
+        "hyp_high_ground_event"
+      ],
+      "sourceIds": [
+        "src_heritage_inventory"
+      ],
+      "prerequisites": [
+        "act_event_candidate"
+      ],
+      "authorization": {
+        "required": "external-approval",
+        "state": "pending"
+      },
+      "scores": {
+        "discrimination": 0.8,
+        "falsification": 0.7,
+        "independence": 0.9,
+        "coverage": 0.3,
+        "compute": 0.1,
+        "humanReview": 0.6,
+        "delay": 0.6,
+        "money": 0.1
+      }
+    }
+  ],
+  "policy": {
+    "scoreVersion": "ordinal-v1",
+    "lanePattern": [
+      "discrimination",
+      "negative-control",
+      "discrimination",
+      "coverage"
+    ],
+    "weights": {
+      "discrimination": 0.5,
+      "falsification": 0.25,
+      "independence": 0.15,
+      "coverage": 0.1
+    },
+    "burdenWeights": {
+      "compute": 0.25,
+      "humanReview": 0.35,
+      "delay": 0.2,
+      "money": 0.2
+    },
+    "stoppingRules": [
+      "safety-or-access-gate",
+      "unresolved-place-ambiguity",
+      "method-inadequacy",
+      "stronger-alternative",
+      "bounded-sufficiency",
+      "budget-exhausted",
+      "graph-invalidity",
+      "sensitivity-escalation",
+      "professional-handoff"
+    ]
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "algorithm": "diamond-ring-baseline-1.0",
+  "candidates": [
+    {
+      "boundaryCoverage": 0.875,
+      "candidateId": "cand_9c37830e6e88",
+      "column": 779,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 1,
+      "row": 986,
+      "score": 9.835574,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 31.484798,
+      "templateScoreRobustZ": 7.804324,
+      "x": 368118.0,
+      "y": 546054.0
+    },
+    {
+      "boundaryCoverage": 0.875,
+      "candidateId": "cand_019004a80400",
+      "column": 134,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 2,
+      "row": 57,
+      "score": 9.561803,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 0.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 30.573339,
+      "templateScoreRobustZ": 7.530553,
+      "x": 365538.0,
+      "y": 549770.0
+    },
+    {
+      "boundaryCoverage": 0.864583,
+      "candidateId": "cand_b41d65dd7e11",
+      "column": 309,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 3,
+      "row": 1060,
+      "score": 9.491324,
+      "sectorCoverage": 0.875,
+      "template": {
+        "angleDeg": 0.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 30.590124,
+      "templateScoreRobustZ": 7.535594,
+      "x": 366238.0,
+      "y": 545758.0
+    },
+    {
+      "boundaryCoverage": 0.822917,
+      "candidateId": "cand_74087c84d27e",
+      "column": 912,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 4,
+      "row": 875,
+      "score": 9.482635,
+      "sectorCoverage": 0.8125,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 30.942677,
+      "templateScoreRobustZ": 7.641489,
+      "x": 368650.0,
+      "y": 546498.0
+    },
+    {
+      "boundaryCoverage": 0.760417,
+      "candidateId": "cand_d52da569148b",
+      "column": 598,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 5,
+      "row": 1182,
+      "score": 9.373742,
+      "sectorCoverage": 0.75,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 31.048321,
+      "templateScoreRobustZ": 7.673221,
+      "x": 367394.0,
+      "y": 545270.0
+    },
+    {
+      "boundaryCoverage": 1.0,
+      "candidateId": "cand_371a20324dee",
+      "column": 909,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 6,
+      "row": 175,
+      "score": 9.330181,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 29.073927,
+      "templateScoreRobustZ": 7.080181,
+      "x": 368638.0,
+      "y": 549298.0
+    },
+    {
+      "boundaryCoverage": 0.791667,
+      "candidateId": "cand_55fd1e156efc",
+      "column": 1187,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 7,
+      "row": 199,
+      "score": 9.066645,
+      "sectorCoverage": 0.8125,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 29.68778,
+      "templateScoreRobustZ": 7.264561,
+      "x": 369750.0,
+      "y": 549202.0
+    },
+    {
+      "boundaryCoverage": 0.760417,
+      "candidateId": "cand_bee8ce296498",
+      "column": 665,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 8,
+      "row": 219,
+      "score": 8.819745,
+      "sectorCoverage": 0.75,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 29.203913,
+      "templateScoreRobustZ": 7.119224,
+      "x": 367662.0,
+      "y": 549122.0
+    },
+    {
+      "boundaryCoverage": 0.614583,
+      "candidateId": "cand_5e630cbf8eed",
+      "column": 1011,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 9,
+      "row": 918,
+      "score": 8.439157,
+      "sectorCoverage": 0.6875,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 28.75181,
+      "templateScoreRobustZ": 6.983428,
+      "x": 369046.0,
+      "y": 546326.0
+    },
+    {
+      "boundaryCoverage": 0.6875,
+      "candidateId": "cand_734216a3e826",
+      "column": 741,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 10,
+      "row": 1038,
+      "score": 8.242062,
+      "sectorCoverage": 0.6875,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 27.792175,
+      "templateScoreRobustZ": 6.695187,
+      "x": 367966.0,
+      "y": 545846.0
+    },
+    {
+      "boundaryCoverage": 0.9375,
+      "candidateId": "cand_d9ab9ad3b5ab",
+      "column": 47,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 11,
+      "row": 549,
+      "score": 8.236806,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 25.693878,
+      "templateScoreRobustZ": 6.064931,
+      "x": 365190.0,
+      "y": 547802.0
+    },
+    {
+      "boundaryCoverage": 0.677083,
+      "candidateId": "cand_2d13dd77916b",
+      "column": 681,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 12,
+      "row": 280,
+      "score": 8.174933,
+      "sectorCoverage": 0.75,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 27.403954,
+      "templateScoreRobustZ": 6.578579,
+      "x": 367726.0,
+      "y": 548878.0
+    },
+    {
+      "boundaryCoverage": 0.791667,
+      "candidateId": "cand_d255fdbdc785",
+      "column": 662,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 13,
+      "row": 389,
+      "score": 8.049444,
+      "sectorCoverage": 0.75,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 26.509317,
+      "templateScoreRobustZ": 6.309861,
+      "x": 367650.0,
+      "y": 548442.0
+    },
+    {
+      "boundaryCoverage": 0.541667,
+      "candidateId": "cand_0234a1637616",
+      "column": 729,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 14,
+      "row": 914,
+      "score": 7.95726,
+      "sectorCoverage": 0.5625,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 27.86705,
+      "templateScoreRobustZ": 6.717677,
+      "x": 367918.0,
+      "y": 546342.0
+    },
+    {
+      "boundaryCoverage": 0.958333,
+      "candidateId": "cand_d388b83ecb3b",
+      "column": 164,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 15,
+      "row": 1092,
+      "score": 7.93381,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 24.598421,
+      "templateScoreRobustZ": 5.735893,
+      "x": 365658.0,
+      "y": 545630.0
+    },
+    {
+      "boundaryCoverage": 0.927083,
+      "candidateId": "cand_5cf3665c501a",
+      "column": 560,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 16,
+      "row": 228,
+      "score": 7.912546,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 24.657679,
+      "templateScoreRobustZ": 5.753692,
+      "x": 367242.0,
+      "y": 549086.0
+    },
+    {
+      "boundaryCoverage": 0.96875,
+      "candidateId": "cand_5c6746f5158d",
+      "column": 1052,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 17,
+      "row": 219,
+      "score": 7.863248,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 0.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 24.32015,
+      "templateScoreRobustZ": 5.65231,
+      "x": 369210.0,
+      "y": 549122.0
+    },
+    {
+      "boundaryCoverage": 0.84375,
+      "candidateId": "cand_333f168a1765",
+      "column": 655,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 18,
+      "row": 499,
+      "score": 7.831085,
+      "sectorCoverage": 0.875,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 25.149429,
+      "templateScoreRobustZ": 5.901397,
+      "x": 367622.0,
+      "y": 548002.0
+    },
+    {
+      "boundaryCoverage": 0.947917,
+      "candidateId": "cand_5e9707c17e84",
+      "column": 949,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 19,
+      "row": 810,
+      "score": 7.82257,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 24.479502,
+      "templateScoreRobustZ": 5.700174,
+      "x": 368798.0,
+      "y": 546758.0
+    },
+    {
+      "boundaryCoverage": 0.979167,
+      "candidateId": "cand_179571b2d87d",
+      "column": 1030,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 20,
+      "row": 745,
+      "score": 7.720006,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 23.799908,
+      "templateScoreRobustZ": 5.496048,
+      "x": 369122.0,
+      "y": 547018.0
+    }
+  ],
+  "diagnostics": [
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-01/hillshade.png",
+      "sha256": "3bbc1d08d123f912f32be8a41a4d66f4f4f6b0ca43991311fb825d903bc57b62"
+    },
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-01/template-score.png",
+      "sha256": "a9cf8c8ea6e70afa021e08a5fca4a04f9c329e7910de821fb070d241a0d93b85"
+    },
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-01/candidates.png",
+      "sha256": "e0177710d70e775d9c5a771c4bf9752072705623c245743123afdaeca2055363"
+    }
+  ],
+  "generatedAt": "2026-07-23T21:36:31Z",
+  "implementation": [
+    {
+      "path": "scripts/ij_terrain.py",
+      "sha256": "6dabf7c41b58d57ab42160463cecc3ed0d0e20a1509d80cf5debb0f1c0be6612"
+    },
+    {
+      "path": "scripts/archaeology.py",
+      "sha256": "12e4db0e7ce71551675f8d8f34754c4aba6c795ccf9a01cdf24385f7ec6b1163"
+    },
+    {
+      "path": "scripts/ij_sources.py",
+      "sha256": "fc90c3a54a07ab2f241b573491e5744edb05d7688bcdea2d9cd01162a07db505"
+    },
+    {
+      "path": "scripts/ij_casebook.py",
+      "sha256": "277503d9aa42431ee86767e5a57ac19dd411374731073afe2d893f110e462079"
+    },
+    {
+      "path": "scripts/ij_common.py",
+      "sha256": "fcd3de7b57480c928407099b7df5998db935a7c0fd67bbf2d8a3b5cf983630fb"
+    },
+    {
+      "path": "scripts/requirements.txt",
+      "sha256": "67a9c15a6fa737b3ea8f2920b6f8cf51cdbbbdaee9ee4545db64e21fa15ae7ac"
+    }
+  ],
+  "input": {
+    "bbox": [
+      365000.0,
+      545000.0,
+      370000.0,
+      550000.0
+    ],
+    "coordinateUnit": "metre",
+    "crs": "EPSG:27700",
+    "modality": "terrain",
+    "originalShape": [
+      5000,
+      5000
+    ],
+    "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/raw/whitley-castle-dtm.tif",
+    "sha256": "786edd9fdb128416d0431add418fd1aeae017f122603c28353b2a754b6e6ffb9",
+    "sourceSidecarPath": "plugins/indiana-jones/skills/indiana-jones/assets/poc/raw/whitley-castle-dtm.tif.source.json",
+    "sourceSidecarSha256": "7da42b04b14b24d7edf14afa41c7fb7d15d20f717018e663eebf0f97ec631321"
+  },
+  "limitations": [
+    "Detects enclosure-like terrain geometry only.",
+    "Modern, geological, agricultural, and processing features can score highly.",
+    "A non-detection is not evidence of archaeological absence.",
+    "Every candidate requires independent expert and contextual review."
+  ],
+  "parameters": {
+    "analysisShape": [
+      1250,
+      1250
+    ],
+    "anglesDeg": [
+      0.0,
+      30.0,
+      60.0,
+      90.0,
+      120.0,
+      150.0
+    ],
+    "aspects": [
+      1.25,
+      1.65
+    ],
+    "downsample": 4,
+    "families": [
+      "diamond",
+      "ellipse"
+    ],
+    "featureTerms": [
+      "absolute-small-scale-local-relief",
+      "absolute-medium-scale-local-relief",
+      "medium-local-relief-gradient",
+      "terrain-slope"
+    ],
+    "localReliefRadiiM": [
+      12.0,
+      35.0,
+      90.0
+    ],
+    "majorRadiiM": [
+      60.0,
+      90.0,
+      120.0
+    ],
+    "minimumDistanceM": 180.0,
+    "pixelSizeM": 4.0,
+    "responseNormalization": "raw",
+    "topK": 20
+  },
+  "runtime": {
+    "numpyVersion": "2.0.2",
+    "pillowVersion": "11.3.0",
+    "pythonVersion": "3.9.6"
+  },
+  "schemaVersion": "1.0",
+  "scoreSemantics": "relative classical-template score; not a calibrated probability"
+}

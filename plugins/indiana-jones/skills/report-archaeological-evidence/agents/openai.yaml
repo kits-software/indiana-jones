@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain the Evidence"
+  short_description: "Turn clues into a rigorous discovery report"
+  default_prompt: "Use $report-archaeological-evidence to explain what this investigation found, rank the alternatives, and show what would confirm or overturn the conclusion."

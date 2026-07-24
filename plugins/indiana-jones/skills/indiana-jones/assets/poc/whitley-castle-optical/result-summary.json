@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "benchmark": {
+    "name": "Whitley Castle Sentinel-2 optical known-site localization POC",
+    "class": "target-selected 4 x 4 km known-site localization window",
+    "claimBoundary": "Not an analyst-blind landscape survey, a new-site discovery, an absence claim, or a transferable detection-rate estimate.",
+    "targetLabelsUsedDuringCandidateGeneration": false,
+    "candidateArtifactsFrozenBeforeGroundTruth": true,
+    "acceptanceToleranceM": 160.0,
+    "outcome": "miss"
+  },
+  "site": {
+    "name": "Whitley Castle Roman fort",
+    "status": "public-known scheduled monument",
+    "groundTruthSource": "https://doi.org/10.5284/1012483",
+    "coordinatesIncludedInThisPublicSummary": false
+  },
+  "imagery": {
+    "catalog": "https://earth-search.aws.element84.com/v1",
+    "collection": "sentinel-2-c1-l2a",
+    "dataTerms": "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+    "analysisCrs": "EPSG:32630",
+    "analysisGridM": 10.0,
+    "shape": [
+      400,
+      400
+    ],
+    "dates": [
+      {
+        "season": "winter",
+        "itemId": "S2B_T30UWF_20250309T112234_L2A",
+        "acquiredAt": "2025-03-09T11:26:09.079000Z",
+        "tileCloudCoverPercent": 8.920007
+      },
+      {
+        "season": "spring",
+        "itemId": "S2C_T30UWF_20250516T113334_L2A",
+        "acquiredAt": "2025-05-16T11:36:19.484000Z",
+        "tileCloudCoverPercent": 0.003076
+      },
+      {
+        "season": "summer",
+        "itemId": "S2C_T30UWF_20250712T112136_L2A",
+        "acquiredAt": "2025-07-12T11:26:29.634000Z",
+        "tileCloudCoverPercent": 3.25417
+      },
+      {
+        "season": "autumn",
+        "itemId": "S2A_T30UWF_20250922T112128_L2A",
+        "acquiredAt": "2025-09-22T11:26:21.648000Z",
+        "tileCloudCoverPercent": 3.686428
+      }
+    ],
+    "bands": [
+      "blue",
+      "green",
+      "red",
+      "nir",
+      "swir1"
+    ],
+    "nativeGsdM": {
+      "blue": 10.0,
+      "green": 10.0,
+      "red": 10.0,
+      "nir": 10.0,
+      "swir1": 20.0
+    },
+    "surfaceReflectanceTransform": "DN * 0.0001 - 0.1",
+    "validDatePixelObservations": 640000
+  },
+  "frozenArtifacts": {
+    "selectionSha256": "fa925293fdcea476ae22e879e7f5aebb629563a4bc0a057dd1e360d29139fca1",
+    "profilesSha256": "4ea05c66c7654312ef73b8c05c9655c96209ae02c89b8c93308c81a3d1e47cf5",
+    "cubeSha256": "9bb5b6dc5ed1e2a54b0a0f3ecdab89ee07b5d1790c5e96f0344067965c6dc862",
+    "manifestSha256": "1168e3b669f6a2343c27364088208255689ef4cb9c956b14b54c6edf87c3c38f",
+    "groundTruthSha256": "cf13079c688dfdbef3deb0025eaa58822b97a603348b9931b9c6147636150655"
+  },
+  "profiles": [
+    {
+      "id": "A-default",
+      "backgroundRadiusM": 120.0,
+      "threshold": 3.5,
+      "candidateSha256": "25995b16bc84ecc8d5b682c6bbcb71a90e95d6996d2bb6ed6666aaf627121719",
+      "scoreSha256": "66bcbda1fb39b1e429dcad93d4a850160801798c8132781b0e431d6d03fa1936",
+      "nearestRank": 36,
+      "nearestDistanceM": 191.15,
+      "hit": false
+    },
+    {
+      "id": "B-lower-threshold",
+      "backgroundRadiusM": 120.0,
+      "threshold": 3.0,
+      "candidateSha256": "4dbac976af1eccee46c147fc24d8e2c2389a3c040068fc110b08bb5bd8b7b8f2",
+      "scoreSha256": "b58d7d8e864fd3d4f93ba2b48341f1c701f670c68c744e31df22d0f456f95d19",
+      "nearestRank": 41,
+      "nearestDistanceM": 191.15,
+      "hit": false
+    },
+    {
+      "id": "C-broader-background",
+      "backgroundRadiusM": 250.0,
+      "threshold": 3.5,
+      "candidateSha256": "97cfa06edf2d59d448fca39b4cc232de8dd902b407521109535743e2917eb9c4",
+      "scoreSha256": "8a88980d6c10193f135cba4a469790b512cd26c191f669cf299ed4e2949620e9",
+      "nearestRank": 25,
+      "nearestDistanceM": 191.915,
+      "hit": false
+    }
+  ],
+  "frozenImplementationSha256": {
+    "satellite.py": "f8e95e7e177cc46171db6cce91d2ad7bfbad28d2e2e8df401a60cd707a442d0a",
+    "ij_optical.py": "11f363b1f27e74e17b950ba114920aabade2721b08ea481f36bf8d5397d4c897",
+    "ij_optical_io.py": "87d15b5b605a24363cb82eba99649ba1fa491ebed73d4a2885e05f082d758e20",
+    "ij_spatial.py": "96b2535bf56541d30848e5444cb8bfe07531640843e3387108650c17fa7f8cbb",
+    "ij_common.py": "fcd3de7b57480c928407099b7df5998db935a7c0fd67bbf2d8a3b5cf983630fb",
+    "ij_sources.py": "fc90c3a54a07ab2f241b573491e5744edb05d7688bcdea2d9cd01162a07db505"
+  },
+  "disclosure": {
+    "class": "public summary",
+    "underlyingCandidateArtifacts": "restricted",
+    "note": "This summary omits candidate coordinates, target coordinates, and the exact-distance vector. The hashes bind the retained restricted artifacts without redistributing them."
+  }
+}

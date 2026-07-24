@@ -1,0 +1,545 @@
+{
+  "algorithm": "diamond-ring-baseline-1.1",
+  "candidates": [
+    {
+      "boundaryCoverage": 0.927083,
+      "candidateId": "cand_b0ef425253a4",
+      "column": 670,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 1,
+      "row": 379,
+      "score": 7.94263,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 110.0
+      },
+      "templateScoreRaw": 7.215114,
+      "templateScoreRobustZ": 5.846275,
+      "x": 367682.0,
+      "y": 548482.0
+    },
+    {
+      "boundaryCoverage": 1.0,
+      "candidateId": "cand_6bd72b8cd05f",
+      "column": 786,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 2,
+      "row": 955,
+      "score": 7.724383,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.873125,
+      "templateScoreRobustZ": 5.474383,
+      "x": 368146.0,
+      "y": 546178.0
+    },
+    {
+      "boundaryCoverage": 0.958333,
+      "candidateId": "cand_8fef7cda7b1d",
+      "column": 640,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 3,
+      "row": 1169,
+      "score": 7.697767,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.954019,
+      "templateScoreRobustZ": 5.56235,
+      "x": 367562.0,
+      "y": 545322.0
+    },
+    {
+      "boundaryCoverage": 0.927083,
+      "candidateId": "cand_92987db3038d",
+      "column": 304,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 4,
+      "row": 1060,
+      "score": 7.648139,
+      "sectorCoverage": 0.9375,
+      "template": {
+        "angleDeg": 0.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 160.0
+      },
+      "templateScoreRaw": 6.944303,
+      "templateScoreRobustZ": 5.551785,
+      "x": 366218.0,
+      "y": 545758.0
+    },
+    {
+      "boundaryCoverage": 0.989583,
+      "candidateId": "cand_aa26440c4dd3",
+      "column": 91,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 5,
+      "row": 1090,
+      "score": 7.416855,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.602299,
+      "templateScoreRobustZ": 5.179876,
+      "x": 365366.0,
+      "y": 545638.0
+    },
+    {
+      "boundaryCoverage": 0.96875,
+      "candidateId": "cand_b16132d562c0",
+      "column": 151,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 6,
+      "row": 641,
+      "score": 7.293591,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 120.0
+      },
+      "templateScoreRaw": 6.512894,
+      "templateScoreRobustZ": 5.082654,
+      "x": 365606.0,
+      "y": 547434.0
+    },
+    {
+      "boundaryCoverage": 0.916667,
+      "candidateId": "cand_99fda68f33fc",
+      "column": 745,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 7,
+      "row": 704,
+      "score": 7.248701,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.531483,
+      "templateScoreRobustZ": 5.102868,
+      "x": 367982.0,
+      "y": 547182.0
+    },
+    {
+      "boundaryCoverage": 0.833333,
+      "candidateId": "cand_18a36be61b97",
+      "column": 1120,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 8,
+      "row": 333,
+      "score": 7.215226,
+      "sectorCoverage": 0.8125,
+      "template": {
+        "angleDeg": 90.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 100.0
+      },
+      "templateScoreRaw": 6.768913,
+      "templateScoreRobustZ": 5.361059,
+      "x": 369482.0,
+      "y": 548666.0
+    },
+    {
+      "boundaryCoverage": 0.84375,
+      "candidateId": "cand_26b8881595d8",
+      "column": 645,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 9,
+      "row": 196,
+      "score": 7.199027,
+      "sectorCoverage": 0.875,
+      "template": {
+        "angleDeg": 120.0,
+        "aspect": 1.65,
+        "family": "ellipse",
+        "majorRadiusM": 110.0
+      },
+      "templateScoreRaw": 6.684569,
+      "templateScoreRobustZ": 5.26934,
+      "x": 367582.0,
+      "y": 549214.0
+    },
+    {
+      "boundaryCoverage": 1.0,
+      "candidateId": "cand_912fe3fe66e4",
+      "column": 70,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 10,
+      "row": 184,
+      "score": 7.127691,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.324412,
+      "templateScoreRobustZ": 4.877691,
+      "x": 365282.0,
+      "y": 549262.0
+    },
+    {
+      "boundaryCoverage": 0.760417,
+      "candidateId": "cand_fefd86841c47",
+      "column": 1044,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 11,
+      "row": 995,
+      "score": 7.046978,
+      "sectorCoverage": 0.875,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 110.0
+      },
+      "templateScoreRaw": 6.640537,
+      "templateScoreRobustZ": 5.221458,
+      "x": 369178.0,
+      "y": 546018.0
+    },
+    {
+      "boundaryCoverage": 1.0,
+      "candidateId": "cand_e36488175e20",
+      "column": 1029,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 12,
+      "row": 746,
+      "score": 6.987024,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 90.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 110.0
+      },
+      "templateScoreRaw": 6.195056,
+      "templateScoreRobustZ": 4.737024,
+      "x": 369118.0,
+      "y": 547014.0
+    },
+    {
+      "boundaryCoverage": 0.697917,
+      "candidateId": "cand_de3dff2b7cd5",
+      "column": 1010,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 13,
+      "row": 921,
+      "score": 6.970262,
+      "sectorCoverage": 0.6875,
+      "template": {
+        "angleDeg": 90.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 160.0
+      },
+      "templateScoreRaw": 6.814256,
+      "templateScoreRobustZ": 5.410367,
+      "x": 369042.0,
+      "y": 546314.0
+    },
+    {
+      "boundaryCoverage": 0.927083,
+      "candidateId": "cand_5f16964c81a5",
+      "column": 407,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 14,
+      "row": 1020,
+      "score": 6.93907,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.234775,
+      "templateScoreRobustZ": 4.780216,
+      "x": 366630.0,
+      "y": 545918.0
+    },
+    {
+      "boundaryCoverage": 0.875,
+      "candidateId": "cand_4e7ac34f8368",
+      "column": 325,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 15,
+      "row": 1146,
+      "score": 6.934719,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 100.0
+      },
+      "templateScoreRaw": 6.290643,
+      "templateScoreRobustZ": 4.840969,
+      "x": 366302.0,
+      "y": 545414.0
+    },
+    {
+      "boundaryCoverage": 0.864583,
+      "candidateId": "cand_c797870765a0",
+      "column": 83,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 16,
+      "row": 97,
+      "score": 6.894005,
+      "sectorCoverage": 0.875,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 140.0
+      },
+      "templateScoreRaw": 6.380125,
+      "templateScoreRobustZ": 4.938275,
+      "x": 365334.0,
+      "y": 549610.0
+    },
+    {
+      "boundaryCoverage": 0.989583,
+      "candidateId": "cand_4195bcd26b0d",
+      "column": 907,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 17,
+      "row": 176,
+      "score": 6.888231,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 30.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 160.0
+      },
+      "templateScoreRaw": 6.116181,
+      "templateScoreRobustZ": 4.651252,
+      "x": 368630.0,
+      "y": 549294.0
+    },
+    {
+      "boundaryCoverage": 1.0,
+      "candidateId": "cand_cb5cbaf5d2e0",
+      "column": 243,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 18,
+      "row": 1115,
+      "score": 6.853905,
+      "sectorCoverage": 1.0,
+      "template": {
+        "angleDeg": 150.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 160.0
+      },
+      "templateScoreRaw": 6.072641,
+      "templateScoreRobustZ": 4.603905,
+      "x": 365974.0,
+      "y": 545538.0
+    },
+    {
+      "boundaryCoverage": 0.666667,
+      "candidateId": "cand_1bcb3c6af751",
+      "column": 1144,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 19,
+      "row": 254,
+      "score": 6.796002,
+      "sectorCoverage": 0.6875,
+      "template": {
+        "angleDeg": 90.0,
+        "aspect": 1.25,
+        "family": "diamond",
+        "majorRadiusM": 90.0
+      },
+      "templateScoreRaw": 6.689929,
+      "templateScoreRobustZ": 5.275168,
+      "x": 369578.0,
+      "y": 548982.0
+    },
+    {
+      "boundaryCoverage": 0.791667,
+      "candidateId": "cand_5445b13ecf47",
+      "column": 916,
+      "crs": "EPSG:27700",
+      "interpretation": "geometric terrain anomaly; archaeological status unverified",
+      "rank": 20,
+      "row": 869,
+      "score": 6.776563,
+      "sectorCoverage": 0.75,
+      "template": {
+        "angleDeg": 60.0,
+        "aspect": 1.65,
+        "family": "diamond",
+        "majorRadiusM": 140.0
+      },
+      "templateScoreRaw": 6.470893,
+      "templateScoreRobustZ": 5.03698,
+      "x": 368666.0,
+      "y": 546522.0
+    }
+  ],
+  "diagnostics": [
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-03/hillshade.png",
+      "sha256": "3bbc1d08d123f912f32be8a41a4d66f4f4f6b0ca43991311fb825d903bc57b62"
+    },
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-03/template-score.png",
+      "sha256": "ba8f738aff0865af8db139b71386c5db210969cbf496f6f5d333eb1f91ca4467"
+    },
+    {
+      "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/whitley-castle/run-03/candidates.png",
+      "sha256": "aa742ce67d0eeebfc4739fccf21a0e2f6d4b73db0ee6bdbbc06cd2482de52567"
+    }
+  ],
+  "generatedAt": "2026-07-23T21:37:03Z",
+  "implementation": [
+    {
+      "path": "scripts/ij_terrain.py",
+      "sha256": "6dabf7c41b58d57ab42160463cecc3ed0d0e20a1509d80cf5debb0f1c0be6612"
+    },
+    {
+      "path": "scripts/archaeology.py",
+      "sha256": "12e4db0e7ce71551675f8d8f34754c4aba6c795ccf9a01cdf24385f7ec6b1163"
+    },
+    {
+      "path": "scripts/ij_sources.py",
+      "sha256": "fc90c3a54a07ab2f241b573491e5744edb05d7688bcdea2d9cd01162a07db505"
+    },
+    {
+      "path": "scripts/ij_casebook.py",
+      "sha256": "277503d9aa42431ee86767e5a57ac19dd411374731073afe2d893f110e462079"
+    },
+    {
+      "path": "scripts/ij_common.py",
+      "sha256": "fcd3de7b57480c928407099b7df5998db935a7c0fd67bbf2d8a3b5cf983630fb"
+    },
+    {
+      "path": "scripts/requirements.txt",
+      "sha256": "67a9c15a6fa737b3ea8f2920b6f8cf51cdbbbdaee9ee4545db64e21fa15ae7ac"
+    }
+  ],
+  "input": {
+    "bbox": [
+      365000.0,
+      545000.0,
+      370000.0,
+      550000.0
+    ],
+    "coordinateUnit": "metre",
+    "crs": "EPSG:27700",
+    "modality": "terrain",
+    "originalShape": [
+      5000,
+      5000
+    ],
+    "path": "plugins/indiana-jones/skills/indiana-jones/assets/poc/raw/whitley-castle-dtm.tif",
+    "sha256": "786edd9fdb128416d0431add418fd1aeae017f122603c28353b2a754b6e6ffb9",
+    "sourceSidecarPath": "plugins/indiana-jones/skills/indiana-jones/assets/poc/raw/whitley-castle-dtm.tif.source.json",
+    "sourceSidecarSha256": "7da42b04b14b24d7edf14afa41c7fb7d15d20f717018e663eebf0f97ec631321"
+  },
+  "limitations": [
+    "Detects enclosure-like terrain geometry only.",
+    "Modern, geological, agricultural, and processing features can score highly.",
+    "A non-detection is not evidence of archaeological absence.",
+    "Every candidate requires independent expert and contextual review."
+  ],
+  "parameters": {
+    "analysisShape": [
+      1250,
+      1250
+    ],
+    "anglesDeg": [
+      0.0,
+      30.0,
+      60.0,
+      90.0,
+      120.0,
+      150.0
+    ],
+    "aspects": [
+      1.25,
+      1.65
+    ],
+    "downsample": 4,
+    "families": [
+      "diamond",
+      "ellipse"
+    ],
+    "featureTerms": [
+      "absolute-small-scale-local-relief",
+      "absolute-medium-scale-local-relief",
+      "medium-local-relief-gradient",
+      "terrain-slope"
+    ],
+    "localReliefRadiiM": [
+      12.0,
+      35.0,
+      90.0
+    ],
+    "majorRadiiM": [
+      90.0,
+      100.0,
+      110.0,
+      120.0,
+      140.0,
+      160.0,
+      180.0
+    ],
+    "minimumDistanceM": 180.0,
+    "pixelSizeM": 4.0,
+    "responseNormalization": "robust-per-template",
+    "topK": 20
+  },
+  "runtime": {
+    "numpyVersion": "2.0.2",
+    "pillowVersion": "11.3.0",
+    "pythonVersion": "3.9.6"
+  },
+  "schemaVersion": "1.0",
+  "scoreSemantics": "relative classical-template score; not a calibrated probability"
+}

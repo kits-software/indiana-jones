@@ -1,0 +1,73 @@
+{
+  "name": "indiana-jones",
+  "version": "0.1.0+codex.20260724115143",
+  "description": "Discover and illustrate what may be hidden, forgotten, or misunderstood through evidence-led archaeological research.",
+  "author": {
+    "name": "Kits Software",
+    "url": "https://github.com/kits-software"
+  },
+  "homepage": "https://github.com/kits-software/indiana-jones",
+  "repository": "https://github.com/kits-software/indiana-jones",
+  "keywords": [
+    "landscape discovery",
+    "lost settlements",
+    "place history",
+    "aerial archaeology",
+    "archaeological remote sensing",
+    "satellite imagery",
+    "multispectral anomaly detection",
+    "lidar",
+    "photogrammetry",
+    "heritage research",
+    "archaeological search planning",
+    "urban morphology",
+    "historical landscape",
+    "archaeological finds",
+    "object biography",
+    "treasure and hoard research",
+    "museum collections",
+    "archaeological provenance",
+    "research graph",
+    "archaeological reporting",
+    "heritage referrals",
+    "historical illustration",
+    "evidence-based reconstruction",
+    "archaeological visualization",
+    "google earth"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Indiana Jones",
+    "shortDescription": "Discover what a landscape may be hiding.",
+    "longDescription": "Start with a place, photograph, local story, or question about how people once lived or looked. Indiana Jones reconstructs the landscape through time, searches public or authorized evidence, finds overlooked connections and candidate locations, tests alternatives, and can turn stable research into an attractive historical illustration whose sources, inferences, prompt, and uncertainties remain visible. It keeps investigating when one source is unavailable, while protecting sensitive sites and separating generated interpretation, promising clues, and verified discoveries. No specialist tool names are required: describe the mystery, and the plugin chooses the research path.",
+    "developerName": "Kits Software",
+    "category": "Research & Education",
+    "capabilities": [
+      "Research",
+      "Place-Led Discovery",
+      "Historical Reconstruction",
+      "Candidate Discovery",
+      "Image Analysis",
+      "Satellite Analysis",
+      "Search Planning",
+      "Evidence Graphs",
+      "History and Finds Research",
+      "Object and Custody Research",
+      "Permission-Gated Prospectivity",
+      "Evidence-Based Illustration",
+      "Image Generation",
+      "Google Earth Browser Research",
+      "Map Rendering",
+      "Read"
+    ],
+    "websiteURL": "https://github.com/kits-software/indiana-jones",
+    "defaultPrompt": [
+      "Could an older castle or settlement be hidden around this place?",
+      "How did people here live, build, work, and travel over time?",
+      "Show how this person, object, building, or city could have looked at a specific time, and label what is known, inferred, or illustrative."
+    ],
+    "brandColor": "#8A5A2B",
+    "composerIcon": "./assets/logo-v12.png",
+    "logo": "./assets/logo-v12.png"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.1",
+  "caseId": "ij_example",
+  "title": "Landscape investigation",
+  "question": "Which anomalies merit expert follow-up?",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "status": "intake",
+  "scope": {
+    "studyArea": "Generalized area",
+    "intent": "candidate survey",
+    "disclosure": "restricted",
+    "publicPrecision": "region-only"
+  },
+  "authorization": {
+    "publicWeb": true,
+    "authenticatedPlatforms": [],
+    "writeActions": false,
+    "fieldActions": false
+  },
+  "researchFrame": {
+    "expectedProxy": "",
+    "visibilityConditions": [],
+    "targetScale": "",
+    "alternativeExplanations": [],
+    "decisionRule": "",
+    "falsifier": "",
+    "interpretivePrior": ""
+  },
+  "decisionLog": [],
+  "sources": [],
+  "derivedArtifacts": [],
+  "claims": [],
+  "candidates": [],
+  "rejectedExplanations": [],
+  "missingEvidence": []
+}

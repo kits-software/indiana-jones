@@ -1,0 +1,20 @@
+{
+  "name": "indiana-jones-lab",
+  "interface": {
+    "displayName": "Indiana Jones Lab"
+  },
+  "plugins": [
+    {
+      "name": "indiana-jones",
+      "source": {
+        "source": "local",
+        "path": "./plugins/indiana-jones"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research & Education"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0",
+  "mode": "maplibre-style",
+  "disclosureClass": "restricted",
+  "coordinatePrecision": "region-only",
+  "networkPolicy": {
+    "mode": "local-only",
+    "allowedHosts": []
+  },
+  "attribution": "Synthetic worker-network-policy regression",
+  "style": {
+    "path": "extrusion-style.json"
+  },
+  "camera": {
+    "center": [0, 0],
+    "zoom": 15,
+    "pitch": 45,
+    "bearing": 0
+  },
+  "viewport": {
+    "width": 320,
+    "height": 240,
+    "pixelRatio": 1
+  },
+  "wait": {
+    "timeoutMs": 10000,
+    "settleMs": 0,
+    "failOnMapError": true
+  },
+  "sources": [
+    {
+      "sourceId": "src_blocked_worker_fixture",
+      "kind": "primary-measurement",
+      "role": "analysis",
+      "locator": "extrusion-style.json",
+      "accessBasis": "local synthetic fixture",
+      "license": "CC0-1.0",
+      "crs": "EPSG:4326",
+      "accessedAt": "2026-07-24T00:00:00Z"
+    }
+  ],
+  "customLayerModules": [
+    "blocked-worker.mjs"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "siteId": "ADS-1012483-NY69494868",
+  "name": "Whitley Castle Roman fort (Epiacum)",
+  "crs": "EPSG:27700",
+  "x": 369490,
+  "y": 548680,
+  "toleranceM": 160,
+  "source": "https://doi.org/10.5284/1012483",
+  "sourceStatement": "Archaeology Data Service gives the study-area centre as NGR NY 6949 4868.",
+  "sensitivity": "public-known-scheduled-monument"
+}

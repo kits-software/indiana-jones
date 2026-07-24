@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.3",
+  "observationId": "ge_ref_replace-me",
+  "sourceRole": "manual-reference",
+  "product": "Google Earth on web",
+  "officialUrl": "https://earth.google.com/web/",
+  "deepLink": null,
+  "accessedAt": null,
+  "accessClass": "public",
+  "authorization": {
+    "platform": "Google Earth",
+    "session": "unauthenticated",
+    "purpose": null,
+    "mutationsAllowed": []
+  },
+  "studyArea": {
+    "publicLabel": null,
+    "restrictedLocationStoredElsewhere": false
+  },
+  "view": {
+    "basemap": "satellite",
+    "detailPreset": null,
+    "mode": "2D",
+    "heading": null,
+    "tilt": null,
+    "cameraAltitudeText": null,
+    "historicalImagery": false,
+    "selectedDateText": null
+  },
+  "displayedMetadata": {
+    "imageryDateText": null,
+    "coordinatesRecorded": false,
+    "groundElevationText": null,
+    "attributionText": null,
+    "providers": []
+  },
+  "catalogLayer": {
+    "used": false,
+    "title": null,
+    "sourceOrCustodian": null,
+    "coverage": null,
+    "lastUpdatedText": null,
+    "terms": null,
+    "requiredPlan": null,
+    "experimental": null,
+    "styles": [],
+    "filters": [],
+    "canonicalSourceUrls": []
+  },
+  "importedData": {
+    "used": false,
+    "sourcePathOrUrl": null,
+    "custodian": null,
+    "license": null,
+    "sha256": null,
+    "earthMode": null,
+    "uploaded": null
+  },
+  "detectChange": {
+    "used": false,
+    "experimental": true,
+    "modelOrDatasetText": null,
+    "comparisonYears": [],
+    "aoiPublicLabel": null,
+    "nominalResolutionText": null,
+    "areaLimitText": null,
+    "generatedLayerTitle": null,
+    "projectMutationAuthorized": false,
+    "verificationViews": []
+  },
+  "nativeAnalysis": {
+    "used": false,
+    "tool": null,
+    "experimental": null,
+    "promptOrLabelsTransmitted": false,
+    "authorizationRecorded": false,
+    "scope": null,
+    "requiredPlan": null,
+    "modelOrDatasetText": null,
+    "resultCount": null,
+    "displayedLimitations": [],
+    "verificationViews": []
+  },
+  "measurement": {
+    "used": false,
+    "featureType": null,
+    "displayedValue": null,
+    "displayedUnit": null,
+    "terrainStatistics": null,
+    "estimateCaveatRecorded": false
+  },
+  "observation": {
+    "observed": [],
+    "inferred": [],
+    "alternatives": [],
+    "limits": []
+  },
+  "capture": {
+    "kind": "none",
+    "path": null,
+    "sha256": null,
+    "useBasis": null,
+    "visibleAttributionPreserved": null
+  },
+  "exploratoryLocalAnalysis": {
+    "used": false,
+    "capturePermitted": null,
+    "useBasis": null,
+    "inputPath": null,
+    "inputSha256": null,
+    "sourceType": null,
+    "operation": null,
+    "providers": [],
+    "attributionPreserved": null,
+    "derivedOutputPaths": [],
+    "systematicDatasetCreated": false,
+    "limitations": []
+  },
+  "followUp": {
+    "canonicalSourceUrls": [],
+    "requiresLicensedAnalysisSource": true
+  },
+  "disclosureClass": "public"
+}

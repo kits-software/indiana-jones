@@ -1,0 +1,145 @@
+{
+  "candidateArtifactSha256": "05039ae0fd42a339610955ced6523a629b336cb07d3cf1cc67f5613a6760a742",
+  "claimBoundary": "Known-site rediscovery benchmark only; not evidence of a new site.",
+  "distances": [
+    {
+      "candidateId": "cand_9c37830e6e88",
+      "distanceM": 2962.813,
+      "rank": 1,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_019004a80400",
+      "distanceM": 4099.561,
+      "rank": 2,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_b41d65dd7e11",
+      "distanceM": 4371.909,
+      "rank": 3,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_74087c84d27e",
+      "distanceM": 2338.103,
+      "rank": 4,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_d52da569148b",
+      "distanceM": 4002.664,
+      "rank": 5,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_371a20324dee",
+      "distanceM": 1052.534,
+      "rank": 6,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_55fd1e156efc",
+      "distanceM": 583.167,
+      "rank": 7,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_bee8ce296498",
+      "distanceM": 1880.678,
+      "rank": 8,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_5e630cbf8eed",
+      "distanceM": 2395.507,
+      "rank": 9,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_734216a3e826",
+      "distanceM": 3217.784,
+      "rank": 10,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_d9ab9ad3b5ab",
+      "distanceM": 4388.722,
+      "rank": 11,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_2d13dd77916b",
+      "distanceM": 1775.077,
+      "rank": 12,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_d255fdbdc785",
+      "distanceM": 1855.329,
+      "rank": 13,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_0234a1637616",
+      "distanceM": 2817.344,
+      "rank": 14,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_d388b83ecb3b",
+      "distanceM": 4897.624,
+      "rank": 15,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_5cf3665c501a",
+      "distanceM": 2284.369,
+      "rank": 16,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_5c6746f5158d",
+      "distanceM": 523.225,
+      "rank": 17,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_333f168a1765",
+      "distanceM": 1987.236,
+      "rank": 18,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_5e9707c17e84",
+      "distanceM": 2042.779,
+      "rank": 19,
+      "withinTolerance": false
+    },
+    {
+      "candidateId": "cand_179571b2d87d",
+      "distanceM": 1702.254,
+      "rank": 20,
+      "withinTolerance": false
+    }
+  ],
+  "generatedAt": "2026-07-23T21:36:31Z",
+  "groundTruth": {
+    "crs": "EPSG:27700",
+    "name": "Whitley Castle Roman fort (Epiacum)",
+    "sensitivity": "public-known-scheduled-monument",
+    "siteId": "ADS-1012483-NY69494868",
+    "source": "https://doi.org/10.5284/1012483",
+    "toleranceM": 160.0
+  },
+  "groundTruthArtifactSha256": "9f856d2e87d1435b1de2a1561fc7ee59eca213ebe899426a743a8c798ff5e9ae",
+  "result": {
+    "candidatesScored": 20,
+    "hit": false,
+    "hitRank": null,
+    "top10Hit": false,
+    "top1Hit": false,
+    "top5Hit": false
+  },
+  "schemaVersion": "1.0"
+}

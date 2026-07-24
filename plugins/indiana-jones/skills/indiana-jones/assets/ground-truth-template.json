@@ -1,0 +1,10 @@
+{
+  "siteId": "authoritative-record-id",
+  "name": "Known archaeological site",
+  "crs": "EPSG:27700",
+  "x": 0,
+  "y": 0,
+  "toleranceM": 150,
+  "source": "https://authoritative.example/site-record",
+  "sensitivity": "public-known-site"
+}

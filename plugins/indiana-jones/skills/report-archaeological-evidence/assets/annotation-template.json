@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "title": "Candidate C-01 — conservative source view",
+  "disclosure": "restricted",
+  "coordinateSpace": "normalized",
+  "source": {
+    "sourceId": "src_replace_me",
+    "provider": "Replace with imagery custodian",
+    "product": "Replace with product or collection",
+    "sensor": "Replace with sensor or camera",
+    "acquiredAt": "YYYY-MM-DD or unknown",
+    "resolution": "Replace with native GSD or scale",
+    "license": "Replace with licence or rights statement",
+    "attribution": "Replace with required visible attribution",
+    "locator": "Replace with stable restricted source locator",
+    "publicLocator": "Replace with safe collection-level URL",
+    "sourceRole": "analysis",
+    "derivativeUseAuthorized": true
+  },
+  "frame": {
+    "viewType": "source-measurement",
+    "orientation": "north-up",
+    "locationLabel": "Generalized study area",
+    "processing": [
+      "Conservative contrast stretch; no geometric alteration"
+    ]
+  },
+  "annotations": [
+    {
+      "id": "A",
+      "kind": "ellipse",
+      "points": [
+        [0.35, 0.35],
+        [0.62, 0.64]
+      ],
+      "label": "Repeated tonal arc",
+      "observation": "Visible in the source frame; archaeological interpretation remains unconfirmed.",
+      "status": "observed",
+      "sensitivity": "restricted",
+      "color": "#ff5a47"
+    }
+  ]
+}

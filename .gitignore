@@ -1,0 +1,9 @@
+.DS_Store
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.ij-cache/
+**/node_modules/
+**/assets/poc/raw/
+/research-library/
+/tmp/

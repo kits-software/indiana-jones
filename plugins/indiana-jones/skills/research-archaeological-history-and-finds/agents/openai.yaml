@@ -1,0 +1,4 @@
+interface:
+  display_name: "History, Life & Finds"
+  short_description: "Reconstruct how people lived in a place"
+  default_prompt: "Use $research-archaeological-history-and-finds to reconstruct how people lived, built, worked, travelled, and what material traces they may have left here."

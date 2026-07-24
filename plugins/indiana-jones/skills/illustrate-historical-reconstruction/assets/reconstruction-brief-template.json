@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "title": "",
+  "researchQuestion": "",
+  "subject": {
+    "kind": "person",
+    "name": "",
+    "place": "",
+    "timeSlice": "",
+    "state": "",
+    "viewpoint": "",
+    "intendedUse": "",
+    "disclosure": "public"
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "citation": "",
+      "url": "",
+      "accessedAt": "",
+      "authority": "primary-direct",
+      "originFamilyId": "",
+      "roles": [],
+      "licenseOrUseBasis": "",
+      "notes": ""
+    }
+  ],
+  "visualDecisions": [
+    {
+      "id": "V1",
+      "element": "",
+      "depiction": "",
+      "status": "documented",
+      "impact": "high",
+      "sourceIds": [
+        "S1"
+      ],
+      "rationale": "",
+      "alternatives": [],
+      "promptClause": "",
+      "inspectionCheck": ""
+    }
+  ],
+  "negativeConstraints": [
+    {
+      "constraint": "",
+      "reason": "",
+      "sourceIds": []
+    }
+  ],
+  "prompt": {
+    "useCase": "historical-scene",
+    "assetType": "",
+    "primaryRequest": "",
+    "structuralAnchors": [],
+    "culturalMaterialDetails": [],
+    "sceneAndEnvironment": [],
+    "composition": "",
+    "lightingAndMood": "",
+    "constraints": [],
+    "avoid": [],
+    "finalPrompt": ""
+  },
+  "review": {
+    "anachronismChecks": [],
+    "geometryChecks": [],
+    "culturalChecks": [],
+    "unresolvedHighImpact": [],
+    "variantPolicy": "single-main-with-disclosure",
+    "outputChecked": false,
+    "remainingIssues": [],
+    "expertReview": {
+      "status": "not-requested",
+      "reviewerRole": "",
+      "notes": ""
+    }
+  },
+  "generation": {
+    "tool": "",
+    "generatedAt": "",
+    "outputPath": "",
+    "promptVersion": "1",
+    "referenceImages": []
+  },
+  "caption": {
+    "label": "Evidence-led historical reconstruction",
+    "summary": "",
+    "uncertaintyStatement": "",
+    "sourceIds": [
+      "S1"
+    ]
+  }
+}

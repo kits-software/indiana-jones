@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "1.0",
+  "createdAt": "2026-07-24T11:53:16.180Z",
+  "status": "rendered",
+  "durationMs": 2958,
+  "renderer": {
+    "engine": "maplibre-gl-js",
+    "host": "chromium-cdp",
+    "browserExecutable": "Google Chrome",
+    "maplibreVersion": "5.23.0",
+    "webgl": {
+      "webgl2": true,
+      "width": 640,
+      "height": 480,
+      "pixelCount": 307200,
+      "nonBackgroundPixels": 236255,
+      "opaquePixels": 307200,
+      "luminanceMean": 37.87105252160727,
+      "luminanceVariance": 220.24704221326488,
+      "framebufferSha256": "9b107bd78e639f8504e1dda5cc6720ddf9410c22064a23fe61aaff110797c140",
+      "vendor": "WebKit",
+      "renderer": "WebKit WebGL",
+      "unmaskedVendor": "Google Inc. (Apple)",
+      "unmaskedRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "shadingLanguageVersion": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+    },
+    "customModules": [],
+    "mapErrors": [],
+    "terrainEnabled": true,
+    "network": {
+      "requestCount": 25,
+      "blockedRequestCount": 0,
+      "remoteOrigins": [],
+      "blockedOrigins": []
+    }
+  },
+  "input": {
+    "job": {
+      "file": "terrain-job.json",
+      "sha256": "fbcfbb36ed048e59e11037d7bacc71a65265a0043e5f2bb4d018dc98df269a71",
+      "schemaVersion": "1.0"
+    },
+    "disclosureClass": "public",
+    "coordinatePrecision": "exact",
+    "networkPolicy": {
+      "mode": "local-only",
+      "allowedHosts": []
+    },
+    "attribution": "Synthetic local Terrain RGB fixture · no external elevation data",
+    "style": {
+      "kind": "local",
+      "path": "terrain-style.json",
+      "sha256": "18b70d47643bf8651c73d7a53ada13eb5ce64ff276506592456c3a6a86be5aa5"
+    },
+    "customLayerModules": [],
+    "sources": [
+      {
+        "sourceId": "src_synthetic_dem",
+        "kind": "primary-measurement",
+        "role": "analysis",
+        "locator": "synthetic-dem.json",
+        "accessBasis": "local synthetic fixture",
+        "license": "CC0-1.0",
+        "crs": "EPSG:3857",
+        "accessedAt": "2026-07-24T00:00:00.000Z",
+        "sensor": "synthetic",
+        "acquiredAt": "not applicable",
+        "resolution": "256 procedural samples per tile",
+        "notes": "Regression-only Terrain RGB; not a measurement or archaeological source.",
+        "sha256": "d467bd96af5f7613e6855c45ed3bbeefcb78e37f5a5f5b85c36b75291bffe1e3",
+        "sha256Verification": "computed"
+      }
+    ],
+    "servedAssets": [
+      {
+        "route": "/assets/synthetic-dem.json",
+        "kind": "derived-input",
+        "file": "synthetic-dem.json",
+        "bytes": 341,
+        "sha256": "d467bd96af5f7613e6855c45ed3bbeefcb78e37f5a5f5b85c36b75291bffe1e3",
+        "sourceIds": [
+          "src_synthetic_dem"
+        ]
+      },
+      {
+        "route": "/assets/terrain-style.json",
+        "kind": "job-asset",
+        "file": "terrain-style.json",
+        "bytes": 908,
+        "sha256": "18b70d47643bf8651c73d7a53ada13eb5ce64ff276506592456c3a6a86be5aa5",
+        "sourceIds": []
+      },
+      {
+        "route": "/renderer.html",
+        "kind": "runtime",
+        "file": null,
+        "bytes": 909,
+        "sha256": "74baea6ce0d555ffab2a19ab43c390b18146684fb626248cbc24c9cab48c4830",
+        "sourceIds": []
+      },
+      {
+        "route": "/renderer.mjs",
+        "kind": "runtime",
+        "file": null,
+        "bytes": 6831,
+        "sha256": "5a0142101e7970132beca4e7112111c9ae04aebf97e520e3e5d21d6a0b81ac70",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/10/511/512.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/10/512/512.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/10/512/513.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/10/513/512.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1023/1025.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1024/1024.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1024/1025.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1024/1026.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1025/1024.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1025/1025.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/11/1025/1026.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/5/15/16.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/5/16/15.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/5/16/16.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/8/128/127.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/9/256/255.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/9/256/256.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/synthetic-dem/9/257/255.png",
+        "kind": "derived-fixture",
+        "file": null,
+        "bytes": 97775,
+        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "sourceIds": []
+      },
+      {
+        "route": "/vendor/maplibre-gl.css",
+        "kind": "runtime",
+        "file": null,
+        "bytes": 70024,
+        "sha256": "ab1e70d59ec40465bae7e7030da2f3ccf28133fd502e62bd598eefbadfd7a732",
+        "sourceIds": []
+      },
+      {
+        "route": "/vendor/maplibre-gl.js",
+        "kind": "runtime",
+        "file": null,
+        "bytes": 1054454,
+        "sha256": "e5b398823af45165124aef0b7e43ade5e1fc28d22807a5646da3ba38b8bfdc55",
+        "sourceIds": []
+      }
+    ]
+  },
+  "camera": {
+    "center": [
+      0.17578125,
+      -0.17578097
+    ],
+    "zoom": 10.4,
+    "pitch": 60,
+    "bearing": 28
+  },
+  "viewport": {
+    "width": 640,
+    "height": 480,
+    "pixelRatio": 1
+  },
+  "output": {
+    "file": "terrain.png",
+    "width": 640,
+    "height": 480,
+    "sha256": "bc9247eb33e262d32565672a2375336e203ebeca0d7e04e26d24e12df1647bef"
+  }
+}

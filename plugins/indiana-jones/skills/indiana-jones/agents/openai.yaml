@@ -1,0 +1,4 @@
+interface:
+  display_name: "Indiana Jones"
+  short_description: "Discover what a landscape may be hiding"
+  default_prompt: "Use $indiana-jones to investigate what may be hidden or forgotten around this place, rank the most plausible discoveries, and show what evidence would test them."

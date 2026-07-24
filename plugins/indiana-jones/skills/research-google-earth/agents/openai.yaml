@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research with Google Earth"
+  short_description: "Inspect a landscape in Google Earth"
+  default_prompt: "Use $research-google-earth to inspect this landscape for visible changes or unusual features and preserve the evidence attribution."

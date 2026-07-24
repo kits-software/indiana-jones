@@ -1,0 +1,87 @@
+{
+  "arrayPath": "optical-cube.npz",
+  "arraySha256": "<SHA256_OF_NPZ>",
+  "bands": [
+    "blue",
+    "green",
+    "red",
+    "nir",
+    "rededge1",
+    "swir1",
+    "swir2"
+  ],
+  "bbox": [
+    500000.0,
+    4100000.0,
+    501000.0,
+    4101000.0
+  ],
+  "coordinateUnit": "metre",
+  "crs": "EPSG:32632",
+  "dates": [
+    "2025-04-15",
+    "2025-05-20"
+  ],
+  "disclosure": "restricted",
+  "modality": "multispectral-optical",
+  "maskPolicy": "Mark only cloud-, shadow-, snow-, saturation-, and no-data-free pixels valid",
+  "nativeGsdM": {
+    "blue": 10.0,
+    "green": 10.0,
+    "nir": 10.0,
+    "red": 10.0,
+    "rededge1": 20.0,
+    "swir1": 20.0,
+    "swir2": 20.0
+  },
+  "northUp": true,
+  "pixelSizeM": 10.0,
+  "processingLevel": "Sentinel-2 L2A or equivalent surface reflectance",
+  "reflectanceOffset": 0.0,
+  "reflectanceScale": 1.0,
+  "resampling": "Document per-band alignment and resampling kernel; do not imply added detail",
+  "schemaVersion": "1.0",
+  "sensor": "Record the sensor and product collection",
+  "sourceAssets": [
+    {
+      "accessBasis": "public",
+      "accessedAt": "2026-01-01T00:00:00Z",
+      "acquiredAt": "2025-04-15",
+      "assets": {
+        "blue": {"href": "https://example.test/stac/item/blue"},
+        "green": {"href": "https://example.test/stac/item/green"},
+        "nir": {"href": "https://example.test/stac/item/nir"},
+        "red": {"href": "https://example.test/stac/item/red"},
+        "rededge1": {"href": "https://example.test/stac/item/rededge1"},
+        "swir1": {"href": "https://example.test/stac/item/swir1"},
+        "swir2": {"href": "https://example.test/stac/item/swir2"}
+      },
+      "collection": "sentinel-2-l2a",
+      "itemId": "provider-item-id-1",
+      "itemUrl": "https://example.test/stac/item/1",
+      "license": "Replace with the exact source-data terms",
+      "processingVersion": "Replace with the source processing baseline"
+    },
+    {
+      "accessBasis": "public",
+      "accessedAt": "2026-01-01T00:00:00Z",
+      "acquiredAt": "2025-05-20",
+      "assets": {
+        "blue": {"href": "https://example.test/stac/item/blue"},
+        "green": {"href": "https://example.test/stac/item/green"},
+        "nir": {"href": "https://example.test/stac/item/nir"},
+        "red": {"href": "https://example.test/stac/item/red"},
+        "rededge1": {"href": "https://example.test/stac/item/rededge1"},
+        "swir1": {"href": "https://example.test/stac/item/swir1"},
+        "swir2": {"href": "https://example.test/stac/item/swir2"}
+      },
+      "collection": "sentinel-2-l2a",
+      "itemId": "provider-item-id-2",
+      "itemUrl": "https://example.test/stac/item/2",
+      "license": "Replace with the exact source-data terms",
+      "processingVersion": "Replace with the source processing baseline"
+    }
+  ],
+  "targetLabelsUsed": false,
+  "unit": "surface-reflectance"
+}

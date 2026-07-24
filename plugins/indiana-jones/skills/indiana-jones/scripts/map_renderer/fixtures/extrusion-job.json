@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "mode": "maplibre-style",
+  "disclosureClass": "public",
+  "coordinatePrecision": "exact",
+  "networkPolicy": {
+    "mode": "local-only",
+    "allowedHosts": []
+  },
+  "attribution": "Synthetic local fixture · no external map or archaeological data",
+  "style": {
+    "path": "extrusion-style.json"
+  },
+  "camera": {
+    "center": [0, 0],
+    "zoom": 15.4,
+    "pitch": 60,
+    "bearing": -24
+  },
+  "viewport": {
+    "width": 640,
+    "height": 480,
+    "pixelRatio": 1
+  },
+  "wait": {
+    "timeoutMs": 30000,
+    "settleMs": 100,
+    "failOnMapError": true
+  },
+  "sources": [
+    {
+      "sourceId": "src_synthetic_extrusion",
+      "kind": "primary-measurement",
+      "role": "analysis",
+      "locator": "extrusion-style.json",
+      "accessBasis": "local synthetic fixture",
+      "license": "CC0-1.0",
+      "crs": "EPSG:4326",
+      "accessedAt": "2026-07-24T00:00:00Z",
+      "sensor": "synthetic",
+      "acquiredAt": "not applicable",
+      "resolution": "procedural vector geometry",
+      "notes": "Regression-only geometry; not archaeological evidence."
+    }
+  ],
+  "customLayerModules": [
+    "custom-layer.mjs"
+  ]
+}

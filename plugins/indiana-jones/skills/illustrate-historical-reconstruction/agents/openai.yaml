@@ -1,0 +1,4 @@
+interface:
+  display_name: "Illustrate the Past"
+  short_description: "Create evidence-led historical reconstructions"
+  default_prompt: "Use $illustrate-historical-reconstruction to research and illustrate how this person, object, building, settlement, or city could have looked at a specific time."

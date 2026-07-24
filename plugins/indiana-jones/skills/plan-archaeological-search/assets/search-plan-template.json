@@ -1,0 +1,630 @@
+{
+  "actions": [
+    {
+      "actionId": "act_name_concordance",
+      "actionClass": "public-desk",
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "candidateFocused": false,
+      "cellIds": [],
+      "hypothesisIds": [
+        "hyp_route_growth",
+        "hyp_null"
+      ],
+      "label": "Resolve historical names and jurisdictions",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Resolve names, aliases, jurisdictions, and place ambiguity from declared sources."},
+        "outputs": ["name concordance and ambiguity decision"],
+        "acceptanceCriteria": ["Cite every accepted alias.", "Preserve unresolved place ambiguity."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "method": "name-resolution",
+      "prerequisites": [],
+      "scores": {
+        "compute": 0.05,
+        "coverage": 0.6,
+        "delay": 0.1,
+        "discrimination": 0.7,
+        "falsification": 0.4,
+        "humanReview": 0.4,
+        "independence": 0.8,
+        "money": 0.0
+      },
+      "sourceIds": [
+        "src_hul"
+      ],
+      "stage": "framing",
+      "status": "planned"
+    },
+    {
+      "actionId": "act_systematic_coverage",
+      "actionClass": "public-desk",
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "candidateFocused": false,
+      "cellIds": [
+        "cell_L0_R01C01",
+        "cell_L0_R01C02",
+        "cell_L0_R02C01",
+        "cell_L0_R02C02"
+      ],
+      "hypothesisIds": [
+        "hyp_null"
+      ],
+      "label": "Inventory coarse-cell source coverage",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Inventory declared source coverage and explicit gaps for every coarse cell."},
+        "outputs": ["coverage ledger"],
+        "acceptanceCriteria": ["Report the searched denominator.", "Do not treat missing coverage as absence."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 2
+      },
+      "lane": "coverage",
+      "method": "source-coverage",
+      "prerequisites": [],
+      "scores": {
+        "compute": 0.1,
+        "coverage": 1.0,
+        "delay": 0.1,
+        "discrimination": 0.2,
+        "falsification": 0.1,
+        "humanReview": 0.3,
+        "independence": 0.7,
+        "money": 0.0
+      },
+      "sourceIds": [
+        "src_map_series"
+      ],
+      "stage": "framing",
+      "status": "planned"
+    },
+    {
+      "actionId": "act_map_regression",
+      "actionClass": "licensed-computation",
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "candidateFocused": false,
+      "cellIds": [
+        "cell_L0_R01C01",
+        "cell_L0_R01C02",
+        "cell_L0_R02C01",
+        "cell_L0_R02C02"
+      ],
+      "hypothesisIds": [
+        "hyp_route_growth",
+        "hyp_flood_relocation",
+        "hyp_modern_drainage"
+      ],
+      "label": "Compare georeferenced map editions by morphogenetic unit",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Compare licensed georeferenced map editions while retaining registration uncertainty."},
+        "outputs": ["map-regression observations and alternatives"],
+        "acceptanceCriteria": ["Record edition and registration provenance.", "Test at least one modern or natural alternative."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "method": "map-regression",
+      "prerequisites": [
+        "act_name_concordance"
+      ],
+      "scores": {
+        "compute": 0.3,
+        "coverage": 0.8,
+        "delay": 0.2,
+        "discrimination": 0.9,
+        "falsification": 0.7,
+        "humanReview": 0.7,
+        "independence": 0.7,
+        "money": 0.1
+      },
+      "sourceIds": [
+        "src_map_series"
+      ],
+      "stage": "hypothesis-building",
+      "status": "planned"
+    },
+    {
+      "actionId": "act_relief_candidate",
+      "actionClass": "licensed-computation",
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "candidateFocused": true,
+      "comparisonFamilyId": "terrain-route-margin-v1",
+      "cellIds": [
+        "cell_L0_R01C02"
+      ],
+      "hypothesisIds": [
+        "hyp_route_growth",
+        "hyp_flood_relocation",
+        "hyp_modern_drainage",
+        "hyp_processing",
+        "hyp_null"
+      ],
+      "label": "Test route-margin relief with licensed terrain data",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Run the declared terrain method on frozen candidate cells without target-label leakage."},
+        "outputs": ["hash-bound candidate terrain result"],
+        "acceptanceCriteria": ["Preserve raster and parameter hashes.", "Report negative and processing alternatives."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "discrimination",
+      "method": "terrain-analysis",
+      "pairedControlActionId": "act_relief_control",
+      "prerequisites": [
+        "act_map_regression"
+      ],
+      "scores": {
+        "compute": 0.4,
+        "coverage": 0.4,
+        "delay": 0.2,
+        "discrimination": 0.9,
+        "falsification": 0.8,
+        "humanReview": 0.5,
+        "independence": 0.8,
+        "money": 0.0
+      },
+      "sourceIds": [
+        "src_dem"
+      ],
+      "stage": "candidate-generation",
+      "status": "planned"
+    },
+    {
+      "actionId": "act_relief_control",
+      "actionClass": "licensed-computation",
+      "authorization": {
+        "required": "none",
+        "state": "not-required"
+      },
+      "candidateFocused": false,
+      "comparisonFamilyId": "terrain-route-margin-v1",
+      "cellIds": [
+        "cell_L0_R02C02"
+      ],
+      "hypothesisIds": [
+        "hyp_modern_drainage",
+        "hyp_processing",
+        "hyp_null"
+      ],
+      "label": "Run the same relief test in a matched control cell",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "Run the identical frozen terrain method in the matched negative-control cell."},
+        "outputs": ["hash-bound control terrain result"],
+        "acceptanceCriteria": ["Use identical processing parameters.", "Compare candidate and control denominators."],
+        "timeoutSeconds": 7200,
+        "maxAttempts": 2
+      },
+      "lane": "negative-control",
+      "method": "negative-control",
+      "prerequisites": [
+        "act_map_regression"
+      ],
+      "scores": {
+        "compute": 0.4,
+        "coverage": 0.5,
+        "delay": 0.2,
+        "discrimination": 0.7,
+        "falsification": 0.9,
+        "humanReview": 0.5,
+        "independence": 0.8,
+        "money": 0.0
+      },
+      "sourceIds": [
+        "src_dem",
+        "src_modern_context"
+      ],
+      "stage": "candidate-generation",
+      "status": "planned"
+    },
+    {
+      "actionId": "act_inventory_unblind",
+      "actionClass": "specialist-handoff",
+      "authorization": {
+        "required": "external-approval",
+        "state": "pending"
+      },
+      "candidateFocused": false,
+      "cellIds": [],
+      "hypothesisIds": [
+        "hyp_route_growth"
+      ],
+      "label": "Compare frozen candidates with the competent heritage inventory",
+      "execution": {
+        "executor": "codex-research",
+        "inputs": {"instruction": "After candidate freezing and approval, compare candidates with the competent inventory."},
+        "outputs": ["authority-controlled corroboration result"],
+        "acceptanceCriteria": ["Verify the candidate artifact hash.", "Keep restricted locations out of public output."],
+        "timeoutSeconds": 3600,
+        "maxAttempts": 1
+      },
+      "lane": "corroboration",
+      "method": "heritage-inventory-corroboration",
+      "prerequisites": [
+        "act_relief_candidate"
+      ],
+      "requiresCandidatesFrozen": true,
+      "scores": {
+        "compute": 0.1,
+        "coverage": 0.3,
+        "delay": 0.5,
+        "discrimination": 0.8,
+        "falsification": 0.7,
+        "humanReview": 0.5,
+        "independence": 0.9,
+        "money": 0.1
+      },
+      "sourceIds": [
+        "src_heritage_inventory"
+      ],
+      "stage": "post-freeze-corroboration",
+      "status": "planned"
+    }
+  ],
+  "area": {
+    "analysisCrs": "EPSG:4326",
+    "gazetteerCandidates": [
+      {
+        "id": "example:river-town",
+        "label": "Example River Town",
+        "selected": true
+      }
+    ],
+    "gridMethod": "wgs84-reconnaissance-only",
+    "metricPlanning": false,
+    "namedPlace": "Example River Town",
+    "publicDescription": "a generalized river-town study area",
+    "restrictedGeometry": {
+      "bbox": [
+        10.0,
+        50.0,
+        10.2,
+        50.2
+      ],
+      "crs": "EPSG:4326",
+      "type": "bbox"
+    },
+    "selectedGazetteerId": "example:river-town"
+  },
+  "case": {
+    "authorization": {
+      "authenticatedPlatforms": [],
+      "communityConsultation": false,
+      "fieldActions": false,
+      "publicWeb": true
+    },
+    "candidatesFrozen": false,
+    "caseId": "case_example_river_town",
+    "disclosure": "restricted",
+    "intendedDecision": "Select non-invasive research and survey tasks",
+    "question": "Which historical processes best explain the town's spatial development, and which cells merit non-invasive testing?",
+    "studyKind": "prospective-survey",
+    "targetLabelsState": "unknown"
+  },
+  "edges": [
+    {
+      "authority": "reported",
+      "edgeId": "edge_phase_order",
+      "from": "phase_early_routes",
+      "rationale": "The later map series depicts additions outside the earlier route core.",
+      "relation": "historically-precedes",
+      "sourceIds": [
+        "src_map_series"
+      ],
+      "to": "phase_later_expansion"
+    },
+    {
+      "authority": "hypothesis",
+      "edgeId": "edge_route_alternative",
+      "from": "hyp_route_growth",
+      "rationale": "Hydrological relocation is a competing explanation for the same spatial pattern.",
+      "relation": "alternative-to",
+      "sourceIds": [],
+      "to": "hyp_flood_relocation"
+    }
+  ],
+  "grid": {
+    "columns": 2,
+    "rows": 2,
+    "strategy": "coarse-first-adaptive",
+    "cells": [
+      {
+        "cellId": "cell_L0_R01C01",
+        "coverageState": "unsearched",
+        "landscapeContext": [],
+        "level": 0,
+        "neighbors": [
+          "cell_L0_R01C02",
+          "cell_L0_R02C01"
+        ],
+        "parentId": null,
+        "publicLabel": "northwestern study sector",
+        "restrictedGeometry": {
+          "bbox": [
+            10.0,
+            50.1,
+            10.1,
+            50.2
+          ],
+          "crs": "EPSG:4326",
+          "type": "bbox"
+        },
+        "sensitivity": "restricted"
+      },
+      {
+        "cellId": "cell_L0_R01C02",
+        "coverageState": "unsearched",
+        "landscapeContext": [
+          "historic route margin"
+        ],
+        "level": 0,
+        "neighbors": [
+          "cell_L0_R01C01",
+          "cell_L0_R02C02"
+        ],
+        "parentId": null,
+        "publicLabel": "northeastern study sector",
+        "restrictedGeometry": {
+          "bbox": [
+            10.1,
+            50.1,
+            10.2,
+            50.2
+          ],
+          "crs": "EPSG:4326",
+          "type": "bbox"
+        },
+        "sensitivity": "restricted"
+      },
+      {
+        "cellId": "cell_L0_R02C01",
+        "coverageState": "unsearched",
+        "landscapeContext": [
+          "palaeochannel uncertainty"
+        ],
+        "level": 0,
+        "neighbors": [
+          "cell_L0_R01C01",
+          "cell_L0_R02C02"
+        ],
+        "parentId": null,
+        "publicLabel": "southwestern study sector",
+        "restrictedGeometry": {
+          "bbox": [
+            10.0,
+            50.0,
+            10.1,
+            50.1
+          ],
+          "crs": "EPSG:4326",
+          "type": "bbox"
+        },
+        "sensitivity": "restricted"
+      },
+      {
+        "cellId": "cell_L0_R02C02",
+        "coverageState": "unsearched",
+        "landscapeContext": [
+          "matched modern drainage control"
+        ],
+        "level": 0,
+        "neighbors": [
+          "cell_L0_R01C02",
+          "cell_L0_R02C01"
+        ],
+        "parentId": null,
+        "publicLabel": "southeastern study sector",
+        "restrictedGeometry": {
+          "bbox": [
+            10.1,
+            50.0,
+            10.2,
+            50.1
+          ],
+          "crs": "EPSG:4326",
+          "type": "bbox"
+        },
+        "sensitivity": "restricted"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "authority": "reported",
+      "cellIds": [],
+      "kind": "phase",
+      "label": "Earlier route-focused settlement phase",
+      "nodeId": "phase_early_routes",
+      "sensitivity": "public",
+      "sourceIds": [
+        "src_map_series"
+      ]
+    },
+    {
+      "authority": "reported",
+      "cellIds": [],
+      "kind": "phase",
+      "label": "Later extramural expansion phase",
+      "nodeId": "phase_later_expansion",
+      "sensitivity": "public",
+      "sourceIds": [
+        "src_map_series"
+      ]
+    },
+    {
+      "authority": "hypothesis",
+      "cellIds": [
+        "cell_L0_R01C02"
+      ],
+      "hypothesisClass": "archaeological",
+      "kind": "hypothesis",
+      "label": "Route-focused settlement growth",
+      "nodeId": "hyp_route_growth",
+      "sensitivity": "restricted",
+      "sourceIds": [
+        "src_map_series"
+      ]
+    },
+    {
+      "authority": "hypothesis",
+      "cellIds": [
+        "cell_L0_R02C01"
+      ],
+      "hypothesisClass": "natural",
+      "kind": "hypothesis",
+      "label": "Hydrological relocation or preservation bias",
+      "nodeId": "hyp_flood_relocation",
+      "sensitivity": "restricted",
+      "sourceIds": [
+        "src_dem"
+      ]
+    },
+    {
+      "authority": "hypothesis",
+      "cellIds": [],
+      "hypothesisClass": "modern",
+      "kind": "hypothesis",
+      "label": "Modern drainage or cadastral pattern",
+      "nodeId": "hyp_modern_drainage",
+      "sensitivity": "restricted",
+      "sourceIds": [
+        "src_modern_context"
+      ]
+    },
+    {
+      "authority": "hypothesis",
+      "cellIds": [],
+      "hypothesisClass": "processing",
+      "kind": "hypothesis",
+      "label": "Raster seam, resampling, or visualization artefact",
+      "nodeId": "hyp_processing",
+      "sensitivity": "restricted",
+      "sourceIds": [
+        "src_dem"
+      ]
+    },
+    {
+      "authority": "hypothesis",
+      "cellIds": [],
+      "hypothesisClass": "null",
+      "kind": "hypothesis",
+      "label": "No archaeological proxy is visible under the available conditions",
+      "nodeId": "hyp_null",
+      "sensitivity": "restricted",
+      "sourceIds": []
+    }
+  ],
+  "policy": {
+    "burdenWeights": {
+      "compute": 0.25,
+      "delay": 0.2,
+      "humanReview": 0.35,
+      "money": 0.2
+    },
+    "lanePattern": [
+      "discrimination",
+      "negative-control",
+      "discrimination",
+      "coverage"
+    ],
+    "scoreVersion": "ordinal-v1",
+    "stoppingRules": [
+      "safety-or-access-gate",
+      "unresolved-place-ambiguity",
+      "method-inadequacy",
+      "stronger-alternative",
+      "bounded-sufficiency",
+      "budget-exhausted",
+      "graph-invalidity",
+      "sensitivity-escalation",
+      "professional-handoff"
+    ],
+    "weights": {
+      "coverage": 0.1,
+      "discrimination": 0.5,
+      "falsification": 0.25,
+      "independence": 0.15
+    }
+  },
+  "schemaVersion": "1.0",
+  "sources": [
+    {
+      "accessStage": "pre-detection",
+      "accessBasis": "public",
+      "license": "official web text; verify reuse terms",
+      "originFamilyId": "unesco-hul-2011",
+      "recordType": "official-guidance",
+      "sensitivity": "public",
+      "sourceId": "src_hul",
+      "targetLabelState": "none",
+      "title": "UNESCO Recommendation on the Historic Urban Landscape",
+      "url": "https://www.unesco.org/en/legal-affairs/recommendation-historic-urban-landscape-including-glossary-definitions",
+      "workflowRole": "research-context"
+    },
+    {
+      "accessStage": "pre-detection",
+      "accessBasis": "public",
+      "license": "verify each map object's rights",
+      "originFamilyId": "example-local-map-series",
+      "recordType": "historical-map",
+      "sensitivity": "public",
+      "sourceId": "src_map_series",
+      "targetLabelState": "none",
+      "title": "Example historical map series",
+      "workflowRole": "analysis"
+    },
+    {
+      "accessStage": "pre-detection",
+      "accessBasis": "public",
+      "license": "verify product-specific terms",
+      "originFamilyId": "example-dem-product",
+      "recordType": "measurement",
+      "sensitivity": "restricted",
+      "sourceId": "src_dem",
+      "targetLabelState": "none",
+      "title": "Example licensed terrain product",
+      "workflowRole": "analysis"
+    },
+    {
+      "accessStage": "pre-detection",
+      "accessBasis": "public",
+      "license": "ODbL; preserve attribution",
+      "originFamilyId": "openstreetmap",
+      "recordType": "modern-map",
+      "sensitivity": "public",
+      "sourceId": "src_modern_context",
+      "targetLabelState": "none",
+      "title": "OpenStreetMap modern landscape context",
+      "url": "https://www.openstreetmap.org/copyright",
+      "workflowRole": "negative-control"
+    },
+    {
+      "accessStage": "post-freeze",
+      "accessBasis": "authority-controlled",
+      "license": "access and disclosure controlled by competent authority",
+      "originFamilyId": "example-heritage-inventory",
+      "recordType": "official-inventory",
+      "sensitivity": "non-public",
+      "sourceId": "src_heritage_inventory",
+      "targetLabelState": "withheld",
+      "title": "Competent heritage inventory",
+      "workflowRole": "ground-truth"
+    }
+  ]
+}

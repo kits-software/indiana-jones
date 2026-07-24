@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "encoding": "mapbox-terrain-rgb",
+  "size": 256,
+  "hillHeightM": 720,
+  "hillFalloff": 4.2,
+  "ridgeHeightM": 120,
+  "ridgeFrequency": 3,
+  "ridgeFalloff": 3,
+  "algorithm": "radial Gaussian hill plus a damped sinusoidal ridge",
+  "heightRangeM": [-120, 840],
+  "purpose": "offline renderer regression only"
+}
