@@ -2,69 +2,77 @@
   <img
     src="assets/indiana-jones-hero-transparent.png"
     alt="A small explorer in a brown fedora carrying a map and field bag"
-    width="260"
+    width="200"
   />
 </p>
 
 <h1 align="center">Indiana Jones</h1>
 
 <p align="center">
-  <strong>Read a landscape like a historical record.</strong>
+  <strong>Archaeological and historical research for Codex, starting with a place and a question.</strong>
 </p>
 
 <p align="center">
-  Ask about a lost castle, an earlier settlement, an unusual mark, or how people
-  once lived. Indiana Jones follows the evidence until the story becomes
-  testable.
-</p>
-
-<p align="center">
-  <a href="#add-to-codex">
+  <a href="#install">
     <img
       src="https://img.shields.io/badge/Add_to_Codex-C77932?style=for-the-badge&logo=openai&logoColor=white"
       alt="Add to Codex"
     />
   </a>
-  &nbsp;
-  <a href="#try-a-question"><strong>See what it can discover →</strong></a>
 </p>
 
 <p align="center">
-  <sub>
-    Created, authored, and published by <strong>Paweł Klimkowski</strong>
-    · Experimental release 0.1.0
-  </sub>
+  <a href="plugins/indiana-jones/README.md#runtime"><img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white" alt="Python 3.9 or newer" /></a>
+  <a href="plugins/indiana-jones/.codex-plugin/plugin.json"><img src="https://img.shields.io/badge/Codex_plugin-v0.1.0-10A37F?logo=openai&logoColor=white" alt="Codex plugin version 0.1.0" /></a>
+  <a href="CITATION.cff"><img src="https://img.shields.io/badge/citation-CITATION.cff-6F42C1?logo=github&logoColor=white" alt="Citation metadata" /></a>
+  <a href="SECURITY.md"><img src="https://img.shields.io/badge/responsible_research-security_policy-2E7D32?logo=github&logoColor=white" alt="Responsible research and security policy" /></a>
+  <a href="https://github.com/kits-software/indiana-jones/commits/main"><img src="https://img.shields.io/github/last-commit/kits-software/indiana-jones?logo=github" alt="Last commit" /></a>
+</p>
+
+<p align="center">
+  <a href="#install">Install</a> ·
+  <a href="#example-questions">Examples</a> ·
+  <a href="#method">Method</a> ·
+  <a href="#research-foundations">Research</a> ·
+  <a href="#citation">Cite</a>
+</p>
+
+<p align="center">
+  Created, maintained, and published by
+  <a href="https://github.com/kliymkoffsky"><strong>Paweł Klimkowski</strong></a>.
 </p>
 
 ---
 
-Indiana Jones is a place-led archaeological research plugin for Codex. Give it
-a place, photograph, local story, object, or historical question. It chooses
-the useful research methods behind the scenes, searches public or authorized
-evidence, tests competing explanations, and returns the clearest discovery the
-evidence can support.
+Indiana Jones is a Codex plugin for investigating the archaeology and history
+of a place. Ask where a lost building may have stood, how a settlement changed,
+why a mark appears in a field, what an object can tell us, or how people lived
+at a particular time.
 
-You do not need to know which archive, map, sensor, catalogue, model, or
-specialist method to request. Start with the mystery.
+The plugin selects the relevant methods behind the scenes. It searches public
+or authorized evidence, records where each claim came from, compares
+archaeological interpretations with natural and modern explanations, and
+reports what is documented, plausible, disputed, or still untested.
 
-## Add to Codex
+**You do not need to name a map, archive, sensor, model, or specialist tool.**
+Describe the place and the problem.
 
-Register this repository as a plugin marketplace, then install Indiana Jones:
+## Install
+
+Register this repository as a Codex plugin marketplace, then install the
+plugin:
 
 ```bash
 codex plugin marketplace add kits-software/indiana-jones --ref main
 codex plugin add indiana-jones@indiana-jones-lab
 ```
 
-Start a new Codex task after installation so the bundled skills are loaded.
-In the desktop app, open **Plugins**, choose **Indiana Jones Lab**, and select
+Start a new Codex task after installation so the plugin skills are loaded. In
+the desktop app, open **Plugins**, choose **Indiana Jones Lab**, and select
 **Indiana Jones**.
 
-> [!NOTE]
-> GitHub does not preserve `codex://` install links. The button above leads here
-> so the public install path stays visible, auditable, and reliable.
-
-For local development:
+<details>
+<summary><strong>Local development installation</strong></summary>
 
 ```bash
 git clone https://github.com/kits-software/indiana-jones.git
@@ -73,171 +81,165 @@ codex plugin marketplace add .
 codex plugin add indiana-jones@indiana-jones-lab
 ```
 
-## What it does
+</details>
 
-| Discover | Challenge | Reconstruct |
+## Example questions
+
+| Investigate a place | Reconstruct life |
+| --- | --- |
+| “An old castle is said to have stood somewhere in this valley. Where could it plausibly have been, and what evidence would distinguish the possibilities?” | “How did people build, farm, work, and travel around this village between 1200 and 1500?” |
+
+| Explain a trace | Reconstruct a scene |
+| --- | --- |
+| “This circular mark appears in a field. What archaeological, geological, agricultural, or modern processes could explain it?” | “What could this harbour and the people working on its quays have looked like around 120 CE? Mark what is documented, inferred, comparative, or illustrative.” |
+
+| Trace finds | Test treasure history |
+| --- | --- |
+| “Which swords have been documented near this town, where are they now, and how reliable are their find records?” | “Is there evidence for gold objects, gold-working, trade, or hoards in this county—and which lawful evidence would most change the conclusion?” |
+
+Other useful starting points include a photograph, an object, a building, an
+old route, a town plan, a place-name, a museum record, or a disputed local
+story.
+
+### What a useful answer should contain
+
+- the place, period, and research question as understood;
+- direct observations and attributed documentary evidence;
+- the strongest interpretation and serious alternatives;
+- uncertainty, source limitations, and sensitive-location handling;
+- the next lawful, non-invasive check most likely to change the conclusion;
+- a source-linked reconstruction when a visual answer is useful.
+
+## What the plugin covers
+
+| Historical research | Landscape analysis | Reporting and reconstruction |
 | --- | --- | --- |
-| Finds overlooked records, landscape relationships, candidate areas, and plausible traces of earlier activity. | Makes archaeological, natural, modern, and processing explanations compete against the same evidence. | Builds source-led histories and illustrations while labeling what is documented, inferred, comparative, or invented. |
+| Place-names, maps, archives, publications, museum catalogues, objects, finds, custody, trade, and local accounts | Terrain, aerial photography, multi-date optical imagery, LiDAR/DEM products, urban form, routes, water, geology, land use, and disturbance | Evidence registers, competing hypotheses, candidate atlases, annotated plates, public-safe reports, historical narratives, and uncertainty-labelled illustrations |
 
-Every useful answer aims to include:
+The complete implementation includes six Codex skills, reproducible Python
+utilities, an optional Node/MapLibre renderer, evidence and task graphs,
+provenance records, and disclosure controls. See the
+[technical plugin README](plugins/indiana-jones/README.md) for the architecture,
+runtime requirements, tests, and proof-of-concept notes.
 
-- what was directly observed or documented;
-- the most plausible interpretation and its strongest alternatives;
-- the provenance, limits, and sensitivity of the evidence;
-- what remains unknown; and
-- the next lawful, non-invasive check most likely to change the conclusion.
+## Method
 
-## Try a question
+```mermaid
+flowchart LR
+  A["Place + question"] --> B["Historical and landscape sources"]
+  B --> C["Competing explanations"]
+  C --> D["Evidence, provenance, and controls"]
+  D --> E["Report, candidate atlas, or reconstruction"]
+```
 
-| Find a lost place | Reconstruct daily life |
-| --- | --- |
-| “An old castle is said to have stood somewhere around this valley. Where could it plausibly have been, and what would prove or disprove each possibility?” | “How did people live, build, farm, and travel around this village between 1200 and 1500?” |
+An investigation follows five rules:
 
-| Explain a landscape mark | Rebuild a historical scene |
-| --- | --- |
-| “This ring-shaped mark appears in a field. What are the archaeological, natural, and modern explanations—and which best fits the evidence?” | “Show how this harbour city and the people working on its quays could have looked around 120 CE. Label what is known, inferred, or illustrative.” |
+1. **Resolve the question before searching.** Identify the place, time range,
+   ambiguity, and decision the research should support.
+2. **Search across disciplines.** Combine records, maps, imagery, terrain,
+   material evidence, environmental context, and community knowledge when
+   they are relevant and available.
+3. **Make explanations compete.** Test archaeological interpretations against
+   geology, agriculture, drainage, infrastructure, image artefacts, and later
+   disturbance.
+4. **Keep the evidence chain visible.** Separate source observations, derived
+   measurements, interpretations, alternatives, and corroboration.
+5. **Report the boundary of knowledge.** State what is not known and what
+   evidence would materially change the assessment.
 
-You can also begin with a photograph, an object, a disputed local story, a
-route, a building, a city, or a broad question about what may once have existed.
+## Responsible discovery
 
-## What comes back
-
-| Your question | Indiana Jones tries to return |
-| --- | --- |
-| Could an older castle or settlement be hidden here? | Plausible zones, competing site models, supporting and contradicting evidence, and discriminating next checks |
-| How did people live in this area? | A time-sliced account of water, routes, fields, resources, buildings, work, belief, conflict, and daily life |
-| Why is this town shaped this way? | A reconstruction of streets, plots, boundaries, institutions, lost features, and phases of growth |
-| Can you show me how it looked? | An evidence-led illustration with source-linked visual choices, anachronism checks, alternatives, and a clear uncertainty caption |
-| Does this unusual mark mean anything? | Direct observations, archaeological interpretations, natural and modern alternatives, and a ranked judgment |
-| Is the local story true? | Name variants, documentary chains, landscape fit, contradictions, missing evidence, and a bounded conclusion |
-| Where should we look next? | An ordered research frontier favoring informative, lawful, non-invasive checks |
-
-## Why this project exists
-
-The history of a place rarely survives in one neat record. It is scattered
-across street and field shapes, old names, maps, excavation reports, museum
-catalogues, aerial photographs, terrain, geology, community memory, and the
-gaps between them.
-
-Professional archaeology brings those forms of evidence together. Indiana
-Jones turns that multidisciplinary practice into an accessible research
-companion whose public experience begins with a human question, not a list of
-tools.
-
-The goal is not a dramatic answer from one striking image. The goal is a useful
-account of what may have happened, a ranked set of explanations, and a clear
-path toward better evidence.
-
-## How an investigation works
-
-1. **Frame the mystery.** Resolve the place, time range, story, and what a
-   useful answer would change.
-2. **Reconstruct the landscape.** Ask how terrain, water, routes, resources,
-   authority, and later disturbance shaped what could have existed.
-3. **Search across evidence.** Combine suitable public or authorized records,
-   maps, imagery, terrain, publications, catalogues, and local knowledge.
-4. **Make explanations compete.** Test archaeological ideas against geology,
-   agriculture, drainage, infrastructure, image artefacts, folklore, and
-   inherited assumptions.
-5. **Return a discovery packet.** Separate observations, derived results,
-   interpretations, alternatives, corroboration, uncertainty, and next steps.
-6. **Keep going responsibly.** If one route is blocked, pursue another lawful
-   source or reduce location precision instead of abandoning the question.
-
-## Discovery first. Evidence always.
-
-Indiana Jones is expected to find things: overlooked records, relationships
-between landscape and history, plausible locations, repeated patterns, and
-candidate features worth further study. It should not retreat into a tool list
-or stop merely because one source is unavailable.
-
-> [!IMPORTANT]
-> An attractive pattern is a hypothesis, not a discovery claim. Generated
-> reconstruction art is a derived interpretation, never documentary evidence
-> or independent corroboration.
-
-When exact work would be unsafe, unlawful, or harmful, the investigation
-continues at a responsible scale. It can still search public records,
-reconstruct the historical landscape, compare hypotheses, identify the missing
-permission, and prepare a useful handoff.
-
-### Hard boundaries
+A pattern, anomaly, or historical association is a **candidate**, not proof of
+an archaeological site. Indiana Jones can identify plausible relationships and
+places worth further professional study, but it must not turn visual
+similarity into certainty.
 
 - No permission is inferred for access, detecting, collection, flying,
   probing, or excavation.
 - Precise locations of possible new, sacred, burial-related, vulnerable, or
   non-public sites are protected.
-- Sources are attributed, and their licences determine how they may be
-  analyzed or reproduced.
+- Sources and transformations remain attributed, and their licences control
+  reuse.
 - Local and descendant communities are research partners and knowledge
-  holders, not obstacles to route around.
+  holders.
+- Generated reconstruction art is interpretation, not documentary evidence
+  or independent corroboration.
 - Looting, trespass, covert investigation, and evasion of heritage law are
-  never part of the workflow.
+  outside the project.
 
-## What is real today
+Read [`SECURITY.md`](SECURITY.md) before reporting a potentially vulnerable
+location.
 
-This is an experimental `0.1.0` release. Its strongest capability today is
-structured, source-backed research: turning an ordinary question into a
-multidisciplinary investigation, preserving uncertainty, and producing a
-clear next step.
+## Project status
 
-The repository includes transparent Python baselines for terrain and
-multi-date optical analysis. They are deliberately not marketed as magical
-“lost city detectors.”
+Indiana Jones is an **experimental version 0.1.0**. It includes a bounded,
+resumable and auditable research runtime for public or explicitly authorized
+source work, with permission-gated exact treasure prospectivity. The repository also contains
+transparent terrain and multi-date optical baselines; these are research
+prototypes, not general-purpose “lost site detectors.”
 
-- In a known-site Whitley Castle terrain development test, the target ranked
-  8th with 16.125 m error.
-- A frozen Sentinel-2 optical test missed its 160 m criterion, with the nearest
-  anomaly 191.150 m away.
+| Public development test | Result | Interpretation |
+| --- | --- | --- |
+| Whitley Castle terrain baseline | Target ranked 8th; 16.125 m error | Passed its development criterion, but the winning profile was selected after unblinding and is not held-out proof |
+| Whitley Castle Sentinel-2 optical baseline | Nearest anomaly 191.150 m away | Missed the precommitted 160 m criterion; the negative result remains published |
 
-Both results remain public because an honest miss teaches more than a hidden
-one.
+Detailed provenance, criteria, and caveats are in the
+[terrain](plugins/indiana-jones/skills/indiana-jones/references/poc-whitley-castle.md)
+and
+[optical](plugins/indiana-jones/skills/indiana-jones/references/poc-whitley-castle-optical.md)
+proof-of-concept reports.
 
-<details>
-<summary><strong>Under the hood</strong></summary>
+## Research foundations
 
-The provider-neutral package includes place resolution, historical time
-slices, adaptive search areas, evidence and task graphs, provenance ledgers,
-source-sensitive disclosure, terrain and multi-date optical baselines,
-browser-backed map rendering, evidence-led illustration, object and custody
-research, Google Earth reconnaissance, and public-report validation.
+The method is grounded in published archaeological remote-sensing research,
+landscape interpretation, professional standards, and cultural-heritage
+visualization principles. The following are selected foundations, not anonymous
+web links.
 
-See the [technical plugin README](plugins/indiana-jones/README.md) for runtime
-requirements, tests, proof-of-concept details, and the implementation map.
+### Scholarly works
 
-</details>
+| Author(s) | Publication | Contribution to the project |
+| --- | --- | --- |
+| Sarah H. Parcak (2009) | [*Satellite Remote Sensing for Archaeology*](https://doi.org/10.4324/9780203881460). Routledge. | Landscape-to-site satellite prospection and interpretation |
+| Rachel S. Opitz and David C. Cowley, eds. (2013) | [*Interpreting Archaeological Topography: 3D Data, Visualisation and Observation*](https://www.oxbowbooks.com/9781842175163/interpreting-archaeological-topography/). Oxbow Books. | LiDAR, topographic evidence, 3D data, and interpretive practice |
+| Žiga Kokalj and Ralf Hesse (2017) | [*Airborne Laser Scanning Raster Data Visualization: A Guide to Good Practice*](https://doi.org/10.3986/9789612549848). ZRC SAZU. | Reproducible visualization of archaeological terrain |
+| Ralf Hesse (2010) | [“LiDAR-derived Local Relief Models—a new tool for archaeological prospection”](https://doi.org/10.1002/arp.374). *Archaeological Prospection* 17. | Local-relief modelling and its interpretive limits |
+| Rebecca Bennett, Kate Welham, Ross A. Hill, and Andrew Ford (2012) | [“A Comparison of Visualization Techniques for Models Created from Airborne Laser Scanned Data”](https://doi.org/10.1002/arp.1414). *Archaeological Prospection* 19. | Comparison rather than reliance on one terrain visualization |
+| Włodzimierz Rączkowski (2020) | [“Power and/or Penury of Visualizations: Some Thoughts on Remote Sensing Data and Products in Archaeology”](https://doi.org/10.3390/rs12182996). *Remote Sensing* 12. | The non-neutrality of acquisition, processing, and visualization |
+| Justyna Kolenda and Włodzimierz Rączkowski (2018) | [“Anatomia pustki: o archeologicznym rekonesansie lotniczym w północno-wschodniej części Dolnego Śląska”](https://doi.org/10.23858/PA66.2018.012). *Przegląd Archeologiczny* 66. | Why non-detection may reflect method and evidence opportunity rather than past absence |
 
-<details>
-<summary><strong>Research foundations</strong></summary>
+### Professional and ethical standards
 
-- [Historic England: Archaeological Landscapes](https://historicengland.org.uk/research/current/discover-and-understand/landscapes/)
-- [CIfA: Standard and guidance for archaeological desk-based assessment](https://www.archaeologists.net/sites/default/files/CIfAS%26GDBA_4.pdf)
-- [Historic England: Aerial Investigation and Mapping](https://historicengland.org.uk/research/methods/airborne-remote-sensing/aerial-investigation/)
-- [Historic England: Using Airborne Lidar in Archaeological Survey](https://historicengland.org.uk/research/methods/airborne-remote-sensing/lidar/)
-- [Historic England: Formation of Cropmarks](https://historicengland.org.uk/research/methods/airborne-remote-sensing/formation-of-cropmarks/)
-- [UNESCO: Recommendation on the Historic Urban Landscape](https://whc.unesco.org/en/hul/)
-- [The London Charter for computer-based cultural heritage visualization](https://londoncharter.org/principles.html)
-- [The Seville Principles for virtual archaeology](https://www.vi-mm.eu/wp-content/uploads/2016/10/The-Seville-Principles.pdf)
-- [ICOMOS Charter for Interpretation and Presentation](https://www.icomos.org/images/DOCUMENTS/Charters/interpretation_e_1.pdf)
-- [ANSI/ASB Best Practice Recommendation 089 for facial approximation](https://www.aafs.org/sites/default/files/media/documents/BPR_089_e1.pdf)
-- [Archaeology Data Service: Sensitive Data](https://archaeologydataservice.ac.uk/help-guidance/how-to-prepare-data/sensitive-data/)
-- [UNESCO: International principles applicable to archaeological excavations](https://www.unesco.org/en/legal-affairs/recommendation-international-principles-applicable-archaeological-excavations)
+| Responsible author or institution | Standard |
+| --- | --- |
+| Chartered Institute for Archaeologists (2020) | [*Standard and guidance for historic environment desk-based assessment*](https://www.archaeologists.net/sites/default/files/2023-11/CIfA-SandG-DBA-2020.pdf) |
+| Elaine Jamieson, based on work by Stewart Ainsworth, Mark Bowden, David McOmish, and Trevor Pearson (2017) | [*Understanding the Archaeology of Landscapes: A Guide to Good Recording Practice*, 2nd ed.](https://historicengland.org.uk/images-books/publications/understanding-archaeology-of-landscapes/) Historic England Guidance HEAG142. |
+| Simon Crutchley and Peter Crow (2018) | [*Using Airborne Lidar in Archaeological Survey: The Light Fantastic*](https://historicengland.org.uk/images-books/publications/using-airborne-lidar-in-archaeological-survey/) Historic England Guidance HEAG179. |
+| Historic England (2026) | [*Standards and Guidance for Aerial Investigation and Mapping Projects*](https://historicengland.org.uk/images-books/publications/standards-guidance-aerial-investigation-mapping-projects/) Historic England Guidance HEAG337. |
+| UNESCO General Conference (2011) | [*Recommendation on the Historic Urban Landscape*](https://www.unesco.org/en/legal-affairs/recommendation-historic-urban-landscape-including-glossary-definitions) |
+| Hugh Denard, ed. (2009) | [*The London Charter for the Computer-based Visualisation of Cultural Heritage*, version 2.1](https://londoncharter.org/) |
+| Archaeology Data Service | [*Sensitive Data* guidance](https://archaeologydataservice.ac.uk/help-guidance/how-to-prepare-data/sensitive-data/) |
+| Stephanie Russo Carroll, Ibrahim Garba, Oscar L. Figueroa-Rodríguez, et al. (2020) | [“The CARE Principles for Indigenous Data Governance”](https://doi.org/10.5334/dsj-2020-043). *Data Science Journal* 19:43. |
 
-</details>
+The
+[complete source register](plugins/indiana-jones/skills/indiana-jones/references/research.md#source-register)
+includes books, technical specifications, authorities, and primary evaluation
+studies with DOI or institutional links.
 
 ## Citation
 
-If Indiana Jones contributes to your research, publication, teaching, software,
-or methodology, please cite **Paweł Klimkowski** as the author and publisher.
-GitHub provides a ready-to-copy citation through **Cite this repository**,
-backed by [`CITATION.cff`](CITATION.cff).
+Indiana Jones is created and published by **Paweł Klimkowski**. If it
+contributes to research, teaching, software, or a publication, cite:
 
 > Klimkowski, Paweł. (2026). *Indiana Jones: Evidence-Led Archaeological
 > Discovery for Codex* (Version 0.1.0) [Computer software]. Paweł Klimkowski.
 > https://github.com/kits-software/indiana-jones
 
+GitHub exposes the same authorship through **Cite this repository**, backed by
+[`CITATION.cff`](CITATION.cff).
+
 <details>
-<summary>Copy BibTeX</summary>
+<summary><strong>BibTeX</strong></summary>
 
 ```bibtex
 @software{klimkowski2026indianajones,
@@ -252,24 +254,21 @@ backed by [`CITATION.cff`](CITATION.cff).
 
 </details>
 
-## Project links
+## Repository guide
 
-- [`plugins/indiana-jones`](plugins/indiana-jones) — installable Codex plugin
-- [`plugins/indiana-jones/skills`](plugins/indiana-jones/skills) — discovery,
-  planning, research, reconstruction, and reporting workflows
-- [`plugins/indiana-jones/rfcs`](plugins/indiana-jones/rfcs) — research and
-  architecture decisions
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution and validation guide
-- [`SECURITY.md`](SECURITY.md) — software and sensitive-location reporting
-- [`CITATION.cff`](CITATION.cff) — machine-readable citation metadata
+| Path | Purpose |
+| --- | --- |
+| [`plugins/indiana-jones`](plugins/indiana-jones) | Installable Codex plugin and technical documentation |
+| [`plugins/indiana-jones/skills`](plugins/indiana-jones/skills) | Discovery, planning, research, reporting, and reconstruction workflows |
+| [`plugins/indiana-jones/rfcs`](plugins/indiana-jones/rfcs) | Research and architecture decisions |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Development workflow and validation commands |
+| [`SECURITY.md`](SECURITY.md) | Software vulnerabilities and sensitive-location reporting |
+| [`CITATION.cff`](CITATION.cff) | Machine-readable author and citation metadata |
 
-Contributions are welcome from archaeologists, historians, geospatial
-researchers, museum and archive professionals, heritage practitioners,
-local-history groups, and engineers who care about reproducible evidence.
-
-If a report may reveal a vulnerable location, do not post coordinates, access
-routes, imagery crops, or reversible locators in a public issue. Follow
-[`SECURITY.md`](SECURITY.md) instead.
+Contributions from archaeologists, historians, geospatial researchers, museum
+and archive professionals, heritage practitioners, local-history groups, and
+engineers are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening
+a pull request.
 
 ---
 
