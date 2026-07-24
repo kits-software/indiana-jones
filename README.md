@@ -21,7 +21,7 @@
 <p align="center">
   <a href="#add-to-codex">
     <img
-      src="https://img.shields.io/badge/Add_to_Codex-111111?style=for-the-badge&logo=openai&logoColor=white"
+      src="https://img.shields.io/badge/Add_to_Codex-C77932?style=for-the-badge&logo=openai&logoColor=white"
       alt="Add to Codex"
     />
   </a>
