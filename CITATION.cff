@@ -10,7 +10,6 @@ authors:
 repository-code: "https://github.com/kits-software/indiana-jones"
 url: "https://github.com/kits-software/indiana-jones"
 version: 0.1.0
-date-released: "2026-07-24"
 abstract: >-
   A Codex plugin for place-led, evidence-backed archaeological discovery,
   historical reconstruction, candidate assessment, responsible reporting,
@@ -28,7 +27,6 @@ preferred-citation:
       given-names: Paweł
   title: "Indiana Jones: Evidence-Led Archaeological Discovery for Codex"
   version: 0.1.0
-  date-released: "2026-07-24"
   publisher:
     name: "Paweł Klimkowski"
   repository-code: "https://github.com/kits-software/indiana-jones"
