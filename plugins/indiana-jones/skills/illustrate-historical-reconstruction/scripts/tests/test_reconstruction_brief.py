@@ -167,7 +167,23 @@ class ReconstructionBriefTests(unittest.TestCase):
         result = json.loads(completed.stdout)
         paths = {item["path"] for item in result["issues"]}
         self.assertIn("$.visualDecisions[0].alternatives", paths)
+        self.assertIn("$.visualDecisions[0].uncertaintyTreatment", paths)
         self.assertIn("$.review.unresolvedHighImpact", paths)
+
+    def test_feature_specific_uncertainty_treatment_passes_preflight(self) -> None:
+        payload = valid_brief()
+        decision = payload["visualDecisions"][0]
+        decision.update(
+            {
+                "status": "plausible",
+                "alternatives": ["A broader canal-side loading edge"],
+                "uncertaintyTreatment": "alternative-variants",
+            }
+        )
+        payload["review"]["unresolvedHighImpact"] = ["V1"]
+        payload["review"]["variantPolicy"] = "decision-specific"
+        completed = run_validator(payload)
+        self.assertEqual(0, completed.returncode, completed.stdout)
 
     def test_unknown_source_reference_is_rejected(self) -> None:
         payload = valid_brief()

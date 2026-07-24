@@ -217,7 +217,7 @@ def build_parser() -> argparse.ArgumentParser:
     new_case_parser.add_argument(
         "--disclosure",
         choices=("public", "restricted", "heritage-authority-only"),
-        default="restricted",
+        default="public",
     )
     new_case_parser.add_argument("--authorize-platform", action="append", default=[])
     new_case_parser.add_argument("--expected-proxy", required=True)

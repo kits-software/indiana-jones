@@ -4,7 +4,7 @@
 
 1. Routing principles
 2. Jurisdiction triage
-3. Role ladder
+3. Role routing
 4. Institute capability matching
 5. Contact verification
 6. Referral card
@@ -23,14 +23,15 @@ most famous archaeologist or nearest university. Separate:
 - **land authority** — manages the land or public estate;
 - **technical capability** — can interpret imagery, LiDAR, geophysics,
   chronology, conservation, or archives;
-- **public orientation** — can explain local history but may not be an
-  appropriate recipient for sensitive coordinates.
+- **public orientation** — can explain local history and route public evidence,
+  but is not a secure recipient for specifically protected or private data.
 
 One institution may fill several roles, but do not assume it does.
 
 ## Jurisdiction triage
 
-Before naming a contact determine, as far as public evidence permits:
+For ordinary public desk research, begin with the technical question and
+geography. Determine the following only as far as it affects the referral:
 
 - country, first-level administrative region, and local authority;
 - public, private, protected, military, submerged, or unknown land status;
@@ -43,33 +44,36 @@ Before naming a contact determine, as far as public evidence permits:
 If the location is deliberately generalized, search for the authority that
 covers the generalized jurisdiction without reverse-engineering the exact site.
 
-## Role ladder
+## Role routing
 
-Use this order as applicable:
+There is no universal authority-first order. Rank contacts by the unresolved
+question:
 
-1. **Community or culturally competent authority** — Tribal/Indigenous Historic
-   Preservation Office, Indigenous heritage body, descendant-community
-   organization, religious custodian, or other recognized governance channel.
-2. **Official heritage record or regulator** — national heritage agency,
-   regional/provincial/state archaeology service, local Historic Environment
-   Record, State or Tribal Historic Preservation Office, monuments service, or
-   underwater cultural-heritage authority.
-3. **Land or protected-area manager** — park, forest, coast, river, defence, or
-   other public-estate archaeology/heritage unit.
-4. **Qualified professional archaeologist** — practitioner or organization with
-   relevant jurisdictional accreditation and regional experience.
-5. **Technical institute or laboratory** — university, national research
-   institute, geospatial center, geophysical survey group, environmental
-   archaeology laboratory, dating facility, or conservation lab.
-6. **Archive, museum, or archaeological data service** — for collections,
+1. **Technical institute or laboratory** — university, national research
+   institute, geospatial center, geophysical survey group, material-analysis
+   facility, dating facility, or conservation lab.
+2. **Archive, museum, or archaeological data service** — collections,
    historic photographs, maps, unpublished reports, finds records, and local
    comparanda.
-7. **Local archaeological society** — for public background and leads only;
-   avoid sending sensitive new-site coordinates unless the authority advises
-   it.
+3. **Qualified professional archaeologist** — practitioner or organization with
+   relevant regional and methodological experience.
+4. **Official heritage record or regulator** — national heritage agency,
+   regional/provincial/state archaeology service, local Historic Environment
+   Record, State or Tribal Historic Preservation Office, monuments service, or
+   underwater cultural-heritage authority. Move this first for a statutory
+   reporting duty, protected site, newly recovered object, or emergency.
+5. **Community or culturally competent authority** — use for sacred,
+   burial-related, Indigenous, descendant-community, or other
+   community-governed places, knowledge, imagery, or narratives.
+6. **Land or protected-area manager** — use when access, survey, drone,
+   detecting, geophysics, excavation, or another field action is proposed.
+7. **Local archaeological society** — public background, local bibliography,
+   and leads.
 
-For a possible new site, an academic lab is a technical reviewer, not the
-official reporting destination.
+For an ordinary possible new site, an academic lab or regional specialist may
+be the first technical reviewer. An official reporting route becomes first
+only when a named reporting duty, protection status, recovery, or field action
+requires it.
 
 ## Institute capability matching
 
@@ -87,21 +91,23 @@ Match the evidence need:
 | Submerged/coastal candidate | Maritime archaeology and underwater cultural-heritage authority |
 | Conservation threat | Heritage conservation, emergency recording, land manager, planning archaeology |
 | Indigenous or sacred landscape | Appropriate community authority and culturally directed research partner |
-| Newly discovered portable find or treasure | Official finds-recording or heritage authority; verify reporting and custody duties |
+| Newly recovered portable find or treasure | Official finds-recording or heritage authority; verify reporting and custody duties |
 | Object identity, accession, or current custody | Museum curator, registrar, collections-information team, or excavation archive |
 | Swords, weapons, armour, or military equipment | Relevant material-culture or arms specialist plus context archaeologist |
-| Coins, hoards, bullion, or minting | Numismatist, finds specialist, archaeometallurgist, and official reporting authority |
+| Coins, hoards, bullion, or minting | Numismatist, finds specialist, and archaeometallurgist; add the official reporting route for an actual recovery or duty |
 | Gold object composition or production | Conservator or archaeometallurgist with an appropriate non-destructive or sampled-analysis facility |
 | Repatriation, ownership, or legacy provenance | Repository provenance team, relevant community authority, and qualified legal or statutory route |
 
 Do not recommend field collection, excavation, drone survey, or invasive
-geophysics as a casual next step. State the permits, landowner, authority, and
-community gates that would precede it.
+geophysics as a casual next step. State only the land, method, protected-site,
+environmental, reporting, or community-governance requirements that apply to
+that proposed action.
 
 Do not reject a referral because the research concerns treasure, hoards,
-weapons, coins, or precious metals. For exact actionable work, verify the
-permission and reporting matrix first and route the case through the official
-heritage or finds-recording authority before a technical or field team.
+weapons, coins, or precious metals. Exact desk-research coordinates, rankings,
+plates, and estimates need no referral or field-permission matrix. Route to an
+official authority first only for a genuinely protected/confidential site, a
+newly recovered object, a reporting duty, or proposed field/recovery work.
 
 ## Contact verification
 
@@ -135,10 +141,11 @@ For each recommended contact write:
 - **Role:** regulatory / community / land / technical / archive / orientation
 - **Why this fits:** evidence, jurisdiction, and capability match
 - **Official route:** linked official page and public contact method
-- **Send:** generalized summary, candidate ID, source metadata, observation
-  table, alternatives checked, and the specific question
-- **Withhold or secure:** precise coordinates, culturally restricted knowledge,
-  private imagery, landowner/person data, and high-resolution tiles as required
+- **Send:** exact public candidate coordinates or AOI when useful, candidate ID,
+  source metadata, observation table, alternatives checked, and the specific
+  question
+- **Withhold or secure:** only fields covered by a named protection, deliberate
+  redaction, source term, private-data constraint, or community rule
 - **Verified:** YYYY-MM-DD
 - **Caveat:** remit or response uncertainty
 
@@ -147,8 +154,8 @@ others.
 
 ## Sensitive and urgent cases
 
-For a possible new, vulnerable, sacred, burial-related, or community-linked
-place:
+For a genuinely protected, confidential, private, vulnerable, sacred,
+burial-related, or community-restricted place:
 
 - stop public triangulation;
 - do not crowdsource identification;
@@ -160,15 +167,17 @@ place:
 
 For a prospective high-value portable-find investigation:
 
-- keep the public research area generalized;
-- verify jurisdiction, landholder, detecting/survey/diving/excavation,
-  protected-site, environmental, community, export, custody, and reporting
-  requirements from current official sources;
-- identify the responsible professional and official receiving authority;
-- mark exact ranking or field action blocked until every applicable permission
-  is confirmed;
-- keep any authorized exact brief restricted and create a separate generalized
-  public derivative;
+- publish exact desk-research candidates, coordinates, rankings, and imagery
+  plates when lawful evidence supports them and no genuine protection applies;
+- restrict only protected/confidential locations, deliberate redactions,
+  burials, sacred/community-restricted material, and private data;
+- verify jurisdiction, landholder, method, protected-site, environmental,
+  community, custody, and reporting requirements before the corresponding
+  field or recovery action;
+- identify the responsible professional and official receiving authority when
+  a field action, new find, reporting duty, or protected place requires one;
+- mark only field action or protected disclosure blocked until its applicable
+  permission or handling rule is confirmed;
 - establish stop-work, discovery, conservation, and reporting procedures
   before field activity.
 
@@ -185,20 +194,21 @@ identification from imagery alone.
 This skill may prepare, but must not send, a contact draft without explicit
 authorization.
 
-Use:
+For ordinary public evidence, use:
 
-**Subject:** Confidential desk-review request — generalized archaeological
-landscape candidate
+**Subject:** Technical desk-review request — Candidate C-01 at `<PUBLIC PLACE OR
+COORDINATE>`
 
 **Body:**
 
 - who the sender is and the research purpose;
-- generalized jurisdiction and sensitivity;
+- exact public point or AOI, candidate ID, and precision;
 - concise observed proxy and source date/product;
 - strongest alternative explanations already checked;
-- requested action, usually confidential desk review or correct routing;
-- statement that precise material can be supplied through the recipient's
-  approved secure channel.
+- requested technical interpretation or source lead.
 
-Avoid sensational claims, exact coordinates in the subject line, mass
-distribution, and attachments whose metadata exposes the location.
+For specifically protected or private evidence, use a generalized confidential
+subject, state the named restriction, and offer the exact material through the
+recipient's approved secure channel. Avoid sensational claims and mass
+distribution; remove attachment metadata only when it would expose a field
+covered by that restriction.

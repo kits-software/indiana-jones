@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from ij_artifacts import plan_sha256
+from ij_candidates import validate_candidate_artifact
 from ij_journal import file_sha256, value_sha256
 from ij_safety import SENSITIVITIES
 
@@ -20,7 +21,15 @@ GROUND_TRUTH_KEY = re.compile(
 def _has_ground_truth_key(value: Any) -> bool:
     if isinstance(value, dict):
         return any(
-            GROUND_TRUTH_KEY.search(str(key)) or _has_ground_truth_key(nested)
+            (
+                str(key) != "groundTruthState"
+                and GROUND_TRUTH_KEY.search(str(key))
+            )
+            or (
+                str(key) == "groundTruthState"
+                and nested != "withheld"
+            )
+            or _has_ground_truth_key(nested)
             for key, nested in value.items()
         )
     if isinstance(value, list):
@@ -115,6 +124,13 @@ def freeze_candidates(
         raise ValueError("candidate artifact must contain a JSON object or array")
     if _has_ground_truth_key(candidates):
         raise ValueError("candidate artifact contains ground-truth-like fields")
+    validate_candidate_artifact(plan, candidates)
+    try:
+        persisted = json.loads(candidate_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError(f"candidate artifact file is invalid: {error}") from error
+    if persisted != candidates:
+        raise ValueError("candidate artifact value does not match its persisted file")
     frozen = copy.deepcopy(plan)
     case = frozen.get("case")
     if not isinstance(case, dict):
@@ -125,6 +141,7 @@ def freeze_candidates(
     seal = {
         "schemaVersion": "candidate-freeze-seal-1.0",
         "sourcePlanSha256": plan_sha256(plan),
+        "frozenPlanSha256": plan_sha256(frozen),
         "candidateArtifactSha256": artifact_hash,
         "candidateCanonicalSha256": value_sha256(candidates),
         "targetLabelsState": case.get("targetLabelsState"),
@@ -156,6 +173,7 @@ def verify_candidate_freeze(
     expected = case.get("candidateArtifactSha256")
     if (
         artifact_hash != expected
+        or seal.get("frozenPlanSha256") != plan_sha256(plan)
         or seal.get("candidateArtifactSha256") != expected
         or seal.get("candidateCanonicalSha256") != value_sha256(candidates)
         or seal.get("groundTruthKeyScan") != "passed"

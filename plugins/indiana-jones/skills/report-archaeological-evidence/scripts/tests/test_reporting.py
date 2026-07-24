@@ -158,7 +158,9 @@ class ReportingTests(unittest.TestCase):
                 )
                 self.assertEqual(2, completed.returncode)
 
-    def test_public_validator_detects_coordinates_and_image_metadata(self) -> None:
+    def test_public_validator_keeps_spatial_evidence_and_detects_image_metadata(
+        self,
+    ) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             directory = Path(temporary_directory)
             report_path = directory / "report.json"
@@ -168,6 +170,7 @@ class ReportingTests(unittest.TestCase):
                         "disclosure": "public",
                         "restrictedLocation": {"latitude": 51.12345},
                         "sourceImageFileName": "frame-51.12345_16.12345.png",
+                        "imageUrl": "https://example.test/frame.png?token=secret",
                     }
                 ),
                 encoding="utf-8",
@@ -190,9 +193,97 @@ class ReportingTests(unittest.TestCase):
             self.assertEqual(1, completed.returncode)
             result = json.loads(completed.stdout)
             codes = {item["code"] for item in result["issues"]}
-            self.assertIn("forbidden-location-field", codes)
             self.assertIn("embedded-image-metadata", codes)
-            self.assertIn("location-bearing-filename", codes)
+            self.assertIn("forbidden-location-field", codes)
+            self.assertIn("unsafe-public-reference", codes)
+            self.assertNotIn("location-bearing-filename", codes)
+
+            image_path.unlink()
+            report_path.write_text(
+                json.dumps(
+                    {
+                        "disclosure": "public",
+                        "candidateLocation": {
+                            "latitude": 51.12345,
+                            "sensitivity": "public",
+                        },
+                        "sourceImageFileName": "frame-51.12345_16.12345.png",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            spatial_only = subprocess.run(
+                [
+                    sys.executable,
+                    str(VALIDATE),
+                    str(report_path),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(0, spatial_only.returncode, spatial_only.stdout)
+            spatial_result = json.loads(spatial_only.stdout)
+            self.assertIn(
+                "Declared coordinates",
+                spatial_result["spatialEvidencePolicy"],
+            )
+
+    def test_public_validator_requires_clickable_google_maps_link_for_points(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            report_path = Path(temporary_directory) / "candidate.json"
+            candidate = {
+                "disclosure": "public",
+                "candidate": {
+                    "coordinates": [19.12345, 54.12345],
+                    "sensitivity": "public",
+                },
+            }
+            report_path.write_text(json.dumps(candidate), encoding="utf-8")
+            missing = subprocess.run(
+                [sys.executable, str(VALIDATE), str(report_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(1, missing.returncode)
+            result = json.loads(missing.stdout)
+            self.assertIn(
+                "missing-google-maps-link",
+                {item["code"] for item in result["issues"]},
+            )
+
+            candidate["candidate"]["googleMapsLink"] = (
+                "https://www.google.com/maps/search/?api=1&"
+                "query=54.123450%2C19.123450"
+            )
+            report_path.write_text(json.dumps(candidate), encoding="utf-8")
+            mapped = subprocess.run(
+                [sys.executable, str(VALIDATE), str(report_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(0, mapped.returncode, mapped.stdout)
+
+            candidate["candidate"]["sensitivity"] = "unknown"
+            report_path.write_text(json.dumps(candidate), encoding="utf-8")
+            unclassified = subprocess.run(
+                [sys.executable, str(VALIDATE), str(report_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(1, unclassified.returncode)
+            self.assertIn(
+                "unclassified-spatial-evidence",
+                {
+                    item["code"]
+                    for item in json.loads(unclassified.stdout)["issues"]
+                },
+            )
 
 
 if __name__ == "__main__":

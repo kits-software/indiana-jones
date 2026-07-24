@@ -1,6 +1,6 @@
 {
   "name": "indiana-jones",
-  "version": "0.1.0+codex.20260724120950",
+  "version": "0.1.0+codex.20260724143119",
   "description": "Discover and illustrate what may be hidden, forgotten, or misunderstood through evidence-led archaeological research.",
   "author": {
     "name": "Pawe\u0142 Klimkowski"
@@ -49,10 +49,12 @@
       "Image Analysis",
       "Satellite Analysis",
       "Search Planning",
+      "Autonomous Research Loop",
       "Evidence Graphs",
       "History and Finds Research",
       "Object and Custody Research",
-      "Permission-Gated Prospectivity",
+      "Treasure Research",
+      "Exact Prospectivity",
       "Evidence-Based Illustration",
       "Image Generation",
       "Google Earth Browser Research",
@@ -62,7 +64,7 @@
     "websiteURL": "https://github.com/kits-software/indiana-jones",
     "defaultPrompt": [
       "Could an older castle or settlement be hidden around this place?",
-      "How did people here live, build, work, and travel over time?",
+      "What happened here over time, which swords or gold objects are documented nearby, and what could the evidence support prospectively?",
       "Show how this person, object, building, or city could have looked at a specific time, and label what is known, inferred, or illustrative."
     ],
     "brandColor": "#8A5A2B",

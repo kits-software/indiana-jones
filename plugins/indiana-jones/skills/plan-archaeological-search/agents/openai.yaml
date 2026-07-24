@@ -1,4 +1,4 @@
 interface:
   display_name: "Explore a Place"
   short_description: "Turn a place mystery into a search path"
-  default_prompt: "Use $plan-archaeological-search to work out where evidence of an older settlement could survive and order the checks that would teach us the most."
+  default_prompt: "Use $plan-archaeological-search to resolve this place, rank exact desk-research candidate areas for the requested archaeological or treasure hypothesis, and order the checks that would teach us the most."

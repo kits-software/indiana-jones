@@ -52,10 +52,11 @@ prove the imagery, layer, attribution, or UI state for a particular place.
 Never substitute HTTP fetching, hidden endpoints, standalone browser
 automation, or search-result snippets for the requested Earth view.
 
-Do not place a possible new, sacred, vulnerable, burial-related, or non-public
-site in a Drive project, shared project, filename, local KML, screenshot, or
-deep link. Keep precise locations in the restricted case authority and use a
-generalized AOI for the Earth pass.
+Preserve exact candidate points, candidate footprints, research AOIs, image
+points, and image footprints in the Earth handoff. Omit a feature only when a
+specific law, source licence, custodian, community protocol, or user-selected
+restriction requires it. A Drive or shared project remains an external
+mutation and requires the user's explicit authorization.
 
 ## Current browser capabilities
 
@@ -73,7 +74,7 @@ Use only capabilities visible in the current interface:
 | Ask a spatial question | Use Ask Google Earth only after authorizing prompt transmission | Experimental; prompts may be human-reviewed and generated output can be inaccurate |
 | Read metadata | Inspect the status area for date/range, coordinates, altitude, and providers | Record `unavailable` rather than inventing missing metadata |
 | Estimate scale | Measure a line, path, or closed polygon in top-down view | Results and terrain statistics are inferred, not survey-grade |
-| Preserve context | Copy the current Earth URL | Generalize or omit a sensitive-location link |
+| Preserve context | Copy the current Earth URL | Keep exact view state; record any named restriction that requires omission |
 | Inspect data | Open a catalog layer's details or an authorized imported layer | Catalog data cannot be downloaded, exported, or copied |
 | Explore a permitted capture | Run a bounded local check on one or a few user-requested attributed static captures | Record the use basis and hash; do not turn captures into a systematic dataset |
 
@@ -113,8 +114,8 @@ Other native analysis tools require the same derived-evidence discipline:
   Record label provenance and never use the training result as its own test.
 - **Ask Google Earth:** currently experimental and limited to English for US
   projects. A query can use at most 500 features, output may be inaccurate, and
-  prompts may be human-reviewed. Never enter confidential, restricted, sacred,
-  burial-related, or possible-new-site data.
+  prompts may be human-reviewed. Never enter material governed by a specific
+  confidentiality, legal, custodian, community, or user restriction.
 
 These limits can change. Inspect the current UI badge, plan, terms, coverage,
 and official documentation at use time. Data-layer, table, and generated
@@ -149,8 +150,8 @@ permitted attributed capture.
 
 Perform one bounded pass:
 
-1. Reconfirm the question, generalized AOI, disclosure class, allowed browser
-   session, and whether any mutation is authorized.
+1. Reconfirm the question, exact point and/or AOI, disclosure class, allowed
+   browser session, and whether any mutation is authorized.
 2. Open Explore Earth and resolve the named place. Record ambiguity or
    mismatched geography before continuing.
 3. Establish a conservative reference view: north-up, top-down, Satellite,
@@ -211,8 +212,8 @@ Current web Earth can:
 
 Those product capabilities do not grant rights to upload, analyze, share, or
 redistribute the underlying data. Record the source licence first. Do not
-upload authenticated archive material, community-restricted knowledge, or
-precise possible-new-site data.
+upload authenticated archive material or community-restricted knowledge. A
+possible-new candidate is not confidential merely because it is new.
 
 Local KML depends on browser-local storage and is not a collaborative project.
 Cloud imports require a project the user owns. At the current plan contract,
@@ -261,13 +262,14 @@ provisional finding without reproducing the output.
 ## Provenance and attribution
 
 Start from `assets/google-earth-observation-template.json`. Store completed
-records in the restricted case workspace when location precision requires it.
+records in the case workspace. Use restricted storage only when a specific
+legal, source, custodian, community, privacy, or user rule requires it.
 
 For every Earth-derived observation, record:
 
 - product name and official/deep-link URL;
 - access time and public/authenticated session class;
-- generalized study-area label and disclosure class;
+- exact study-area geometry, feature roles, precision, and disclosure class;
 - basemap, detail preset, 2D/3D state, heading, tilt, and camera altitude when
   relevant;
 - historical-imagery state and exact displayed imagery date or range;
@@ -325,8 +327,9 @@ Street View has stricter rules: do not screenshot, extract, download, stitch,
 digitize, or analyze Street View imagery. Inspect it only in the official
 interface when the case authorization and question require it.
 
-Before public release, apply the case disclosure rules. Visible attribution
-does not make a sensitive coordinate safe to publish.
+Before release, apply only restrictions actually recorded for the case.
+Visible attribution satisfies attribution, not unrelated legal, privacy, or
+community obligations.
 
 ### Bounded local analysis
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Explain the Evidence"
   short_description: "Turn clues into a rigorous discovery report"
-  default_prompt: "Use $report-archaeological-evidence to explain what this investigation found, rank the alternatives, and show what would confirm or overturn the conclusion."
+  default_prompt: "Use $report-archaeological-evidence to report exact evidence-supported coordinates and rankings, create annotated satellite or aerial plates, label probability versus heuristic estimates honestly, and explain what would confirm or overturn each candidate."

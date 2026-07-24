@@ -83,6 +83,8 @@ For each visible element record:
 - status and impact;
 - source IDs and rationale;
 - rejected or viable alternatives;
+- `alternative-variants`, `single-main-with-disclosure`, or
+  `defer-depiction` for high-impact uncertainty;
 - the exact prompt clause;
 - the check that can detect model drift.
 

@@ -48,6 +48,7 @@ def _gate_reasons(
     action_map: dict[str, dict[str, Any]],
     candidates_frozen: bool,
     candidate_artifact_sha256: Any,
+    source_requires_freeze: bool,
 ) -> list[str]:
     reasons: list[str] = []
     if action.get("status") != "planned":
@@ -69,7 +70,7 @@ def _gate_reasons(
             reasons.append("public action is not authorized for execution")
     elif state != "confirmed":
         reasons.append(f"{required} authorization is {state}")
-    if action.get("requiresCandidatesFrozen") is True:
+    if action.get("requiresCandidatesFrozen") is True or source_requires_freeze:
         if not candidates_frozen:
             reasons.append("candidate list is not frozen")
         if not isinstance(candidate_artifact_sha256, str) or not re.fullmatch(
@@ -141,6 +142,11 @@ def build_frontier(plan: dict[str, Any], limit: int) -> dict[str, Any]:
     policy = plan["policy"]
     candidates_frozen = bool(plan["case"].get("candidatesFrozen"))
     candidate_artifact_sha256 = plan["case"].get("candidateArtifactSha256")
+    source_map = {
+        source.get("sourceId"): source
+        for source in plan.get("sources", [])
+        if isinstance(source, dict) and isinstance(source.get("sourceId"), str)
+    }
 
     preliminary_reasons = {
         action_id: _gate_reasons(
@@ -148,6 +154,14 @@ def build_frontier(plan: dict[str, Any], limit: int) -> dict[str, Any]:
             action_map,
             candidates_frozen,
             candidate_artifact_sha256,
+            action.get("stage") in {"post-freeze-corroboration", "post-unblinding"}
+            or any(
+                source_map.get(source_id, {}).get("accessStage")
+                in {"post-freeze", "post-unblinding"}
+                or source_map.get(source_id, {}).get("targetLabelState") == "visible"
+                for source_id in action.get("sourceIds", [])
+                if isinstance(source_id, str)
+            ),
         )
         for action_id, action in action_map.items()
     }

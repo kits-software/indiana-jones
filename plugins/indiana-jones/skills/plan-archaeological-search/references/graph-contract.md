@@ -50,25 +50,33 @@ Required case fields:
   `historical-reconstruction`;
 - `targetLabelsState` and `candidatesFrozen`;
 - `disclosure`;
-- explicit authorization state.
+- explicit source-access, protected-site, and field-action state where applicable.
 
-Exact sensitive or treasure-oriented research also records
-`researchMode: treasure-research-restricted` or `authority-casework` and a
-permission bundle for jurisdiction, land access, detecting, excavation,
-heritage, and finds reporting. Each entry declares `confirmed` or
-`not-required` plus its basis. Public and generalized treasure research does
-not require those field permissions.
+Exact treasure-oriented desk research normally uses
+`researchMode: treasure-research-public` and may output coordinates, ranked
+cells, evidence plates, and prospectivity estimates without land, detecting,
+excavation, or heritage permissions. Use `treasure-research-restricted` or
+`authority-casework` only for genuinely protected/confidential site data.
+Authenticated/private sources require explicit consent. Record field
+permissions separately only when a field action is actually proposed.
 
 `area.gazetteerCandidates` preserves all credible intake-region resolutions and
 `selectedGazetteerId` must select exactly one anchor region. It does not select
 the winning event/site locus: represent disputed loci as separate spatial and
-hypothesis nodes linked to cells. Keep a restricted geometry and a separate
-public description. `metricPlanning: true` requires a suitable
-projected CRS; EPSG:4326 degree cells are not metre-scale units.
+hypothesis nodes linked to cells. The compatibility field
+`restrictedGeometry` stores the exact working geometry; its legacy name does
+not itself make the geometry restricted. For a public area or cell, also copy
+that exact value to `geometry`, which is the public-export field. Omit or
+transform `geometry` only for an explicit protected, confidential, private,
+source-rights, or community restriction. Keep `publicDescription` as a
+readable label, not as a forced generalization.
+`metricPlanning: true` requires a suitable projected CRS; EPSG:4326 degree
+cells are not metre-scale units.
 
-Each grid cell records a stable ID, level/parent, restricted geometry, safe
-public label, evidenced neighbors, landscape context, coverage, access, and
-sensitivity.
+Each grid cell records a stable ID, level/parent, exact geometry, public label,
+evidenced neighbors, landscape context, coverage, access, and sensitivity.
+Use `public` sensitivity for ordinary prospective candidates, including
+possible new sites and treasure-oriented hypotheses.
 
 ## Sources and origin families
 
@@ -183,8 +191,9 @@ Allowed authorization requirements:
 - `community-governance`.
 
 Only `not-required` or `confirmed`, as appropriate, can enter the frontier.
-Legal access, licence, consent, community control, and disclosure are gates,
-not score penalties.
+Source access, licence, authenticated/private consent, and genuine
+protected-site/community disclosure are desk-research gates, not score
+penalties. Land and method permissions gate only the corresponding field action.
 
 `public-desk`, `licensed-computation`, `authenticated-read`,
 `community-consultation`, `field-non-invasive`, and `specialist-handoff` have
@@ -319,8 +328,16 @@ Before unblinding, use `freeze-candidates`. Use `ingest-source` and
 `reconcile-finds` for bounded provider-neutral catalogue imports and
 conservative identity reconciliation. Use the `report-*` commands for history,
 finds, object, material, and source-gap artefacts. `assess-probability` refuses
-numeric output until the calibration and, for exact sensitive targets,
-permission gates pass.
+the `calibrated` label until the validation gate passes; otherwise it may emit
+an explicitly heuristic estimate with assumptions and uncertainty. Exact
+ordinary desk outputs need no field-permission gate.
+
+Direct `ingest-source` and `reconcile-finds` outputs are unsealed working
+artifacts. `report-finds`, `report-object`, `report-material`, and
+`report-gaps` each require `--run-dir` and accept only a completed action's
+retained `resultRefs[].path` from that same run. Execute the corresponding
+declared ingest/reconciliation actions with `run-action` before reporting; see
+the reporting skill for complete examples.
 
 Export a separate public copy:
 
@@ -330,12 +347,13 @@ python3 scripts/search_plan.py export-public \
   --out search-plan.public.json
 ```
 
-Public export constructs a new allowlisted schema with remapped IDs. It never
-copies original area/cell geometry, locators, coordinates, sensitive labels,
-cell links, arbitrary nested fields, local paths, or non-public URLs. It is not
-a proof of safe disclosure; manually test whether the declared public area
-description, public source titles, graph structure, imagery, or landmarks can
-re-identify a location.
+Public export constructs a new allowlisted schema with remapped IDs. It may
+copy supported coordinates and candidate geometry for ordinary public desk
+research, while excluding private locators, genuinely protected/confidential
+geometry, sensitive labels, arbitrary nested fields, local paths, and
+non-public URLs. Confirm only the restrictions actually declared by protection
+status, source terms, private-data status, or community governance; do not
+redact exact coordinates merely because the output contains a candidate.
 
 All output commands create new files and refuse to overwrite existing
 artefacts, including the source plan.
@@ -353,8 +371,9 @@ After a batch:
 
 Pause or stop for unresolved place ambiguity, lack of lawful/licensed sources,
 method inadequacy, a stronger alternative, bounded desk-study sufficiency,
-budget, graph invalidity, sensitivity escalation, or a test that belongs to a
-qualified specialist, heritage authority, land manager, or community.
+budget, graph invalidity, genuine protected-site or private-data escalation,
+or a field test that belongs to a qualified specialist, land manager, heritage
+authority, or community.
 
 Non-detection must be phrased as “not visible under these sources and
 conditions,” never “absent.”

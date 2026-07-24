@@ -1,14 +1,15 @@
 ---
 name: research-archaeological-history-and-finds
-description: Reconstruct how people lived in a place and trace the buildings, work, objects, materials, routes, conflicts, beliefs, and finds they left behind. Use when the user asks what happened somewhere, how people built or organized daily life, whether a workshop, burial, sword, coin, gold object, hoard, or other find has been reported or may plausibly occur nearby, where an excavated object is now, or how catalogue and publication records connect. Use lawful archives, excavation reports, heritage records, bibliographies, museums, and permission-gated prospective research; keep public locations generalized and reserve exact actionable targeting for a restricted, permission-confirmed workflow.
+description: Reconstruct how people lived in a place and trace buildings, work, objects, materials, routes, conflicts, beliefs, and finds. Use when the user asks what happened somewhere; whether a workshop, sword, coin, gold object, hoard, treasure-related context, burial, or other find was reported or may plausibly occur nearby; where an object is now; or how records connect. Use lawful archives, catalogues, imagery, museums, and user-authorized private sources; produce exact desk-research candidates, coordinates, rankings, annotated imagery, and honest calibrated or heuristic prospectivity estimates when evidence supports them; restrict only genuinely protected/confidential data and keep field/recovery action separate.
 ---
 
 # Research Archaeological History and Finds
 
 Build a traceable account of people, places, objects, records, and prospective
-hypotheses. Welcome lawful treasure, hoard, sword, precious-metal, and
-material-culture questions; control location precision and field action
-according to sensitivity and confirmed authority.
+hypotheses. Welcome treasure, hoard, sword, precious-metal, and
+material-culture questions as ordinary research; preserve useful coordinate
+precision unless a genuine protection rule applies, and keep field action
+separate from desk analysis.
 
 ## Companion boundaries
 
@@ -36,7 +37,7 @@ according to sensitivity and confirmed authority.
   for portable or valuable finds, location generalization, answerability, or
   quantitative claims.
 
-## Non-negotiable permission boundary
+## Non-negotiable research and recovery boundary
 
 Interpret “find swords near this location” broadly: investigate documented
 swords or sword-related material, then form prospective hypotheses from
@@ -45,32 +46,41 @@ opportunity evidence. Treat “find gold” likewise across objects, coins, hoar
 metalworking, exchange, texts, collections, and geological context. Keep
 prospective claims distinct from documented finds.
 
+Do provide exact desk-research coordinates, candidate rankings, documented-
+find maps, annotated satellite/aerial plates, and honest estimates when lawful
+evidence supports them. No land, detecting, excavation, or heritage permission
+dossier is needed for those outputs.
+
 Do not:
 
-- publish exact locations or actionable rankings for valuable portable objects;
-- provide exact targeting, route optimization, detecting, collection, diving,
-  probing, or excavation instructions until the specific jurisdiction, land
-  access, detecting, excavation, heritage, environmental, and community
-  permissions are verified and the work is confined to a restricted,
-  professionally responsible workflow;
-- provide any route around permissions, reporting duties, protected status,
+- expose exact genuinely protected/confidential, burial, sacred, community-
+  restricted, deliberately redacted, or private-source locations;
+- provide routes or tactics for trespass, destructive recovery/removal,
+  unpermitted detecting, collection, diving, probing, or excavation;
+- provide any route around source access, reporting duties, protected status,
   access restrictions, or disclosure controls;
 - infer an unrecorded hoard, grave good, cache, or precious-metal deposit from
   suggestive history, terrain, folklore, or clusters of recorded finds without
   explicitly labelling it a prospective hypothesis and testing alternatives;
-- publish precise findspots, reversible locators, private collection details,
-  or security-sensitive museum information;
+- publish precise findspots that a source or custodian explicitly protects,
+  private collection details, or security-sensitive museum information;
 - contact a landowner, collector, informant, authority, museum, or community,
   or use an authenticated account, without the user's explicit authorization.
 
-Never refuse because the topic is treasure, gold, swords, weapons, coins,
-hoards, or another valuable class. If exact actionable work lacks confirmed
-permissions or safe handling, pause that portion, explain the missing gates,
-continue at a generalized non-operational scale, and offer published-find
-research, prospective landscape hypotheses, museum holdings, production or
-trade evidence, reporting law, and appropriate heritage contacts.
+Never refuse or generalize merely because the topic is treasure, gold, swords,
+weapons, coins, hoards, or another valuable class. Restrict only the protected,
+private, or physical-action portion, explain the specific reason, and continue
+with the greatest lawful desk-research precision.
 
 ## 1. Contract the question
+
+For a simple first turn, ask only for the smallest missing boundary: the
+town/county or region and country. Treat period and object subtype as optional,
+state that the default deliverable includes evidence-supported coordinates,
+ranked candidates, and imagery plates where available, and preview the official
+registers, museums, excavation records, publications, and custody sources to be
+searched. Expand to the full contract below as the
+case develops; do not greet a straightforward sword question with a form.
 
 Record:
 
@@ -88,10 +98,10 @@ Record:
 - source, time, cost, and query limits; stopping rule; and what would count as
   a useful negative or indeterminate result.
 
-Never silently choose “near.” For public work, state a defensible generalized unit such as a
-municipality, parish, map sheet, watershed, or published site catchment.
-For restricted professional work, record exact bounds separately from the
-public display unit and bind access to the confirmed permission scope.
+Never silently choose “near.” State the exact AOI or a defensible unit such as
+a municipality, parish, map sheet, watershed, radius, or published catchment.
+Preserve exact bounds and coordinate uncertainty in ordinary desk outputs.
+Derive a generalized display only for genuinely protected/confidential cases.
 
 ## 2. Decompose the investigation
 
@@ -110,7 +120,8 @@ Keep separate questions and evidence lanes:
    present custody.
 6. **Prospective model** — expected context, preservation, visibility,
    sampling opportunity, alternatives, controls, lawful non-invasive tests,
-   and the permissions needed before any exact or field action.
+   exact desk-research outputs, and any separate permissions needed only if a
+   field action is proposed.
 
 Do not use one lane as proof of another. A gold object does not prove local
 gold-working. A goldsmith in an account does not prove a workshop at the
@@ -208,16 +219,16 @@ Always make a bounded lawful attempt:
 4. follow citations, accession references, excavation codes, former repository
    names, and collection transfers;
 5. broaden one dimension at a time: source class, date range, object class, or
-   safely generalized area;
+   more precisely resolved or broader area;
 6. search finding aids and catalogue-level descriptions when item-level
    records are unavailable;
 7. identify the likely record holder and prepare an unsent enquiry package;
 8. stop at the declared budget and report exactly what was and was not
    searched.
 
-Do not bypass access controls or invent a record. Exact high-value targeting
-may proceed only after all required permissions and restricted handling are
-documented; otherwise keep the hypothesis generalized. If sources remain
+Do not bypass access controls or invent a record. Exact high-value desk
+research may proceed from lawful sources without field permissions; only
+protected/confidential data needs restricted handling. If sources remain
 insufficient, return a working hypothesis or `no determination` with the
 smallest next source request.
 
@@ -235,20 +246,27 @@ Report separately:
 - **answerability** — `adequate`, `partial`, `poor`, or `not assessable`.
 
 Do not translate catalogue counts, frontier priorities, detector scores, or
-distance directly into a probability that an object exists or can be found. Give a
-numerical probability only when a predeclared event, representative denominator,
-detection and reporting model, independent validation, spatial leakage check,
-calibration evidence, and uncertainty interval all exist. Otherwise use an
-ordinal, reasoned judgment.
+distance directly into probability. Label a probability `calibrated` only
+when a predeclared event, representative denominator, observation model,
+independent validation, leakage check, calibration evidence, and uncertainty
+interval exist. Otherwise provide an explicitly heuristic rank, band, range,
+or non-probabilistic score with its factors, alternatives, and wide
+uncertainty. Do not emit a probability or percentage. Either describes
+research prospectivity, never a guarantee or permission to act.
 
 ## 9. Report and refer
 
+The deterministic companion route is: resolve the place and AOI with
+`$plan-archaeological-search`; return here to normalize finds, history,
+materials, identities, and prospectivity; then hand the evidence state to
+`$report-archaeological-evidence`. Do not bounce between skills once the
+planner has returned a resolved place.
+
 Use `$report-archaeological-evidence` to select the appropriate finds-specific
-layout and apply the professor voice. Public distribution and prospective maps
-must aggregate or generalize sensitive records, declare the unit and
-suppression rule, and say that record density reflects investigation and
-reporting opportunity. Exact professional maps must be access-controlled,
-permission-bound, and absent from public derivatives.
+layout and apply the professor voice. Ordinary distribution and prospective
+maps should include source-supported coordinates, ranked candidates, and
+annotated imagery, while declaring observation/reporting bias. Aggregate or
+generalize only genuinely protected/confidential records and explain why.
 
 Recommend roles before names. For finds research, consider the official
 heritage or finds-recording authority, museum curator or registrar, excavation
@@ -272,9 +290,9 @@ Do not call the research complete until:
 - gold objects, gold-working, documentary goldsmithing, exchange, and natural
   mineral occurrence remain separate;
 - contradictory claims and unsuccessful searches are preserved;
-- public locations are generalized; any exact high-value targeting is
-  restricted, permission-bound, and paired with authority and reporting gates;
-- answerability is reported independently from likelihood;
+- exact desk-research candidates, coordinates, rankings, and plates are
+  included unless a genuine protection/confidentiality rule requires restriction;
+- answerability is reported independently from calibrated or heuristic likelihood;
 - the result identifies the next lawful discriminating source, specialist, or
   authority.
 

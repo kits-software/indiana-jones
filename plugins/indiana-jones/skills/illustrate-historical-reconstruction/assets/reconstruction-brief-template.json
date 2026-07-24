@@ -37,6 +37,7 @@
       ],
       "rationale": "",
       "alternatives": [],
+      "uncertaintyTreatment": "not-applicable",
       "promptClause": "",
       "inspectionCheck": ""
     }
@@ -66,7 +67,7 @@
     "geometryChecks": [],
     "culturalChecks": [],
     "unresolvedHighImpact": [],
-    "variantPolicy": "single-main-with-disclosure",
+    "variantPolicy": "decision-specific",
     "outputChecked": false,
     "remainingIssues": [],
     "expertReview": {

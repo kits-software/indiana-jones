@@ -1,6 +1,6 @@
 ---
 name: research-google-earth
-description: Use Google Earth in the browser for bounded, attributed archaeological reconnaissance and geospatial source discovery. Use when Codex is asked to open or inspect Google Earth, compare current or historical imagery, navigate 2D/3D terrain, estimate distance or area, inspect catalog or Google-native experimental analysis outputs such as Detect change, Imagery Search, Classify, or Ask Google Earth, visualize authorized KML/KMZ/GeoJSON/Shapefile data, copy a safe Earth link, prepare a limited attributed evidence capture, or run bounded local analysis on an input whose exact use is permitted. Do not use for bulk tile or canvas scraping, systematic screenshotting, hidden API access, coordinate harvesting, copy-prohibited catalog export, unlicensed dataset construction, or sensitive-site disclosure.
+description: Use Google Earth in the browser for bounded, attributed archaeological reconnaissance and geospatial source discovery. Use when Codex is asked to open or inspect Google Earth, compare current or historical imagery, navigate 2D/3D terrain, estimate distance or area, inspect catalog or Google-native experimental analysis outputs such as Detect change, Imagery Search, Classify, or Ask Google Earth, visualize authorized KML/KMZ/GeoJSON/Shapefile data, copy an exact Earth link, prepare a limited attributed evidence capture, or run bounded local analysis on an input whose exact use is permitted. Do not use for bulk tile or canvas scraping, systematic screenshotting, hidden API access, coordinate harvesting, copy-prohibited catalog export, unlicensed dataset construction, or disclosure that violates a specific legal, custodian, community, or user restriction.
 ---
 
 # Research with Google Earth
@@ -22,9 +22,9 @@ fetches, hidden endpoints, or standalone automation as case evidence.
 
 ## Contract the pass
 
-Establish the research question, generalized AOI, stopping condition,
-disclosure class, and allowed source role. Public exploration permits only a
-small read-only pass.
+Establish the research question, exact point and/or AOI when known, stopping
+condition, disclosure class, and allowed source role. Public exploration
+permits only a small read-only pass.
 
 Require explicit authorization naming Google Earth and the browser session
 before using a signed-in account. Also require the user to request the exact
@@ -37,14 +37,17 @@ searching, reading projects, or opening account-scoped layers. Switch to a clean
 public browser session when one is available; never sign out, switch accounts,
 or change account state to manufacture unauthenticated access.
 
-Never put a possible new, sacred, burial-related, vulnerable, or non-public
-site into Earth, a Drive project, local KML, a deep link, or a capture. Route
-that location through the restricted case authority.
+Preserve candidate points, candidate footprints, research AOIs, image points,
+and image footprints in Earth/KML handoffs. Omit a feature only when a specific
+law, source licence, custodian, community protocol, or user-selected
+restriction requires it, and record the authority and reason. Uploading a
+feature to a Drive-backed project is a separate mutation and still requires
+the user's explicit authorization.
 
 ## Run one bounded observation
 
 1. Open <https://earth.google.com/web/> and use Explore Earth.
-2. Search the place or authorized generalized coordinate and resolve ambiguity.
+2. Search the place or exact research coordinate and resolve ambiguity.
 3. Establish a north-up, top-down Satellite reference view with 3D buildings
    off and a suitable detail preset.
 4. Record the displayed imagery date or `unavailable`, complete attribution
@@ -86,8 +89,8 @@ labels, or AOIs. Require explicit authorization for the named feature and exact
 mutation. Verify its current project, storage, and plan requirements; do not
 assume local KML can host a native-analysis result. Never enter confidential or
 sensitive-site information. Record the displayed model or dataset, scope,
-limits, plan, result count, layer status, and verification views; verify the
-result against historical imagery and an independent licensed source. Do not
+  limits, plan, result count, layer status, and verification views; verify the
+  result against historical imagery and an independent licensed source. Do not
 download, export, copy, or capture a catalog or generated output when its
 product terms prohibit that action.
 
@@ -126,7 +129,7 @@ case-specific authorization permit it.
 
 Copy
 `../indiana-jones/assets/google-earth-observation-template.json` into the
-restricted case workspace and complete it. Preserve:
+case workspace and complete it. Preserve:
 
 - access/session class and mutation authorization;
 - safe study-area label and disclosure class;
@@ -139,7 +142,7 @@ restricted case workspace and complete it. Preserve:
 - capture purpose, hash, and attribution state when a capture is permitted;
   plus the operation, use basis, and limits for any exploratory local analysis.
 
-Prefer a text note and safe deep link. If the user requests a permitted,
+Prefer a text note and exact deep link. If the user requests a permitted,
 non-commercial static Google Earth capture, retain all Google and third-party
 attribution legibly beside the imagery and keep the number of captures small.
 Never screenshot, extract, stitch, digitize, or analyze Street View imagery.
@@ -151,7 +154,7 @@ Return:
 - the provisional finding and strongest alternative;
 - the Earth view/date and measurement limitations;
 - exact source and provider attribution;
-- a safe deep link or a reason it was withheld;
+- an exact deep link or a named restriction that required it to be withheld;
 - the canonical licensed source required for analysis; and
 - any browser, authorization, coverage, or metadata block.
 

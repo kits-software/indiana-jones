@@ -1,6 +1,6 @@
 ---
 name: plan-archaeological-search
-description: Turn curiosity about a place into an ordered path toward discovery. Use when the user asks where an old castle or settlement may have stood, what may be hidden around an area, how people used or built a landscape, how a town grew, where an event happened, which explanation is most likely, or where to look next—even when they do not know which records or methods could help. Resolve the place and time, make competing hypotheses explicit, choose the most informative lawful checks, and gate exact field action or sensitive disclosure behind the required permissions.
+description: Turn curiosity about a place into an ordered path toward discovery. Use when the user asks where an old castle or settlement may have stood, where swords, gold, hoards, or treasure-related evidence may plausibly occur, what may be hidden around an area, how people used or built a landscape, where an event happened, which explanation is most likely, or where to look next. Resolve place and time, make competing hypotheses explicit, plan exact desk-research candidates and rankings, choose informative lawful checks, and keep field action, private data, and genuinely protected-site disclosure behind their applicable gates.
 ---
 
 # Plan Archaeological Search
@@ -36,13 +36,14 @@ city, settlement, landscape, building, object, or person reconstruction.
 - Do not equate an archaeological culture or material tradition with a
   homogeneous ethnicity, language, polity, modern nation, or living community.
 - Planning priority is a scheduling score, never the probability of a site.
-- Licences, account consent, land access, permits, community authority,
-  sensitivity, and disclosure are hard gates. Scores cannot override them.
+- Source licences and authenticated/private-account consent are hard desk-
+  research gates. Land access, permits, and field authority apply only to field
+  actions; genuine protected-site and community restrictions control disclosure.
 - Known-site coordinates and inventory labels stay withheld during prospective
   candidate generation and rediscovery benchmarks.
-- Never turn the plan into directions for trespass, collecting, probing,
-  metal-detecting, excavation, grave disturbance, or public triangulation of a
-  vulnerable site.
+- Never turn the plan into directions for trespass, destructive collection or
+  removal, probing, unpermitted detecting or excavation, grave disturbance, or
+  triangulation of a genuinely protected or deliberately redacted site.
 
 ## Route the request
 
@@ -72,6 +73,8 @@ Record:
 - permitted public, licensed, local, or explicitly authorized account sources;
 - coordinate precision and `public`, `restricted`, or
   `heritage-authority-only` disclosure;
+- whether the deliverable should include exact candidate coordinates, ranked
+  cells, annotated satellite/aerial plates, and heuristic or calibrated estimates;
 - available time, compute, money, specialist review, and stopping rules;
 - what would falsify or materially weaken each leading hypothesis.
 
@@ -227,23 +230,37 @@ python3 <skill-dir>/scripts/search_plan.py new \
   --bbox <WEST> <SOUTH> <EAST> <NORTH> \
   --rows 3 \
   --columns 3 \
-  --disclosure restricted \
+  --disclosure public \
   --out search-plan.json
 ```
 
-After adding sources, hypotheses, cells, edges, and actions:
+`new` emits a schema-2 coarse reconnaissance skeleton. It deliberately cannot
+invent source authority, hypotheses, controls, or acceptance evidence. Author
+those fields against [graph-contract.md](references/graph-contract.md), or use
+the schema-2 city/landscape and event assets as worked shapes after replacing
+every example identity, source, area, and claim.
+
+After adding sources, typed entity nodes, edges, and executable actions, apply
+the bounded package and require readiness:
 
 ```bash
+python3 <skill-dir>/scripts/search_plan.py prepare \
+  --plan search-plan.json \
+  --package research-package.json \
+  --out search-plan.ready.json
+
 python3 <skill-dir>/scripts/search_plan.py validate \
   --ready \
-  --plan search-plan.json
+  --plan search-plan.ready.json
 
 python3 <skill-dir>/scripts/search_plan.py rank \
-  --plan search-plan.json \
+  --plan search-plan.ready.json \
   --limit 4 \
   --out search-frontier.json
 ```
 
+`prepare` accepts only `archaeological-research-package-1.0`, rejects unknown
+fields, and refuses to write a plan that is not schema-valid and ready.
 Structural validation and research readiness are separate. A new empty
 skeleton is structurally valid but fails `validate --ready` until it contains
 sources, archaeological and alternative hypotheses, coverage, controls where
@@ -253,7 +270,9 @@ The ordinal planner combines discrimination, falsification, independence,
 coverage, and burden. It schedules only ready, typed non-invasive actions,
 pairs candidate-focused work with a matched negative control, preserves
 dependency order, and prints every score component. Case authorization, source
-access stage, licence, authority, and disclosure remain hard gates.
+access stage, licence, applicable private-source consent, and genuine
+protected-site disclosure remain hard gates. Field permissions do not gate
+desk research or its exact coordinate, ranking, plate, or estimate outputs.
 
 ## 9. Execute as an auditable graph search
 
@@ -294,7 +313,8 @@ after preserving the evidence artefact:
 ```bash
 python3 <skill-dir>/scripts/search_plan.py start-action \
   --run-dir case-run \
-  --action-id <ACTION_ID>
+  --action-id <ACTION_ID> \
+  --idempotency-key <CALLER_STABLE_KEY>
 
 python3 <skill-dir>/scripts/search_plan.py complete-action \
   --run-dir case-run \
@@ -305,25 +325,46 @@ python3 <skill-dir>/scripts/search_plan.py complete-action \
   --source-id <SOURCE_ID>
 ```
 
+The `result.json` must use `research-result-2.0` and include sourced
+observations, negative results, warnings, errors, source snapshot and
+normalized-record IDs, method/adapter versions, sensitivity, disclosure, and
+one evidence item per acceptance criterion. Free-text criterion claims cannot
+complete an action.
+
 Use `fail-action --retryable` for a bounded retry. After interruption, use
-`resume`; it converts unfinished leases into retryable or terminal attempts
-according to the action limit. Use `status` to replay and verify the
+`resume`; it refuses active leases and converts only expired attempts into
+retryable or terminal states according to the action limit. Use `status` to replay and verify the
 hash-chained event journal and all result hashes. Never edit runtime status to
 simulate completion; dependencies unlock only from sealed result references.
 
 For a deterministic public-source action, use `run-action`. Use `advance` for
 one deterministic batch or `run` to repeat deterministic batches until a
-`codex-research` task, permission gate, budget, or stop requires judgment.
+`codex-research` task, private-source/protected-site gate, budget, or stop requires judgment.
 Use `source-discover` to audit declared adapter readiness and `extract-claims`
 to convert normalized fields into reviewable, source-linked assertions. To
 ingest or reconcile data outside a run:
 
+Before execution, bind each ingest action to the source's acquisition contract:
+locator, format, source-identity hash, query hash, local snapshot hash and
+retrieval date when applicable, or an explicit remote automation, retention,
+version, and rate decision. The executor rechecks these bindings and the local
+bytes so an arbitrary export cannot inherit another source's authority.
+
 ```bash
+python3 <skill-dir>/scripts/search_plan.py search-ladder \
+  --place-alias "<CURRENT_NAME>" \
+  --place-alias "<HISTORICAL_NAME>" \
+  --object-term "sword" \
+  --language-variant "<LOCAL_TERM>" \
+  --broader-term "weapon fitting" \
+  --maximum 100 \
+  --out search-ladder.json
+
 python3 <skill-dir>/scripts/search_plan.py ingest-source \
   --plan search-plan.json \
   --source-id <SOURCE_ID> \
   --input <PUBLIC_URL_OR_LOCAL_EXPORT> \
-  --format <json|jsonl|csv|oai-pmh|iiif|rdf-xml> \
+  --format <json|jsonl|csv|oai-pmh|iiif|rdf-xml|sparql-json> \
   --out normalized-records.json
 
 python3 <skill-dir>/scripts/search_plan.py reconcile-finds \
@@ -331,11 +372,47 @@ python3 <skill-dir>/scripts/search_plan.py reconcile-finds \
   --out reconciled-finds.json
 ```
 
+When an OAI-PMH response carries a resumption token, continue only through the
+source's declared `resumePages` contract:
+
+```bash
+python3 <skill-dir>/scripts/search_plan.py resume-source \
+  --plan search-plan.json \
+  --source-id <SOURCE_ID> \
+  --previous normalized-records.json \
+  --out normalized-records.page-2.json
+```
+
+If the evidence can rank candidates but cannot support calibrated probability,
+write a `heuristic-archaeological-assessment-input-1.0` file with the method,
+score meaning, evidence references, assumptions, uncertainty, limitations, and
+candidates, then run:
+
+```bash
+python3 <skill-dir>/scripts/search_plan.py assess-heuristic \
+  --input candidate-evidence.json \
+  --plan search-plan.json \
+  --out heuristic-assessment.json
+```
+
+The result is explicitly `heuristic-ranking-not-probability`; probability
+fields are rejected. Exact unrestricted coordinates, geometry, map links, and
+imagery annotation references remain available, while a candidate carrying an
+explicit spatial restriction is withheld independently of the others.
+
+The direct ingestion and reconciliation commands above produce reviewable but
+unsealed working artifacts. They cannot feed `report-finds`, `report-object`,
+`report-material`, or `report-gaps`. For reportable evidence, declare
+`ingest-source` and `reconcile-records` actions in the ready plan, execute them
+with `run-action`, then pass only completed-action `resultRefs[].path` values
+from `status` to the report commands together with the same `--run-dir`.
+
 The journal is durable authority; `state.json` is a replayed cache. Each batch
 must preserve negative results, proposed hypothesis changes, coverage, source
-gaps, alternatives, and authorization evidence. Stop explicitly on safety,
-ambiguity, method inadequacy, falsification, bounded sufficiency, budget,
-graph invalidity, sensitivity, or professional-boundary rules.
+gaps, alternatives, and authorization evidence. Stop explicitly on
+source-access failure, prohibited physical conduct, ambiguity, method
+inadequacy, falsification, bounded sufficiency, budget, graph invalidity,
+protected-site disclosure, or professional-boundary rules.
 
 Before ground-truth or inventory unblinding, freeze a clean candidate artefact:
 
@@ -355,14 +432,18 @@ For a separate public artefact:
 ```bash
 python3 <skill-dir>/scripts/search_plan.py export-public \
   --plan search-plan.json \
+  --schema 2.0-public \
   --out search-plan.public.json
 ```
 
-The export is rebuilt from a public allowlist: original IDs, geometries,
-locators, sensitive labels, and non-public source URLs are never copied. It is
-still only a bounded technical check. Review the declared public area
-description, public source titles, landmarks, graph intersections, and
-community restrictions manually.
+Use `1.0-public` for the legacy public shape and `2.0-public` when typed public
+entity records are required. The export is rebuilt from a public allowlist. It
+may preserve exact ordinary
+candidate coordinates, ranked cells, and public evidence-plate links when
+their sources support that precision. It excludes private locators, protected
+or confidential geometry, sensitive labels, and non-public source URLs. It is
+still only a bounded technical check; review real protection, source terms,
+landmarks, graph intersections, and community restrictions manually.
 
 ## Completion gate
 
@@ -376,7 +457,8 @@ Do not call the plan ready until:
   discriminating test, and control;
 - source lineage prevents copied accounts from becoming false corroboration;
 - the adaptive grid matches source resolution and landscape logic;
-- task dependencies, permissions, licences, and disclosure gates validate;
+- task dependencies, applicable private/field permissions, licences, and genuine
+  protected-site disclosure gates validate;
 - known-site labels remain in their declared pre/post-freeze stage;
 - stopping and professional-handoff rules are explicit;
 - the first batch explains why each action is being run now.

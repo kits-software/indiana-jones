@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable
 
 from ij_policy import finite_number, unit_score, validate_policy
+from ij_entities import provenance_sensitivity_errors, validate_entity_node
 from ij_safety import (
     SENSITIVITIES,
     locator_errors,
@@ -62,6 +63,8 @@ def new_plan(
     gazetteer_id: str,
 ) -> dict[str, Any]:
     west, south, east, north = bbox
+    geometry_field = "geometry" if disclosure == "public" else "restrictedGeometry"
+    spatial_sensitivity = "public" if disclosure == "public" else "restricted"
     cells: list[dict[str, Any]] = []
     lon_step = (east - west) / columns
     lat_step = (north - south) / rows
@@ -82,7 +85,7 @@ def new_plan(
                     "level": 0,
                     "parentId": None,
                     "publicLabel": f"study sector {row + 1}-{column + 1}",
-                    "restrictedGeometry": {
+                    geometry_field: {
                         "type": "bbox",
                         "crs": "EPSG:4326",
                         "bbox": [
@@ -95,7 +98,7 @@ def new_plan(
                     "neighbors": sorted(neighbors),
                     "landscapeContext": [],
                     "coverageState": "unsearched",
-                    "sensitivity": "restricted",
+                    "sensitivity": spatial_sensitivity,
                 }
             )
 
@@ -120,14 +123,11 @@ def new_plan(
         "area": {
             "namedPlace": place,
             "gazetteerCandidates": [
-                {
-                    "id": gazetteer_id,
-                    "label": place,
-                    "selected": True,
-                }
+                {"id": gazetteer_id, "label": place, "selected": True}
             ],
             "selectedGazetteerId": gazetteer_id,
-            "restrictedGeometry": {"type": "bbox", "crs": "EPSG:4326", "bbox": bbox},
+            geometry_field: {"type": "bbox", "crs": "EPSG:4326", "bbox": bbox},
+            "sensitivity": spatial_sensitivity,
             "publicDescription": place,
             "analysisCrs": "EPSG:4326",
             "metricPlanning": False,
@@ -164,7 +164,7 @@ def new_plan(
                 "money": 0.2,
             },
             "stoppingRules": [
-                "safety-or-access-gate",
+                "explicit-conduct-or-source-access-gate",
                 "unresolved-place-ambiguity",
                 "method-inadequacy",
                 "stronger-alternative",
@@ -283,16 +283,21 @@ def _validate_place(plan: dict[str, Any], errors: list[str], warnings: list[str]
     if len(candidates) > 1:
         warnings.append("place had multiple gazetteer candidates; preserve rejected matches")
 
-    geometry = area.get("restrictedGeometry")
-    if not isinstance(geometry, dict):
-        errors.append("area.restrictedGeometry must be an object")
-    else:
+    geometries = [(key, area.get(key)) for key in ("geometry", "restrictedGeometry") if key in area]
+    if not geometries:
+        errors.append("area requires geometry or restrictedGeometry")
+    for key, geometry in geometries:
+        if not isinstance(geometry, dict):
+            errors.append(f"area.{key} must be an object")
+            continue
         _bbox(
             geometry.get("bbox"),
-            "area.restrictedGeometry.bbox",
+            f"area.{key}.bbox",
             errors,
             geographic=geometry.get("crs", "EPSG:4326") == "EPSG:4326",
         )
+    if "sensitivity" in area and not _choice(area.get("sensitivity"), SENSITIVITIES):
+        errors.append("area.sensitivity is invalid")
     if area.get("metricPlanning") is True and area.get("analysisCrs") == "EPSG:4326":
         errors.append("metre-scale planning requires a suitable projected CRS, not EPSG:4326")
 
@@ -308,14 +313,16 @@ def _validate_grid(plan: dict[str, Any], errors: list[str]) -> set[str]:
         cell_id = cell.get("cellId", "<unknown>")
         if not _choice(cell.get("sensitivity"), SENSITIVITIES):
             errors.append(f"{cell_id}: invalid sensitivity")
-        geometry = cell.get("restrictedGeometry")
-        if geometry is not None:
+        for key in ("geometry", "restrictedGeometry"):
+            geometry = cell.get(key)
+            if geometry is None:
+                continue
             if not isinstance(geometry, dict):
-                errors.append(f"{cell_id}: restrictedGeometry must be an object")
+                errors.append(f"{cell_id}: {key} must be an object")
             else:
                 _bbox(
                     geometry.get("bbox"),
-                    f"{cell_id}.restrictedGeometry.bbox",
+                    f"{cell_id}.{key}.bbox",
                     errors,
                     geographic=geometry.get("crs", "EPSG:4326") == "EPSG:4326",
                 )
@@ -350,13 +357,13 @@ def _validate_sources(plan: dict[str, Any], errors: list[str]) -> set[str]:
         errors.extend(validate_source_safety(source))
     return source_ids
 
-
 def _validate_nodes(
     plan: dict[str, Any],
-    source_ids: set[str],
+    source_map: dict[str, dict[str, Any]],
     cell_ids: set[str],
     errors: list[str],
 ) -> tuple[set[str], dict[str, dict[str, Any]]]:
+    source_ids = set(source_map)
     nodes = plan.get("nodes")
     if not isinstance(nodes, list):
         errors.append("nodes must be an array")
@@ -367,14 +374,14 @@ def _validate_nodes(
         for item in nodes
         if isinstance(item, dict) and isinstance(item.get("nodeId"), str)
     }
-    case = plan.get("case")
-    disclosure = case.get("disclosure") if isinstance(case, dict) else None
     for node in (item for item in nodes if isinstance(item, dict)):
         node_id = node.get("nodeId", "<unknown>")
         kind = node.get("kind")
         authority = node.get("authority")
         if not _choice(kind, NODE_KINDS):
             errors.append(f"{node_id}: invalid node kind {kind!r}")
+        errors.extend(validate_entity_node(node))
+        errors.extend(provenance_sensitivity_errors(node, source_map))
         if not _choice(authority, AUTHORITIES):
             errors.append(f"{node_id}: invalid authority {authority!r}")
         sensitivity = node.get("sensitivity")
@@ -403,14 +410,7 @@ def _validate_nodes(
             problem = safe_locator_problem(node.get("locator"))
             if problem:
                 errors.append(f"{node_id}: locator {problem}")
-        if (
-            disclosure == "public"
-            and sensitivity != "public"
-            and node.get("coordinate") is not None
-        ):
-            errors.append(f"{node_id}: public plan exposes a sensitive coordinate")
     return node_ids, node_map
-
 
 def _validate_edges(
     plan: dict[str, Any],
@@ -691,7 +691,7 @@ def validate_plan(plan: dict[str, Any]) -> ValidationResult:
         for source in plan.get("sources", [])
         if isinstance(source, dict) and isinstance(source.get("sourceId"), str)
     }
-    node_ids, node_map = _validate_nodes(plan, source_ids, cell_ids, errors)
+    node_ids, node_map = _validate_nodes(plan, source_map, cell_ids, errors)
     _validate_edges(plan, node_ids, node_map, source_map, errors)
     _validate_actions(plan, source_ids, node_ids, cell_ids, errors, warnings)
     errors.extend(validate_policy(plan))

@@ -116,7 +116,7 @@ Allowed workflow:
 
 1. open the official interface only when the user requests the check;
 2. inspect a small area and record visible metadata, a text observation, and a
-   safe deep link;
+   deep link that preserves the observed point or view;
 3. retain all Google and third-party attribution;
 4. if the current terms permit the capture and intended use, preserve a small
    user-requested capture and run a separately recorded bounded exploratory
@@ -162,7 +162,9 @@ For local rasters, photographs, PDFs, maps, books, or exported social posts:
 2. record who supplied it and what use was authorized;
 3. preserve EXIF/sidecar metadata separately;
 4. avoid uploading or redistributing private material;
-5. crop or redact personal and precise site information in public outputs;
+5. crop or redact personal information and spatial evidence covered by a
+   specific legal, source, custodian, or community restriction; otherwise
+   preserve the source-supported point, AOI, and image footprint;
 6. note when compression, screenshots, unknown scale, or missing provenance limit interpretation.
 
 Use authenticated browser access only under the case-specific workflow in `ethics-and-web-research.md`.

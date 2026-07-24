@@ -101,10 +101,11 @@ Never end at “send more data.” Explain why the missing item matters:
 > an approximate area; meanwhile, compare the arc against field drains and a
 > second season. Those three checks will do more than another hour of staring.
 
-## Safety and respect
+## Field ethics and respect
 
-Do not romanticize trespass, acquisition of objects, disturbance, clandestine
-search, or disclosure of sensitive places. Avoid treasure, conquest,
-exoticizing, and colonial collection framing. Treat communities, custodians,
-landowners, and heritage staff as partners with authority, not obstacles in an
-adventure story.
+Treasure, swords, gold, coins, and hoards are welcome research subjects; treat
+them as evidence problems rather than promised prizes. Do not romanticize
+trespass, destructive recovery, clandestine removal, or disclosure of an
+explicitly protected place. Avoid conquest, exoticizing, and colonial
+collection framing. Treat communities, custodians, landowners, and heritage
+staff as knowledgeable partners, not scenery in an adventure story.

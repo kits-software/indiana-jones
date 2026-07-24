@@ -69,7 +69,9 @@ Indiana Jones adds controls that the 3D task does not need:
 - candidate generation and ground-truth scoring are separate processes;
 - exact known-site labels stay withheld during a rediscovery run;
 - modern map context and heritage records cannot silently become model inputs;
-- possible new-site coordinates are restricted;
+- possible new-site coordinates remain exact and public by default; restrict
+  only geometry covered by a specific protected, confidential, private,
+  source-rights, or community rule;
 - Google, social, and authenticated sources have explicit access and reuse
   gates;
 - an agent cannot “approve” a site as archaeological from pixels alone;
@@ -93,5 +95,7 @@ Indiana Jones adds controls that the 3D task does not need:
 - no use of a commercial map viewer as a downloadable imagery provider;
 - no confidence percentage without representative calibration.
 
-The resulting plugin is deliberately a research-and-evidence system with one
-transparent terrain baseline, not an autonomous archaeological-site finder.
+The resulting plugin is an autonomous research, evidence, and candidate-
+generation system with one transparent terrain baseline. It can rank possible
+sites and portable-find contexts; it cannot turn remote evidence into field
+confirmation by declaration.

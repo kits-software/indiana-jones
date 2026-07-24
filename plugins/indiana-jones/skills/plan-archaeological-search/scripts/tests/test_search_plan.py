@@ -19,6 +19,7 @@ from ij_artifacts import canonical_plan, plan_sha256, public_export
 from ij_frontier import build_frontier
 from ij_plan import new_plan, validate_plan
 from ij_readiness import readiness_errors
+from entity_fixture import entity_record
 
 
 def load_template() -> dict:
@@ -138,6 +139,7 @@ class PlanValidationTests(unittest.TestCase):
                     "sourceIds": ["src_map_series"],
                     "cellIds": [],
                     "sensitivity": "restricted",
+                    "record": entity_record("excavation-context"),
                 }
             )
         plan["edges"].append(
@@ -345,18 +347,33 @@ class FrontierTests(unittest.TestCase):
         selected = {item["actionId"] for item in frontier["recommendedBatch"]}
         self.assertNotIn(action["actionId"], selected)
 
-    def test_public_export_removes_sensitive_geometry_and_urls(self) -> None:
+    def test_public_export_preserves_spatial_evidence_and_withholds_private_sources(
+        self,
+    ) -> None:
         plan = load_template()
-        plan["nodes"][2]["coordinate"] = [10.15, 50.15]
+        plan["nodes"][0]["coordinate"] = [10.15, 50.15]
         plan["nodes"][2]["restrictedGeometry"] = {
             "type": "Point",
             "coordinates": [10.123456, 50.123456],
         }
         plan["nodes"][2]["nested"] = {"bbox": [10.1, 50.1, 10.2, 50.2]}
         exported = public_export(plan)
-        self.assertNotIn("restrictedGeometry", exported["area"])
-        self.assertNotIn("restrictedGeometry", exported["grid"]["cells"][0])
-        self.assertNotIn("coordinate", exported["nodes"][2])
+        self.assertIn(
+            [10.15, 50.15],
+            [node.get("coordinate") for node in exported["nodes"]],
+        )
+        mapped_node = next(
+            node
+            for node in exported["nodes"]
+            if node.get("coordinate") == [10.15, 50.15]
+        )
+        self.assertEqual(
+            (
+                "https://www.google.com/maps/search/?api=1&"
+                "query=50.150000%2C10.150000"
+            ),
+            mapped_node["googleMapsLink"],
+        )
         serialized = json.dumps(exported, sort_keys=True)
         self.assertNotIn("10.123456", serialized)
         self.assertNotIn("50.123456", serialized)

@@ -444,7 +444,7 @@
     },
     {
       "path": "scripts/archaeology.py",
-      "sha256": "12e4db0e7ce71551675f8d8f34754c4aba6c795ccf9a01cdf24385f7ec6b1163"
+      "sha256": "a6d53e10194123bc8b1ec9bfc36826553acae12320b21e6ef9cb62151cc16bef"
     },
     {
       "path": "scripts/ij_sources.py",

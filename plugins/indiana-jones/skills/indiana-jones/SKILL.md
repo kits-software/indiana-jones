@@ -1,6 +1,6 @@
 ---
 name: indiana-jones
-description: Discover and test what may be hidden, forgotten, or misunderstood in an archaeological landscape. Use when the user asks what once stood somewhere, whether an undiscovered castle, settlement, route, workshop, field system, or other trace may survive, how people lived or built in a place, why a landscape feature looks unusual, what a local story means, or where evidence is most likely—even when they name no specialist tools. Choose suitable maps, archives, public records, imagery, terrain, and consent-gated sources behind the scenes; do not enable looting, trespass, covert personal investigation, or unpermitted collection or excavation.
+description: Discover and test what may be hidden, forgotten, or misunderstood in an archaeological landscape. Use when the user asks what once stood somewhere; whether a castle, settlement, route, workshop, field system, sword, gold object, hoard, treasure-related context, or other trace may survive; how people lived or built; why a landscape feature looks unusual; or where evidence is most likely. Choose maps, archives, public records, imagery, terrain, and consent-gated private sources; produce exact desk-research candidates, coordinates, rankings, annotated imagery, and honest estimates when evidence supports them; do not enable trespass, destructive recovery/removal, private-data misuse, or harm to genuinely protected sites.
 ---
 
 # Indiana Jones
@@ -13,11 +13,12 @@ Investigate archaeological proxies without turning an image anomaly into a disco
   connection, ranked hypothesis, candidate place or feature, or a clear
   discriminating next test. Do not stop at naming methods or sources.
 - Treat an unavailable source as a routing problem. Try another lawful source,
-  reduce precision, test a competing model, or explain the smallest material
-  needed to continue.
-- When exact field action or disclosure is gated, continue with generalized
-  desk research and prepare a useful handoff. Safety changes the method and
-  audience; it does not erase the research question.
+  try aliases, test a competing model, or explain the smallest material needed
+  to continue. Reduce precision only when the source cannot support it or the
+  location is genuinely protected or confidential.
+- Treat exact desk research and exact field action separately. Coordinates,
+  ranked cells, and annotated evidence plates are normal research outputs;
+  land access, detecting, excavation, collection, and recovery remain separate.
 - Spend effort in proportion to the question and evidence value, while keeping
   user-stated cost and time limits, source rights, law, human safety, and site
   protection as hard boundaries.
@@ -38,11 +39,15 @@ Investigate archaeological proxies without turning an image anomaly into a disco
 - Use the companion `$research-archaeological-history-and-finds` skill for
   history through time, documented or prospective swords, treasure, gold,
   hoards, objects, assemblages, production, trade, museum holdings, and custody
-  or provenance. Public outputs remain generalized; exact actionable research
-  requires a restricted, permission-confirmed workflow.
+  or provenance. It produces exact or generalized desk-research candidates,
+  ranks, coordinates, and honest prospectivity estimates; restriction follows
+  real protected/confidential status, not the treasure topic.
 - Use the companion `$report-archaeological-evidence` skill for formal reports,
   candidate atlases, annotated source imagery, source-gap explanations, and
-  institution or heritage-authority referrals.
+  institution or heritage-authority referrals. Every user-facing discovery or
+  candidate result must use its spatial-handoff contract: exact point and/or
+  AOI when known, explicit precision and feature-role labels, source/derived
+  imagery, image locations or footprints, and KML or GeoJSON when requested.
 - Use the companion `$illustrate-historical-reconstruction` skill when the user
   wants an evidence-led generated image of a historical person, object,
   building, settlement, city, landscape, or lived scene. Generated pixels are
@@ -56,7 +61,7 @@ Investigate archaeological proxies without turning an image anomaly into a disco
 - Preserve source URL or path, acquisition date, sensor/product, CRS, resolution, processing steps, license, access basis, and hashes where available.
 - Run negative controls and compare against modern drainage, field boundaries, geology, forestry, utilities, roads, image seams, and processing artefacts.
 - Use `possible archaeological anomaly` or `candidate` until an authoritative record, field survey, geophysics, or excavation corroborates it.
-- Protect precise coordinates for possible new, sacred, vulnerable, or non-public sites. Do not publish access routes or high-resolution detection tiles without a disclosure review.
+- Protect precise coordinates for genuinely protected, sacred, burial-related, confidential, deliberately redacted, or community-restricted sites. Otherwise preserve the useful precision supported by the evidence.
 - Never infer permission to enter land, fly a UAV, metal-detect, collect, probe, excavate, message people, or use an authenticated account.
 - Use authenticated websites or social accounts only after the user explicitly authorizes the named platform and session for this case. Keep that pass read-only unless the user separately requests a specific action.
 - Keep the workflow provider-neutral and worldwide. A national-agency adapter is one source option, not a geographic boundary.
@@ -73,7 +78,7 @@ Investigate archaeological proxies without turning an image anomaly into a disco
    `$research-archaeological-history-and-finds` skill. It owns object/find
    evidence separation, source reconciliation, object biographies, sparse-
    source fallback, answerability, prospective-find reasoning, and the
-   permission gate for exact actionable work.
+   exact candidate, ranking, coordinate, probability, and heuristic-estimate contract.
 3. **Imagery or terrain investigation**: read [research.md](references/research.md) and [method-theory-raczkowski.md](references/method-theory-raczkowski.md), then follow the evidence workflow below.
 4. **Satellite analysis**: also read [satellite-analysis.md](references/satellite-analysis.md). Use its transparent optical baseline before trying supervised or foundation models.
 5. **Data acquisition or reproducible computation**: also read [imagery-sources.md](references/imagery-sources.md) and [evidence-contract.md](references/evidence-contract.md).
@@ -103,13 +108,16 @@ State:
 
 - the research question and intended decision;
 - known-site study, benchmark, or prospective survey;
-- study area and allowed coordinate precision;
+- study area, available coordinate precision, and any specific legal,
+  custodian, community, or user restriction that requires a less precise
+  derivative;
 - for place-led work, the resolved gazetteer identity, focus/context/control
   AOIs, historical phases, hypothesis alternatives, and ready task frontier
   from `$plan-archaeological-search`;
 - for finds-led work, distinguish documented object, find event, assemblage,
   production, trade, custody, and prospective hypothesis; record allowed
-  precision and any permissions required for exact actionable research;
+  source precision, real protected/confidential status, and any separate field
+  permissions only if field action is actually proposed;
 - public-only or named authenticated sources explicitly authorized;
 - available modalities, dates, resolution, CRS, and licenses;
 - expected physical proxy, visibility conditions, target scale, alternative explanations, and interpretive prior;
@@ -132,7 +140,7 @@ Initialize a case ledger when the work spans more than one source:
 python3 <skill-dir>/scripts/methodology.py new-case \
   --title "Landscape investigation" \
   --question "Which anomalies merit expert follow-up?" \
-  --study-area "Generalized area description" \
+  --study-area "Defined area description" \
   --expected-proxy "Local relief contrast from surviving banks or ditches" \
   --visibility-condition "Ground returns and classification preserve low relief" \
   --target-scale "40-160 m" \
@@ -289,8 +297,8 @@ python3 <skill-dir>/scripts/satellite.py score \
 ```
 
 The bundled scorer accepts only explicitly public-known targets because it
-emits exact candidate-to-target distances. Use a heritage-authority-controlled
-workflow for non-public or vulnerable ground truth.
+emits exact candidate-to-target distances. Use restricted handling for
+genuinely protected/confidential ground truth.
 
 The frozen real-data Whitley Castle Sentinel-2 POC missed its 160 m
 localization tolerance under all three precommitted profiles; the nearest
@@ -333,9 +341,13 @@ For every candidate, report:
 5. **Corroboration**: independent imagery/date/modality, historic mapping, authoritative record, field survey, or geophysics.
 6. **Uncertainty**: positional error, resolution limit, no-data/cloud/vegetation effects, domain shift, and what remains unknowable.
 7. **Interpretive audit**: acquisition, processing, visualization, prior-knowledge, and categorization choices that made the feature legible.
-8. **Next action**: non-invasive follow-up, heritage-authority review, more data, or rejection.
+8. **Next action**: another desk source, non-invasive follow-up, specialist review, protected-site referral, or rejection.
 
-Do not write a single confidence percentage unless it is calibrated on a representative held-out set. Prefer an ordinal evidence grade with explicit reasons.
+Use a calibrated probability only with representative held-out evidence. When
+that is unavailable, give an explicitly labelled heuristic rank, ordinal band,
+or non-probabilistic score with its factors, alternatives, uncertainty, and
+unvalidated status. Do not emit a probability or percentage, and never relabel
+the scheduler score as probability.
 
 ### 6. Validate proportionally
 
@@ -350,12 +362,12 @@ Do not write a single confidence percentage unless it is calibrated on a represe
 
 Do not call an investigation complete until:
 
-- the case question, scope, authorization, and disclosure class are explicit;
+- the case question, scope, source access, and disclosure class are explicit;
 - place-led work has a resolved AOI, time-aware hypothesis graph, control cells,
-  and permission-gated search order;
+  and evidence-gated search order;
 - finds-led work separates objects, find events, contexts, assemblages,
-  production, custody, and prospective hypotheses, and routes exact actionable
-  work through the restricted permission gate;
+  production, custody, and prospective hypotheses, and reports exact
+  desk-research candidates unless a genuine protection rule requires restriction;
 - source and processing provenance is reproducible;
 - research-frame assumptions and consequential decisions are recorded;
 - observations and interpretations are separated;
@@ -364,8 +376,13 @@ Do not call an investigation complete until:
 - uncertainty and negative evidence are preserved;
 - any Google Earth pass has a manual-reference record with the displayed
   imagery date or `unavailable`, exact provider attribution, view state,
-  access time, safe deep link, and measurement caveats;
-- sensitive coordinates are redacted from public output;
+  access time, exact deep link when coordinates are known, and measurement
+  caveats;
+- genuinely protected/confidential coordinates are redacted from public output;
+- every user-facing result includes exact points, AOIs, image locations or
+  footprints, a clickable Google Maps link for every point, and evidence
+  imagery under the evidence-preserving spatial-handoff contract unless a
+  named restriction requires omission;
 - the conclusion names the required expert, field, geophysical, or archival validation.
 
 If those checks cannot be met, hand off a bounded candidate report and state the exact missing evidence.

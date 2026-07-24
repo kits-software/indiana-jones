@@ -111,144 +111,144 @@
         "route": "/synthetic-dem/10/511/512.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/10/512/512.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/10/512/513.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/10/513/512.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1023/1025.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1024/1024.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1024/1025.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1024/1026.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1025/1024.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1025/1025.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/11/1025/1026.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/5/15/16.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/5/16/15.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/5/16/16.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/8/128/127.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/9/256/255.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/9/256/256.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {
         "route": "/synthetic-dem/9/257/255.png",
         "kind": "derived-fixture",
         "file": null,
-        "bytes": 97775,
-        "sha256": "c78d5f63b4d226e1f1d6642ab4bc60eae813f4aac59efa4472e9df6a040f96c3",
+        "bytes": 196947,
+        "sha256": "d337e1bf14bea91075970535984ec62aa7339919972b5853020a0fbb1f2c1cbf",
         "sourceIds": []
       },
       {

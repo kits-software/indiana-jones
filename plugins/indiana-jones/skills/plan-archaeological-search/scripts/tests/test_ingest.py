@@ -14,6 +14,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 from ij_ingest import (
     acquire_and_normalize,
     assessment_summary,
+    discover_source_candidates,
     normalize_record,
     pagination_metadata,
     parse_records,
@@ -31,6 +32,24 @@ PUBLIC_SOURCE = {
 
 
 class SourceParsingTests(unittest.TestCase):
+    def test_findspot_sensitivity_preserves_public_and_explicit_restrictions(self) -> None:
+        public = normalize_record(
+            {"identifier": "A-1", "findspot": "Public catalogue point"},
+            source_id="src_public",
+            index=1,
+            sensitivity="public",
+        )
+        self.assertEqual("public", public["findspot"]["sensitivity"])
+        restricted = normalize_record(
+            {"identifier": "A-2", "findspot": "Protected catalogue point"},
+            source_id="src_public",
+            index=2,
+            sensitivity="public",
+            spatial_restriction="authority-only",
+        )
+        self.assertEqual("restricted", restricted["findspot"]["sensitivity"])
+        self.assertEqual("authority-only", restricted["spatialRestriction"])
+
     def test_json_csv_jsonl_iiif_and_xml_adapters_are_bounded(self) -> None:
         self.assertEqual(
             "Sword",
@@ -69,6 +88,21 @@ class SourceParsingTests(unittest.TestCase):
             index=1,
             sensitivity="restricted",
         )["title"])
+        crossref = parse_records(
+            b'{"message":{"items":[{"DOI":"10.1/example","title":["Sword study"]}]}}',
+            "crossref-json",
+        )
+        self.assertEqual("10.1/example", crossref[0]["DOI"])
+        openalex = parse_records(
+            b'{"results":[{"id":"https://openalex.org/W1","title":"Gold study"}]}',
+            "openalex-json",
+        )
+        self.assertEqual("Gold study", openalex[0]["title"])
+        doi = parse_records(
+            b'{"DOI":"10.1/single","title":"Hoard report"}',
+            "doi-json",
+        )
+        self.assertEqual("10.1/single", doi[0]["DOI"])
         oai = (
             b'<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">'
             b"<ListRecords><record><metadata><title>Sword</title></metadata>"
@@ -91,6 +125,15 @@ class SourceParsingTests(unittest.TestCase):
         ):
             with self.subTest(payload=payload):
                 with self.assertRaisesRegex(ValueError, "must be an object"):
+                    parse_records(payload, "json")
+
+    def test_json_rejects_duplicate_keys_and_non_standard_numbers(self) -> None:
+        for payload in (
+            b'{"records":[{"title":"Sword","title":"Dagger"}]}',
+            b'{"records":[{"weight":NaN}]}',
+        ):
+            with self.subTest(payload=payload):
+                with self.assertRaisesRegex(ValueError, "duplicate key|numeric constant"):
                     parse_records(payload, "json")
 
     def test_csv_rejects_ambiguous_headers_and_ragged_rows(self) -> None:
@@ -122,13 +165,16 @@ class SourceParsingTests(unittest.TestCase):
             b"<ListRecords>"
             b'<record><header status="deleted"><identifier>gone</identifier></header></record>'
             b"<record><header><identifier>kept</identifier></header>"
-            b"<metadata><title>Sword</title></metadata></record>"
+            b"<metadata><identifier>museum-7</identifier><title>Sword</title></metadata>"
+            b"</record>"
             b'<resumptionToken cursor="0" completeListSize="25">next-page</resumptionToken>'
             b"</ListRecords></OAI-PMH>"
         )
         records = parse_records(payload, "oai-pmh")
         self.assertEqual(1, len(records))
         self.assertEqual("Sword", records[0]["title"])
+        self.assertEqual("kept", records[0]["oaiIdentifier"])
+        self.assertEqual("museum-7", records[0]["identifier"])
         pagination = pagination_metadata(payload, "oai-pmh")
         self.assertFalse(pagination["sourceExhausted"])
         self.assertEqual("next-page", pagination["resumptionToken"])
@@ -146,6 +192,13 @@ class SourceParsingTests(unittest.TestCase):
         self.assertEqual(manifest["id"], record["id"])
         self.assertEqual(manifest["metadata"], record["metadata"])
         self.assertEqual(manifest["items"], record["items"])
+        normalized = normalize_record(
+            record,
+            source_id="src_iiif_manifest",
+            index=1,
+            sensitivity="restricted",
+        )
+        self.assertEqual(manifest["metadata"], normalized["sourceMetadata"])
 
     def test_rdf_attributes_are_preserved_as_evidence(self) -> None:
         rdf = (
@@ -161,6 +214,16 @@ class SourceParsingTests(unittest.TestCase):
         self.assertEqual(
             "https://example.org/person/2",
             record["creator.@resource"],
+        )
+        normalized = normalize_record(
+            record,
+            source_id="src_rdf",
+            index=1,
+            sensitivity="restricted",
+        )
+        self.assertEqual(
+            "https://example.org/object/1",
+            normalized["sourceAttributes"]["@about"],
         )
 
     def test_redirect_handler_rejects_private_target_before_following(self) -> None:
@@ -198,10 +261,64 @@ class SourceParsingTests(unittest.TestCase):
             query = artifact["queryArtifact"]
             self.assertEqual({"term": "sword", "page": 1}, query["query"])
             self.assertEqual(64, len(query["rawArtifactSha256"]))
+            self.assertEqual(
+                {
+                    "sha256": query["rawArtifactSha256"],
+                    "bytes": source_path.stat().st_size,
+                    "relation": "result-attachment",
+                    "sourceName": "normalized.json.raw",
+                },
+                query["rawArtifactRef"],
+            )
             self.assertEqual("archaeological-find-v1", query["normalizationVersion"])
+            checkpoint = query["checkpoint"]
+            self.assertEqual(query["rawArtifactSha256"], checkpoint["rawArtifactSha256"])
+            self.assertEqual(64, len(checkpoint["checkpointId"]))
+            self.assertEqual(64, len(checkpoint["querySha256"]))
+            self.assertTrue(checkpoint["sourceExhausted"])
+            self.assertIsNone(checkpoint["resumeCursor"])
             record = artifact["records"][0]
             self.assertIn("weapon", record["riskClasses"])
             self.assertEqual("restricted", record["findspot"]["sensitivity"])
+
+    def test_oai_acquisition_emits_bound_resumption_checkpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source_path = root / "records.xml"
+            source_path.write_bytes(
+                b'<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">'
+                b"<ListRecords><record><metadata><title>Sword</title></metadata>"
+                b"</record><resumptionToken>next-page</resumptionToken>"
+                b"</ListRecords></OAI-PMH>"
+            )
+            artifact = acquire_and_normalize(
+                source=PUBLIC_SOURCE,
+                locator=str(source_path),
+                format_name="oai-pmh",
+                out=root / "normalized.json",
+                query={"metadataPrefix": "oai_dc"},
+            )
+            checkpoint = artifact["queryArtifact"]["checkpoint"]
+            self.assertFalse(checkpoint["sourceExhausted"])
+            self.assertEqual("next-page", checkpoint["resumeCursor"])
+            self.assertEqual(
+                artifact["queryArtifact"]["rawArtifactSha256"],
+                checkpoint["rawArtifactSha256"],
+            )
+
+    def test_acquisition_rejects_invalid_timeout_before_read(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source_path = root / "records.json"
+            source_path.write_text("[]", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "timeout_seconds"):
+                acquire_and_normalize(
+                    source=PUBLIC_SOURCE,
+                    locator=str(source_path),
+                    format_name="json",
+                    out=root / "normalized.json",
+                    timeout_seconds=0,
+                )
 
     def test_ingestion_rejects_nested_credential_keys_and_values(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -210,7 +327,8 @@ class SourceParsingTests(unittest.TestCase):
             source_path.write_text("[]", encoding="utf-8")
             queries = (
                 {"filters": [{"client_secret": "not-written"}]},
-                {"filters": [{"term": "Authorization: Bearer abcdefghijk"}]},
+                {"filters": [{"term": "Bearer ABC"}]},
+                {"filters": [{"term": "Authorization%3A%20Bearer%20ABC"}]},
                 {"filters": [{"url": "https://user:password@example.org/data"}]},
             )
             for index, query in enumerate(queries):
@@ -241,19 +359,94 @@ class SourceParsingTests(unittest.TestCase):
             self.assertFalse(out.exists())
             self.assertFalse(out.with_suffix(out.suffix + ".raw").exists())
 
+    def test_parse_failure_leaves_no_partial_raw_attachment(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source_path = root / "records.json"
+            source_path.write_text('{"records":[1]}', encoding="utf-8")
+            out = root / "normalized.json"
+            with self.assertRaisesRegex(ValueError, "must be an object"):
+                acquire_and_normalize(
+                    source=PUBLIC_SOURCE,
+                    locator=str(source_path),
+                    format_name="json",
+                    out=out,
+                )
+            self.assertFalse(out.exists())
+            self.assertFalse(out.with_suffix(out.suffix + ".raw").exists())
+
     def test_automated_ingestion_rejects_non_public_source(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             source_path = root / "records.json"
             source_path.write_text("[]", encoding="utf-8")
             source = {**PUBLIC_SOURCE, "accessBasis": "authenticated"}
-            with self.assertRaisesRegex(ValueError, "explicitly public"):
+            with self.assertRaisesRegex(ValueError, "local ingestion requires"):
                 acquire_and_normalize(
                     source=source,
                     locator=str(source_path),
                     format_name="json",
                     out=root / "out.json",
                 )
+
+    def test_local_user_provided_snapshot_is_represented_honestly(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source_path = root / "records.json"
+            source_path.write_text(
+                '{"records":[{"identifier":"U-1","title":"User record"}]}',
+                encoding="utf-8",
+            )
+            source = {
+                **PUBLIC_SOURCE,
+                "sourceId": "src_user_snapshot",
+                "accessBasis": "user-provided",
+                "license": "User supplied for this bounded case",
+            }
+            artifact = acquire_and_normalize(
+                source=source,
+                locator=str(source_path),
+                format_name="json",
+                out=root / "out.json",
+            )
+            self.assertEqual(
+                "user-provided",
+                artifact["queryArtifact"]["accessBasis"],
+            )
+
+    def test_remote_discovery_requires_explicit_terms_and_automation_decision(self) -> None:
+        source = {
+            **PUBLIC_SOURCE,
+            "license": "CC0 public catalogue",
+            "providerTerms": "public API permits bounded automated research",
+            "acquisition": {
+                "locator": "https://example.org/records.json",
+                "format": "json",
+            },
+        }
+        candidate = discover_source_candidates({"sources": [source]})["candidates"][0]
+        self.assertFalse(candidate["executable"])
+        self.assertTrue(candidate["authorizationRequired"])
+        source["acquisition"].update(
+            {
+                "automationAuthorized": True,
+                "automationBasis": "provider terms section 3",
+                "automationCheckedAt": "2026-07-24",
+                "adapterVersion": "1.0.0",
+                "retentionPolicy": "retain-snapshot",
+                "retentionBasis": "Provider permits research snapshots.",
+                "retentionDecision": "permitted",
+                "retentionEvidenceLocator": "https://example.org/terms",
+                "retentionCheckedAt": "2026-07-24",
+                "rateLimit": {"requestsPerMinute": 30, "maxConcurrency": 1},
+            }
+        )
+        candidate = discover_source_candidates({"sources": [source]})["candidates"][0]
+        self.assertTrue(candidate["executable"])
+        self.assertFalse(candidate["authorizationRequired"])
+        source["providerTerms"] = "View only; no automated retention or local copies."
+        candidate = discover_source_candidates({"sources": [source]})["candidates"][0]
+        self.assertFalse(candidate["executable"])
 
 
 class FindNormalizationTests(unittest.TestCase):
@@ -270,6 +463,60 @@ class FindNormalizationTests(unittest.TestCase):
         )
         self.assertIn("precious-material-object", record["evidenceClasses"])
         self.assertNotIn("material-production", record["evidenceClasses"])
+        self.assertEqual("precious-metal", record["materialAssessment"]["materialClass"])
+
+    def test_material_evidence_separates_metal_surface_and_colour_claims(self) -> None:
+        fixtures = (
+            (
+                {"title": "Gold-coloured brooch"},
+                "colour-description",
+                None,
+            ),
+            (
+                {"title": "Golden eagle emblem"},
+                "colour-description",
+                None,
+            ),
+            (
+                {"title": "Gilded fitting", "material": "gilded copper"},
+                "surface-treatment",
+                "precious-surface-treatment",
+            ),
+            (
+                {"title": "Assayed fragment", "material": "Au 92%"},
+                "precious-metal",
+                "precious-material-object",
+            ),
+            (
+                {"title": "Pierścień", "material": "złoto"},
+                "precious-metal",
+                "precious-material-object",
+            ),
+        )
+        for index, (source, material_class, evidence_class) in enumerate(fixtures):
+            with self.subTest(source=source):
+                record = normalize_record(
+                    source,
+                    source_id="src_material",
+                    index=index + 1,
+                    sensitivity="restricted",
+                )
+                self.assertEqual(
+                    material_class,
+                    record["materialAssessment"]["materialClass"],
+                )
+                if material_class == "colour-description":
+                    self.assertEqual(
+                        "catalogue-title-description",
+                        record["materialAssessment"]["basis"],
+                    )
+                if evidence_class:
+                    self.assertIn(evidence_class, record["evidenceClasses"])
+                else:
+                    self.assertNotIn(
+                        "precious-material-object",
+                        record["evidenceClasses"],
+                    )
 
     def test_crucible_is_separate_material_production_evidence(self) -> None:
         record = normalize_record(
@@ -387,13 +634,22 @@ class FindNormalizationTests(unittest.TestCase):
         )
         entity = reconcile_artifacts([{"records": [first, second]}])["entities"][0]
         self.assertEqual("unresolved-conflicts", entity["canonicalStatus"])
-        self.assertNotIn("title", entity["canonicalRecord"])
+        self.assertEqual(
+            "Unresolved title (2 reported variants)",
+            entity["canonicalRecord"]["title"],
+        )
         self.assertNotIn("material", entity["canonicalRecord"])
         self.assertEqual(
             ["Bronze sword", "Iron sword"],
             entity["fieldConflicts"]["title"],
         )
         self.assertEqual("A-1", entity["canonicalRecord"]["accessionNumber"])
+
+    def test_reconciliation_rejects_unbounded_artifact_lists(self) -> None:
+        with self.assertRaisesRegex(ValueError, "artifact count"):
+            reconcile_artifacts([{"records": []}] * 513)
+        with self.assertRaisesRegex(ValueError, "record count"):
+            reconcile_artifacts([{"records": [{}] * 100_001}])
 
     def test_assessment_refuses_to_invent_probability(self) -> None:
         reconciled = {
@@ -405,8 +661,12 @@ class FindNormalizationTests(unittest.TestCase):
             ]
         }
         summary = assessment_summary(reconciled)
-        self.assertEqual("supported", summary["answerability"])
+        self.assertEqual("not-assessable", summary["answerability"])
         self.assertIsNone(summary["probability"])
+        self.assertEqual(
+            "insufficient",
+            summary["qualitativeProspectiveAssessment"]["level"],
+        )
         self.assertIn("calibrated", summary["probabilityReason"])
 
 
