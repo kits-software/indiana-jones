@@ -1,6 +1,6 @@
 <p align="center">
   <img
-    src="assets/indiana-jones-hero.png"
+    src="assets/indiana-jones-hero-transparent.png"
     alt="A small explorer in a brown fedora carrying a map and field bag"
     width="720"
   />
@@ -12,12 +12,11 @@
   <strong>Ask what might be hidden in a place. Follow the evidence until the story becomes testable.</strong>
 </p>
 
-Indiana Jones is a Codex plugin from [Kits Software](https://github.com/kits-software)
-for exploring forgotten histories and making responsible archaeological
-discoveries. Give it a place, a photograph, a local story, or a question about
-how people once lived. It works out which evidence can help, searches for
-connections and candidate locations, challenges its own ideas, and explains
-what is most plausible.
+Indiana Jones is a Codex plugin by **Paweł Klimkowski** for exploring forgotten
+histories and making responsible archaeological discoveries. Give it a place,
+a photograph, a local story, or a question about how people once lived. It
+works out which evidence can help, searches for connections and candidate
+locations, challenges its own ideas, and explains what is most plausible.
 
 You do not need to ask for a particular map, sensor, archive, model, or research
 method. Start with the mystery.
@@ -185,6 +184,28 @@ The project’s public positioning and operating rules draw on:
 - [Archaeology Data Service: Sensitive Data](https://archaeologydataservice.ac.uk/help-guidance/how-to-prepare-data/sensitive-data/)
 - [UNESCO: International principles applicable to archaeological excavations](https://www.unesco.org/en/legal-affairs/recommendation-international-principles-applicable-archaeological-excavations)
 
+## Citation
+
+If Indiana Jones contributes to your research, publication, teaching, software,
+or methodology, please cite Paweł Klimkowski as the author and publisher.
+GitHub provides a ready-to-copy citation through **Cite this repository**,
+backed by [`CITATION.cff`](CITATION.cff).
+
+> Klimkowski, Paweł. (2026). *Indiana Jones: Evidence-Led Archaeological
+> Discovery for Codex* (Version 0.1.0) [Computer software]. Paweł Klimkowski.
+> https://github.com/kits-software/indiana-jones
+
+```bibtex
+@software{klimkowski2026indianajones,
+  author = {Paweł Klimkowski},
+  title = {Indiana Jones: Evidence-Led Archaeological Discovery for Codex},
+  year = {2026},
+  publisher = {Paweł Klimkowski},
+  version = {0.1.0},
+  url = {https://github.com/kits-software/indiana-jones}
+}
+```
+
 ## Repository map
 
 - [`plugins/indiana-jones`](plugins/indiana-jones) — installable Codex plugin
@@ -197,6 +218,8 @@ The project’s public positioning and operating rules draw on:
   architecture decisions
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution and validation guide
 - [`SECURITY.md`](SECURITY.md) — software and sensitive-location reporting
+- [`CITATION.cff`](CITATION.cff) — machine-readable authorship and citation
+  metadata
 
 ## Contributing
 

@@ -4,6 +4,8 @@ This directory contains the installable Codex plugin. For the human-facing
 story, example questions, research foundations, installation guide, and project
 principles, start with the [repository README](../../README.md).
 
+Indiana Jones is authored and published by **Paweł Klimkowski**.
+
 The public experience is discovery-led. A user describes a place and a mystery:
 an undocumented castle, an earlier settlement, an unusual field mark, the way
 people lived, or a local story that may preserve something real. The plugin
