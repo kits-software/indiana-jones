@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: >-
+  If you use Indiana Jones in research, teaching, software, or a publication,
+  please cite this work.
+title: "Indiana Jones: Evidence-Led Archaeological Discovery for Codex"
+type: software
+authors:
+  - family-names: Klimkowski
+    given-names: Paweł
+repository-code: "https://github.com/kits-software/indiana-jones"
+url: "https://github.com/kits-software/indiana-jones"
+version: 0.1.0
+date-released: "2026-07-24"
+abstract: >-
+  A Codex plugin for place-led, evidence-backed archaeological discovery,
+  historical reconstruction, candidate assessment, responsible reporting,
+  and transparent uncertainty.
+keywords:
+  - archaeology
+  - cultural heritage
+  - historical research
+  - remote sensing
+  - Codex plugin
+preferred-citation:
+  type: software
+  authors:
+    - family-names: Klimkowski
+      given-names: Paweł
+  title: "Indiana Jones: Evidence-Led Archaeological Discovery for Codex"
+  version: 0.1.0
+  date-released: "2026-07-24"
+  publisher:
+    name: "Paweł Klimkowski"
+  repository-code: "https://github.com/kits-software/indiana-jones"

@@ -1,10 +1,9 @@
 {
   "name": "indiana-jones",
-  "version": "0.1.0+codex.20260724115143",
+  "version": "0.1.0+codex.20260724120950",
   "description": "Discover and illustrate what may be hidden, forgotten, or misunderstood through evidence-led archaeological research.",
   "author": {
-    "name": "Kits Software",
-    "url": "https://github.com/kits-software"
+    "name": "Pawe\u0142 Klimkowski"
   },
   "homepage": "https://github.com/kits-software/indiana-jones",
   "repository": "https://github.com/kits-software/indiana-jones",
@@ -40,7 +39,7 @@
     "displayName": "Indiana Jones",
     "shortDescription": "Discover what a landscape may be hiding.",
     "longDescription": "Start with a place, photograph, local story, or question about how people once lived or looked. Indiana Jones reconstructs the landscape through time, searches public or authorized evidence, finds overlooked connections and candidate locations, tests alternatives, and can turn stable research into an attractive historical illustration whose sources, inferences, prompt, and uncertainties remain visible. It keeps investigating when one source is unavailable, while protecting sensitive sites and separating generated interpretation, promising clues, and verified discoveries. No specialist tool names are required: describe the mystery, and the plugin chooses the research path.",
-    "developerName": "Kits Software",
+    "developerName": "Pawe\u0142 Klimkowski",
     "category": "Research & Education",
     "capabilities": [
       "Research",
